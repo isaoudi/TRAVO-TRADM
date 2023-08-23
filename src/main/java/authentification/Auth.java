@@ -14,7 +14,7 @@ public class Auth {
 	static String browser;
 	static String myXpath;
 	
-	public static String authAvocat(WebDriver driver, String login) throws Throwable {
+	public static String authAvocat(WebDriver driver, String login, String mdp) throws Throwable {
 		
 		Thread.sleep(2000);
 		//renseigner login/mot de passe
@@ -22,13 +22,13 @@ public class Auth {
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.object(driver, myXpath).sendKeys(login);
 		myXpath = "//input[@id='password-field']";
-//		MyKeyWord.object(driver, myXpath).sendKeys("Conseildétat52546*");
-		MyKeyWord.object(driver, myXpath).sendKeys("ConseilEtat123456*");		
+		MyKeyWord.object(driver, myXpath).sendKeys(mdp);
 		
 		//click button
 		myXpath = "//button[@id='login-submit']";
 		MyKeyWord.object(driver, myXpath).click();
-//		throw new Exception("Stop");
+		System.out.println("Le login : "+login+" et le password : "+mdp+" ont été soumis");
+
 		return null;
 		 
 	}

@@ -1,7 +1,5 @@
 package browser;
 
-import java.util.HashMap;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -24,7 +22,6 @@ public class Navigateur {
       caps = new DesiredCapabilities();
       System.setProperty("webdriver.chrome.driver", "C:\\drivers\\chromedriver_win32\\chromedriver.exe");
 
-      HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
       ChromeOptions options = new ChromeOptions();
       options.merge(caps);
       options.addArguments("--start-maximized");

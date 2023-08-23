@@ -2,7 +2,6 @@ package choix_juridiction;
 
 import java.time.Duration;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -10,6 +9,7 @@ import fonctions.MyKeyWord;
 import microfonctions.mesFonctions;
 
 public class Juridiction {
+	
 	static WebDriver driver;
 	static WebElement element;
 	static String myXpath;
@@ -31,12 +31,6 @@ public class Juridiction {
 				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 				MyKeyWord.object(driver, myXpath).click();
 			}
-			
-//			System. out. println("Juridiction.java driver :" + driver);
-//			myXpath = "//a[@href='https://www.telerecours.recette.conseil-etat.fr']";
-			
-	
-			
 			break;
 			
 		case "TA":
@@ -82,13 +76,12 @@ public class Juridiction {
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 			MyKeyWord.object(driver, myXpath).click();
 			
-	break;
+			break;
 
 		default:
 			break;
 		}
 		
-
 		return null;
 	}
 

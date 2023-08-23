@@ -1,6 +1,5 @@
 package testCaseDoc;
 
-import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterSuite;
@@ -42,9 +41,10 @@ public class TRADM_EnvoiDoc {
 
 	@BeforeMethod
 	public void authentification() throws Throwable {
-	login = "chaNC4d";	
+	login = "chaNC4d";
+	mdp ="";
 	jur = "CE";
-	Auth.authAvocat(driver, login);
+	Auth.authAvocat(driver, login, mdp);
 	Juridiction.choixJur(driver, jur);
 	}
 
@@ -75,7 +75,7 @@ public class TRADM_EnvoiDoc {
 		
 		type = "Memoire";
 		mesFonctions.trAdmAccesOngletDossier(driver, element);
-		mesFonctions.ChoixDossier(driver, element, dossier);
+		mesFonctions.choixDossier(driver, element, dossier);
 		mesFonctions.buttonEnvoiDoc(driver, element);
 		EnvoiDoc.envoiToutTypeDoc(driver, element, type);
 		
