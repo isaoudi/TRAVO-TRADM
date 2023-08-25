@@ -62,6 +62,10 @@ public class Classbrouillon {
 		Juridiction.choixJur(driver, jur);
 		
 		mesFonctions.trAdmAccesOngletDocument(driver, element);
+		mesFonctions.boutonVerifBrouillon(driver, element, dossier);
+		MyKeyWord.echappe(driver);
+		mesFonctions.buttonEnvoiDoc(driver, element);
+		EnvoiDoc.envoiToutTypeDoc(driver, element, type);
 		
 //		int c = NbrDoc.nbrDocuments(driver, element);
 //		int a = NbrDoc.nbrDocEnPrepa(driver, element);
@@ -83,9 +87,7 @@ public class Classbrouillon {
 //		NbrDoc.consultationDocEnreg(driver, element, dossier);
 //		NbrDoc.consultationDocDepose(driver, element, dossier);
 //		NbrDoc.consultationDocRefus(driver, element, dossier);
-		
-		EnvoiDoc.envoiToutTypeDoc(driver, element, type);
-		
+
 		
 //		driver.quit();
 	    

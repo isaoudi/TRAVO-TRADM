@@ -1,5 +1,7 @@
 package fonctions;
 
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -81,21 +83,27 @@ public class MyKeyWord {
 	} 
 	
 	//fonction de vérification d'élément présent
-			public static boolean isElementPresent(WebDriver driver, String myXpath, boolean verif) throws Throwable {
-			try {Thread.sleep(2000);
-				verif = driver.findElement(By.xpath(myXpath)).isDisplayed();
-				System.out.println("IS DISPLAYED : "+verif);
-				return verif;
-			}catch (NoSuchElementException l) {
-				Thread.sleep(2000);
-				System.out.println("IS DISPLAYED : "+verif);
-				return verif;
-			}
+	public static boolean isElementPresent(WebDriver driver, String myXpath, boolean verif) throws Throwable {
+		try {Thread.sleep(2000);
+			verif = driver.findElement(By.xpath(myXpath)).isDisplayed();
+			System.out.println("ELEMENT IS DISPLAYED : "+verif);
+			return verif;
+		}catch (NoSuchElementException l) {
+			Thread.sleep(2000);
+			System.out.println("ELEMENT IS DISPLAYED : "+verif);
+			return verif;
 		}
+}
 			
-	public static Actions echappe (WebDriver driver) {
-		Actions action = new Actions(driver);
-		action.sendKeys(Keys.ESCAPE).perform();
+	public static String echappe(WebDriver driver) throws Throwable {
+//		Actions action = new Actions(driver);
+//		action.sendKeys(Keys.ESCAPE).perform();
+//		Thread.sleep(2000);
+		Thread.sleep(2000);
+		Robot robot = new Robot();
+		robot.keyPress(KeyEvent.VK_ESCAPE);
+		robot.keyRelease(KeyEvent.VK_ESCAPE);
+		Thread.sleep(2000);
 		return null;
 	}
 	

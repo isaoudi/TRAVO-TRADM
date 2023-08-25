@@ -272,7 +272,7 @@ public class NbrDoc {
 		int nbr2 = NbrDoc.nbrDocuments(driver, element);
 //		System.out.println(nbr2);
 		if(nbr!=nbr2) {
-			System.err.println("Le nombre de document En préparation dans la colonne \"Tous les documents\" : "+nbr2+ " est différent de celle de la colonne \"En préparation\" : "+nbr);
+			System.err.println("Le nombre de document En préparation dans la colonne \"Tous les documents\" : "+nbr2+" est différent de celle de la colonne \"En préparation\" : "+nbr);
 		}else {
 			System.out.println("Fonction de tri par document \"Déposés\" OK | "+nbr2+" trouvé(s)");
 		}

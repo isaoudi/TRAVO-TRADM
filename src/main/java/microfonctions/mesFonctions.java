@@ -76,7 +76,6 @@ public class mesFonctions {
 	public static String buttonEnvoiDoc(WebDriver driver, WebElement element) {
 		//Clic bouton envoyer un document
 		String myXpath = "//button[contains(.,'Envoyer un document')]";
-		System.out.println(myXpath);
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.object(driver, myXpath).click();		
 		System.out.println("Clic bouton \"Envoyer un document\"");
@@ -174,6 +173,14 @@ public class mesFonctions {
 		return type;
 	}
 	
+	public static String boutonVerifBrouillon(WebDriver driver, WebElement element, String dossier) {
+		String myXpath = "//tr//div[contains(text(),\""+dossier+"\")]//following-sibling::a[@icon='pen']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("Clic bouton \"pen\" du dossier : "+dossier);
+		return null;
+	}
+	
 	public static String typeDocSelect(WebDriver driver, WebElement element) {
 		String myXpath = "//tradm-card//div[@class='document-type']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -197,11 +204,68 @@ public class mesFonctions {
 		String date1 = tr.substring(tr.indexOf(tr.split(" ")[2]), tr.indexOf(tr.split(" ")[3])).trim();
 		System.out.println(ajout+"...."+date1);
 		if(ajout.equals("Ajouté") && date1.equals(date)) {
-			System.out.println("le document en préparation à bien été : ");
+			System.out.println("le brouillon en préparation à bien été : "+ajout+" le "+date);
+		}else {
+			System.err.println("Le brouillon en préparation n'est pas un ajout et/ou la date d'enregistrement ne correspond pas la date d'aujourd'hui");
 		}
 		return null;
 		
 	}
 	
+	public static String modifieDoc(WebDriver driver, WebElement element) {
+		//extract date courrante
+		String date = MyKeyWord.extractCurrentDate();
+		
+		//Vérification de la date lors d l'ajout
+		String myXpath = "//tradm-card//div[@class='change-information']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		String tr = MyKeyWord.object(driver, myXpath).getText().trim();
+		System.out.println(MyKeyWord.object(driver, myXpath).getText().trim());
+		
+		String modif = tr.substring(0, tr.indexOf(tr.split(" ")[1])).trim();
+		String date1 = tr.substring(tr.indexOf(tr.split(" ")[2]), tr.indexOf(tr.split(" ")[3])).trim();
+		System.out.println(modif+"...."+date1);
+		if(modif.equals("Modifié") && date1.equals(date)) {
+			System.out.println("le brouillon en préparation à bien été : "+modif+" le "+date);
+		}else {
+			System.err.println("Le brouillon en préparation n'est pas une modification et/ou la date d'enregistrement ne correspond pas la date d'aujourd'hui");
+		}
+		return null;
+	}
+		
+	
+	public static String getCSSvalue(WebDriver driver, String xpath, String value) {
+		String vl = MyKeyWord.object(driver, xpath).getCssValue(value);
+		System.out.println("CSS value : "+vl);
+		
+		return vl;
+	}
+	
+	public static String color(String color) {
+		switch (color) {
+		case "#2dae64":
+			
+			System.out.println("sea-green-theme");
+			
+			break;
+			
+		case "#166393":
+			
+			System.out.println("sapphire-theme");
+			
+			break;
+			
+		case "#e96608":
+			
+			System.out.println("geranium-theme");
+			
+			break;
+
+		default:System.err.println("Aucune couleur ne correspond à ce code");
+			break;
+		}
+		
+		return null;
+	}
 	
 }
