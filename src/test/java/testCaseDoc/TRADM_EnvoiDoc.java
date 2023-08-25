@@ -54,8 +54,7 @@ public class TRADM_EnvoiDoc {
 			//int
 			//dossier = "2300018";
 			//RECETTE
-			dossier = "2300074";		
-			
+			dossier = "2300074";			
 		}
 		else if (jur == "TA"){
 			//INT
