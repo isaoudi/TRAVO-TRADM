@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
@@ -377,12 +376,13 @@ public class mesFonctions {
 		//Choix du type l'inventaire :manuel ou automatique
 		
 		switch (inventaire) {
+		//sans file
 		case "manuel":
 			String myXpath = "//div[contains(text(),\"Inventaire manuel\")]//ancestor::label/input";
 			((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", MyKeyWord.object(driver, myXpath));
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 			MyKeyWord.object(driver, myXpath).click();
-			System.out.println("Ajout de l'inventaire automatique....."+MyKeyWord.extractCurrentHeure()); 
+			System.out.println("Choix inventaire manuel....."+MyKeyWord.extractCurrentHeure()); 
 			
 			
 			break;
@@ -393,6 +393,26 @@ public class mesFonctions {
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 			MyKeyWord.object(driver, myXpath).click();
 			System.out.println("Ajout de l'inventaire automatique....."+MyKeyWord.extractCurrentHeure()); 
+			
+			break;
+			
+		case "manuelfile":
+			//choix inventaire manuel
+			myXpath = "//div[contains(text(),\"Inventaire manuel\")]//ancestor::label/input";
+			((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", MyKeyWord.object(driver, myXpath));
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			MyKeyWord.object(driver, myXpath).click();
+			
+			//attendre l'affichage d'un tag
+			myXpath = "(//tradm-file-input-display)[last()]//div[@class='files-display-file-name']";
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			
+			String file = MyKeyWord.object(driver, myXpath).getText().trim();
+			System.out.println("le fichier : "+file+" à bien été ajouté....."+MyKeyWord.extractCurrentHeure());
+			
+			System.out.println("Ajout de l'inventaire manuel....."+MyKeyWord.extractCurrentHeure()); 
+			
+			
 			
 			break;
 

@@ -285,7 +285,6 @@ public class EnvoiDoc {
 		else {
 			System.err.println("Pas d'inventaire présent");
 		}
-		
 		MyKeyWord.echappe(driver);
 		
 		//Repère horaire d'exécution
