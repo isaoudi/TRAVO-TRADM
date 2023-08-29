@@ -8,6 +8,8 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import fonctions.MyKeyWord;
+
 public class Navigateur {
 	
 
@@ -34,6 +36,8 @@ public class Navigateur {
       driver = new ChromeDriver(options);
       System.out.println("Initialisation réussie");
       System. out. println( "Navigateur.java driver :" + driver);
+      
+      System.out.println("Début Testcase......"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 
       break;
       

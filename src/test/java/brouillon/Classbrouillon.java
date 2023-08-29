@@ -4,7 +4,10 @@ import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.File;
 import java.nio.file.Path;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 
 import javax.swing.JFileChooser;
 
@@ -67,6 +70,9 @@ public class Classbrouillon {
 		mesFonctions.buttonEnvoiDoc(driver, element);
 		EnvoiDoc.envoiToutTypeDoc(driver, element, type);
 		
+		
+		
+		
 //		int c = NbrDoc.nbrDocuments(driver, element);
 //		int a = NbrDoc.nbrDocEnPrepa(driver, element);
 //		int b = NbrDoc.nbrDocDepose(driver, element);
@@ -87,7 +93,9 @@ public class Classbrouillon {
 //		NbrDoc.consultationDocEnreg(driver, element, dossier);
 //		NbrDoc.consultationDocDepose(driver, element, dossier);
 //		NbrDoc.consultationDocRefus(driver, element, dossier);
+//		System.out.println(MyKeyWord.extractCurrentHeure());
 
+		
 		
 //		driver.quit();
 	    

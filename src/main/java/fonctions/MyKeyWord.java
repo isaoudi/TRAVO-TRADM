@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -90,7 +90,7 @@ public class MyKeyWord {
 			return verif;
 		}catch (NoSuchElementException l) {
 			Thread.sleep(2000);
-			System.out.println("ELEMENT IS DISPLAYED : "+verif);
+			System.err.println("ELEMENT IS DISPLAYED : "+verif);
 			return verif;
 		}
 }
@@ -108,6 +108,7 @@ public class MyKeyWord {
 	}
 	
 	public static String extractCurrentDate() {
+		//récupération de la date du jour
 		String pattern = "dd/MM/yyyy";
 		Date date2 = new Date(System.currentTimeMillis());
 		DateFormat sdf = new SimpleDateFormat(pattern);
@@ -117,4 +118,60 @@ public class MyKeyWord {
 		return dateActuelle;
 	}
 	
+	public static String extractCurrentHeure() {
+		//récupération de l'heure actuelle
+		String pattern = "HH:mm:ss.SSS";
+		Date date2 = new Date(System.currentTimeMillis());
+		DateFormat sdf = new SimpleDateFormat(pattern);
+		String dateActuelle = sdf.format(date2);
+		
+		
+		return dateActuelle;
+	}
+	
+	//Rendre visible un élément en bas de page
+	public static Object goToDown(WebDriver driver, String myXpath) {
+		((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", MyKeyWord.object(driver, myXpath));
+		return null;
+		} 
+	
+	//Rendre visible un élément en haut de page
+	public static Object scrollUp(WebDriver driver) {
+		((JavascriptExecutor)driver).executeScript("window.scrollBy(0,-950);");
+		return null;
+	}
+		
+	//Rendre visible un élément en haut de page
+	public static Object scrollDown(WebDriver driver) {
+		((JavascriptExecutor)driver).executeScript("window.scrollBy(0,900);");
+		return null;
+	}
+	
+	//Rendre visible un élément
+	public static Actions moveToObject(WebDriver driver, String xpath) {
+		Actions actions = new Actions(driver);
+		actions.moveToElement(MyKeyWord.object(driver, xpath));
+		actions.perform();
+		return null;
+	}
+		
+	//Rendre visible un élément en haut de page
+	public static Object goToUp(WebDriver driver, String myXpath) {
+		((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(false);", MyKeyWord.object(driver, myXpath));
+		return null;
+	}
+	
+	//Zoomer la page
+	public static Object zoomPage(WebDriver driver, String myXpath) {
+		((JavascriptExecutor)driver).executeScript("document.body.style.zoom = '0.67'");//zoom de la page 100% = 1
+		return null;
+		}
+	
+	public static String getCSSvalue(WebDriver driver, String xpath, String value) {
+		//Récupération des valeur CSS
+		String vl = MyKeyWord.object(driver, xpath).getCssValue(value);
+		System.out.println("CSS value : "+vl);
+		
+		return vl;
+	}
 }
