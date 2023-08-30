@@ -22,6 +22,7 @@ import choix_juridiction.Juridiction;
 import envoiDoc.EnvoiDoc;
 import fonctions.MyKeyWord;
 import microfonctions.mesFonctions;
+import microfonctions.mesFonctions.codeCouleur;
 
 public class Classbrouillon {
 	
@@ -65,7 +66,7 @@ public class Classbrouillon {
 		Juridiction.choixJur(driver, jur);
 		
 		mesFonctions.trAdmAccesOngletDocument(driver, element);
-		mesFonctions.boutonVerifBrouillon(driver, element, dossier);
+		mesFonctions.boutonAccesBrouillon(driver, element, dossier);
 		MyKeyWord.echappe(driver);
 		mesFonctions.buttonEnvoiDoc(driver, element);
 		EnvoiDoc.envoiToutTypeDoc(driver, element, type);
@@ -94,8 +95,7 @@ public class Classbrouillon {
 //		NbrDoc.consultationDocDepose(driver, element, dossier);
 //		NbrDoc.consultationDocRefus(driver, element, dossier);
 //		System.out.println(MyKeyWord.extractCurrentHeure());
-
-		
+//		System.out.println();
 		
 //		driver.quit();
 	    

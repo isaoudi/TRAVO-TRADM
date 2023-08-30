@@ -14,6 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
 
+import envoiDoc.EnvoiDoc;
 import fonctions.MyKeyWord;
 
 public class mesFonctions {
@@ -209,7 +210,7 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String verifDoc(WebDriver driver, WebElement element) {
+	public static String carteBrouillonDocSelect(WebDriver driver, WebElement element) {
 		//le document choisi (mémoire, picèce ou lettre)
 		String myXpath = "//tradm-card//div[@class='body-s-semibold ng-star-inserted']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -219,25 +220,26 @@ public class mesFonctions {
 		return type;
 	}
 	
-	public static String typeDocSelect(WebDriver driver, WebElement element) {
+	public static String typeDocSelect(WebDriver driver, WebElement element, String choix) {
 		//Choisir depuis une liste box	
 		String myXpath = "//div[@class='ng-value-container']";
 		String myXpath1 = "//h2[contains(.,'Type de mémoire')]";
 		MyKeyWord.waiting(driver, myXpath1, Duration.ofSeconds(3));
 		
 		MyKeyWord.object(driver, myXpath).click();
-		System.out.println("Choix du type de mémoire");
+		System.out.println("Choix du type de mémoire effectué");
 		
-		myXpath = "(//div[@class='ng-option ng-star-inserted'])[2]";
-		String myXpath2= "(//div[@class='ng-option ng-star-inserted'])[2]//span";
+		myXpath = "(//div[@class='ng-option ng-star-inserted'])["+choix+"]";
+		String myXpath2 ="//div[@class='ng-value ng-star-inserted']//span[2]";//String myXpath2 = "(//div[@class='ng-option ng-star-inserted'])["+choix+"]//span";
+		MyKeyWord.object(driver, myXpath).click();
+		MyKeyWord.waiting(driver, myXpath2, Duration.ofSeconds(3));
 		String type = MyKeyWord.object(driver, myXpath2).getText().trim();
-		MyKeyWord.object(driver, myXpath).click();	
-		System.out.println("Type de memoire choisi");
+		System.out.println("Type de memoire choisi : "+MyKeyWord.object(driver, myXpath2).getText().trim());
 		
 		return type;
 	}
 	
-	public static String verifTypeDocSelect(WebDriver driver, WebElement element) {
+	public static String carteBrouillonTypeDocSelect(WebDriver driver, WebElement element) {
 		//Le type document choisi
 		String myXpath = "//tradm-card//div[@class='document-type']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -247,7 +249,24 @@ public class mesFonctions {
 		return type;
 	}
 	
-	public static String boutonVerifBrouillon(WebDriver driver, WebElement element, String dossier) {
+	public static String verifInfoCarteBrouillonApresEnreg(WebDriver driver, WebElement element) throws Throwable {
+		//vérification de l'enregistrement du brouillon. Celui-ci doit suivre impérativement un cas d'enregistrement du brouillon !!!
+		MyKeyWord.echappe(driver);
+		Thread.sleep(3500);
+		String myXpath = "//h1[@class='case-file-number']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		System.out.println("Retour dossier : "+MyKeyWord.object(driver, myXpath).getText().trim()+"....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		
+		//verification de la dernière carte enregistrée
+		mesFonctions.NbrJrsRestants(driver, element);
+		
+		//vérification du type de document sélectionné
+		EnvoiDoc.verifDoc_TypeDoc(driver, element);
+		
+		return null;
+	}
+	
+	public static String boutonAccesBrouillon(WebDriver driver, WebElement element, String dossier) {
 		//Vérifier les brouillons depuis la liste des documents en cliquant sur le bouton stylo "pen"
 		String myXpath = "//tr//div[contains(text(),\""+dossier+"\")]//following-sibling::a[@icon='pen']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -331,17 +350,36 @@ public class mesFonctions {
 		return null;
 	}
 	
+	public enum codeCouleur{
+		sea_green_theme("#2dae64"),
+		sapphire_theme("#166393"),
+		geranium_theme("#e96608");
+		
+		private String couleur;
+		
+		private codeCouleur(String couleur) {
+			this.couleur = couleur;
+		}
+		
+		public String getCouleur() {
+			return couleur;
+		}
+		
+	}
+	
 	public static List<String> navbarEnvoiDoc(WebDriver driver, WebElement element){
 		//Vérification de la présence de la barre de navigation
 		String myXpath = "//tradm-breadcrumb-container";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 	
 		myXpath = "//tradm-breadcrumb-container//li//span";	
-		List<WebElement> elt = driver.findElements(By.xpath(myXpath));		
+		List<WebElement> elt = driver.findElements(By.xpath(myXpath));
+		List<String> color = new ArrayList<>();
 		int list = elt.size();
 			for(int i=0;i<list;i++) {
 				String colored = Color.fromString(elt.get(i).getCssValue("color")).asHex();
 //				System.out.println(mesFonctions.color(colored));
+				color.add(colored);
 
 				if(colored.equals("#2dae64")) {
 					System.out.println(elt.get(i).getText()+" | color : "+colored+" | couleur OK");
@@ -369,10 +407,10 @@ public class mesFonctions {
 //								System.err.println(elt.get(i).getText()+" | color : "+colored+" | couleur KO");
 //							}
 //				}
-		return null;
+		return color;
 	}
 	
-	public static String inventaireDoc(WebDriver driver, WebElement element, String inventaire) {
+	public static String inventaireDoc(WebDriver driver, WebElement element, String inventaire) throws Throwable {
 		//Choix du type l'inventaire :manuel ou automatique
 		
 		switch (inventaire) {
@@ -382,29 +420,43 @@ public class mesFonctions {
 			((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", MyKeyWord.object(driver, myXpath));
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 			MyKeyWord.object(driver, myXpath).click();
-			System.out.println("Choix inventaire manuel....."+MyKeyWord.extractCurrentHeure()); 
-			
+			System.out.println("Choix inventaire manuel (sans ajout de fichier)....."+MyKeyWord.extractCurrentHeure());
+			String myXpath1 = "//span[text()=\"Veuillez importer un fichier\"]";
+			boolean verif = false;
+			if(MyKeyWord.isElementPresent(driver, myXpath1, verif)) {
+				System.out.println("Présence du message d'alerte : "+MyKeyWord.object(driver, myXpath1).getText());
+			}else {
+				System.err.println("Pas de message d'alerte avertissant de l'absence de fichier");
+			}
 			
 			break;
 			
 		case "automatique":
+			//inventaire automatique
 			myXpath = "//div[contains(text(),\"Inventaire automatique\")]//preceding-sibling::input";
 			((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", MyKeyWord.object(driver, myXpath));
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 			MyKeyWord.object(driver, myXpath).click();
-			System.out.println("Ajout de l'inventaire automatique....."+MyKeyWord.extractCurrentHeure()); 
+			System.out.println("Ajout de l'inventaire automatique....."+MyKeyWord.extractCurrentHeure());
 			
 			break;
 			
 		case "manuelfile":
-			//choix inventaire manuel
+			//choix inventaire manuel avec fichier
 			myXpath = "//div[contains(text(),\"Inventaire manuel\")]//ancestor::label/input";
 			((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", MyKeyWord.object(driver, myXpath));
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 			MyKeyWord.object(driver, myXpath).click();
 			
+			// Choisir un fichier depuis mon ordinateur _  
+			/*Partie à developper
+			 *En attente de balise "input"
+			 *Attention l'ajout de pièce se fera de mainière manuelle					
+			 */
+			System.out.println("Ajoutez la pièce manuellement (partie non encore scriptée)...");
+			
 			//attendre l'affichage d'un tag
-			myXpath = "(//tradm-file-input-display)[last()]//div[@class='files-display-file-name']";
+			myXpath = "//div[contains(@class,'inventory')]//tradm-file-input-display//div[@class='files-display-file-name']";
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 			
 			String file = MyKeyWord.object(driver, myXpath).getText().trim();
@@ -532,11 +584,11 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String visualiserDoc(WebDriver driver, WebElement element)throws Throwable {
+	public static String visualiserMemoire(WebDriver driver, WebElement element) throws Throwable {
 		//Visualiser la pièce du mémoire
 		String myXpath = "//paju-icon[@icon='eye-show']//parent::button";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		MyKeyWord.goToUp(driver, myXpath);
+		MyKeyWord.goToDown(driver, myXpath);
 		Thread.sleep(1000);
 		MyKeyWord.object(driver, myXpath).click();
 		//ouverture d'une fenêtre de visualisation depuis le navigateur
@@ -573,11 +625,31 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String visualiserInventaire(WebDriver driver, WebElement element)throws Throwable {
+	public static String visualiserInventaireAutomatique(WebDriver driver, WebElement element)throws Throwable {
 		//Visualiser la pièce du mémoire
-		String myXpath = "//paju-icon[@icon='eye-show']//parent::button[contains(@aria-label,\"visualiser le fichier ayant comme nom : Inventaire\")]";
+		String myXpath = "//paju-icon[@icon='eye-show']//parent::button[contains(@aria-label,\"visualiser l'inventaire\")]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		MyKeyWord.goToUp(driver, myXpath);
+		MyKeyWord.goToDown(driver, myXpath);
+		Thread.sleep(1000);
+		MyKeyWord.object(driver, myXpath).click();
+		//ouverture d'une fenêtre de visualisation depuis le navigateur
+		System.out.println("le document peut être visualisé");
+		Thread.sleep(2000);
+		MyKeyWord.changementOnglet(driver, 2);
+		Thread.sleep(5000);
+		driver.close();
+		MyKeyWord.changementOnglet(driver, 1);
+		
+		System.out.println("Visualisation de l'inventaire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		
+		return null;
+	}
+	
+	public static String visualiserInventaireManuel(WebDriver driver, WebElement element)throws Throwable {
+		//Visualiser la pièce du mémoire
+		String myXpath = "(//paju-icon[@icon='eye-show']//parent::button[contains(@aria-label,\"visualiser le fichier ayant comme nom\")])[last()]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.goToDown(driver, myXpath);
 		Thread.sleep(1000);
 		MyKeyWord.object(driver, myXpath).click();
 		//ouverture d'une fenêtre de visualisation depuis le navigateur
@@ -623,7 +695,7 @@ public class mesFonctions {
 		myXpath = "(//tradm-breadcrumb-container//li//span)[3]";
 		colored = Color.fromString(MyKeyWord.object(driver, myXpath).getCssValue("color")).asHex();
 
-		if(colored.equals("#e96608")) {
+		if(colored.equals("#d92f2f")) {
 			boolean verif = false;
 			System.out.println(MyKeyWord.object(driver, myXpath).getText()+" | color : "+colored+" | couleur OK");
 			String myXpath1 = "//span[text()=\"Veuillez importer un fichier\"]"; 
@@ -632,7 +704,7 @@ public class mesFonctions {
 			System.out.println("Suppression du mémoire effectuée....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}else {
 			System.err.println(MyKeyWord.object(driver, myXpath).getText()+" | color : "+colored+" | couleur KO");
-			System.err.println("La suppression de pièces complémentaires n'a pas bien fonctionnée");
+			System.err.println("La suppression du mémoire n'a pas bien fonctionnée");
 		}
 		
 		return null;
