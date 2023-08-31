@@ -51,7 +51,7 @@ public class mesFonctions {
 		String myXpath = "//td[@id='Entete1_MenuActeur1_im1_AD']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.object(driver, myXpath).click();
-		System.out.println("accès page TR"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		System.out.println("accès page TR "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		
 		//Clic bouton de redirection vers de dépôt de documents depuis TRADM  
 		myXpath = "//a[@id='hlPadm']";
@@ -132,22 +132,22 @@ public class mesFonctions {
 		switch (url) {
 		case "avo_rec":
 			url = "https://avocats.recette.telerecours.fr/";
-			System.out.println("URL est :"+url );
+			System.out.println("URL est : "+url );
 			break;
 			
 		case "avo_int":
 			url = "https://avocats.int1.telerecours.fr/";
-			System.out.println("URL est :"+url );
+			System.out.println("URL est : "+url );
 			break;
 			
 		case "admin_int":
 			url = "https://administrations.int1.telerecours.fr/";
-			System.out.println("URL est :"+url );
+			System.out.println("URL est : "+url );
 			break;
 			
 		case "admin_rec":
 			url = "https://administrations.recette.telerecours.fr/";
-			System.out.println("URL est :"+url );
+			System.out.println("URL est : "+url );
 			break;
 
 		default:System.out.println("Aucune url correspondant");
@@ -827,5 +827,34 @@ public class mesFonctions {
 		return null;
 	}
 	
+	public static String checkboxValidationEnvoi(WebDriver driver, WebElement element) {
+		//Coche "Je valide l'ordre, le libellé et la conversion en PDF de tous mes documents."
+		String myXpath = "//span[contains(text(),\" Je valide l'ordre,\")]//preceding-sibling::input";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("\"Je valide l'ordre, le libellé et la conversion en PDF de tous mes documents\" a été coché "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		
+		//Coche "Je valide l'ordre, le libellé et la conversion en PDF de tous mes documents."
+		myXpath = "//span[contains(text(),\"Je valide l'exactitude de mon inventaire\")]//preceding-sibling::input";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("\"Je valide l'exactitude de mon inventaire\" a été coché "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+
+		return null;
+	}
 	
+	public static String boutonValiderEnvoiDoc(WebDriver driver, WebElement element) {
+		String myXpath = "//div[@class='footer']//button[contains(text(),\" Envoyer \")]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		
+		myXpath = "//paju-icon[@class='toaster-close-icon']";
+		String myXpath1 = "//paju-toast";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		if(MyKeyWord.getAttibuteValue(driver, myXpath1, "class").trim().equals("ng-star-inserted success")) {
+			System.out.println("Le document a bien été envoyé : "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		}
+		
+		return null;
+	}
 }

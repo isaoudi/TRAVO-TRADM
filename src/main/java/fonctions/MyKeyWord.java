@@ -174,4 +174,9 @@ public class MyKeyWord {
 		
 		return vl;
 	}
+	
+	public static String getAttibuteValue(WebDriver driver, String xpath, String value) {
+		String attr = MyKeyWord.object(driver, xpath).getAttribute(value);
+		return attr;
+	}
 }

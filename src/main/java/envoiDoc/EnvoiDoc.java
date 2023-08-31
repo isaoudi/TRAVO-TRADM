@@ -161,6 +161,20 @@ public class EnvoiDoc {
 				
 			//Vérification avant envoi
 			EnvoiDoc.AccesVerificationAvantEnvoi(driver, element);
+			
+				//Repère horaire d'exécution
+				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+				
+			//Coche checkbox
+			mesFonctions.checkboxValidationEnvoi(driver, element);
+			
+				//Repère horaire d'exécution
+				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+				
+			//Valider l'envoi des documents
+			mesFonctions.boutonValiderEnvoiDoc(driver, element);
+			
+			
 				
 			
 			
@@ -239,13 +253,13 @@ public class EnvoiDoc {
 		if(MyKeyWord.object(driver, myXpath).getText().replaceAll("[\r\n]", " ").equals(ledoc)) {
 			System.out.println("Vérification du 1. Type de document : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}else {
-			System.err.println("Vérification du 1. Type de document : KO - Les informations ne correspondent pas entre eux "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			System.err.println("Vérification du 1. Type de document : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath).getText().trim()+" est différent de "+ledoc+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}
 			//2. Type de mémoire
 		if(MyKeyWord.object(driver, myXpath2).getText().trim().equals(type)) {
 			System.out.println("Vérification du 2. Type de mémoire : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}else {
-			System.err.println("Vérification du 2. Type de mémoire : KO - Les informations ne correspondent pas entre eux "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			System.err.println("Vérification du 2. Type de mémoire : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath2).getText().trim()+" est différent de "+type+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}
 		
 			//3. Liste des fichiers joints
@@ -253,7 +267,7 @@ public class EnvoiDoc {
 		if(MyKeyWord.object(driver, myXpath).getText().trim().equals(memoire)) {
 			System.out.println("Vérification du 3. Liste des fichiers joints : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}else {
-			System.err.println("Vérification du 3. Liste des fichiers joints : KO - Les informations ne correspondent pas entre eux "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			System.err.println("Vérification du 3. Liste des fichiers joints : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath).getText().trim()+" est différent de "+memoire+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}
 		
 			//Pièces complémentaires
@@ -366,13 +380,13 @@ public class EnvoiDoc {
 		if(MyKeyWord.object(driver, myXpath1).getText().trim().equals(ledoc)) {
 			System.out.println("Vérification avant envoi du 1. Type de document : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}else {
-			System.err.println("Vérification du 1. Type de document : KO - Les informations ne correspondent pas entre eux "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			System.err.println("Vérification du 1. Type de document : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath1).getText().trim()+" est différent de "+ledoc+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}
 			//2. Type de mémoire
 		if(MyKeyWord.object(driver, myXpath2).getText().trim().equals(type)) {
 			System.out.println("Vérification avant envoi du 2. Type de mémoire : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}else {
-			System.err.println("Vérification avant envoi du 2. Type de mémoire : KO - Les informations ne correspondent pas entre eux "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			System.err.println("Vérification avant envoi du 2. Type de mémoire : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath2).getText().trim()+" est différent de "+type+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}
 		
 			//3. Liste des fichiers joints
@@ -380,7 +394,7 @@ public class EnvoiDoc {
 		if(MyKeyWord.object(driver, myXpath).getText().trim().equals(memoire)) {
 			System.out.println("Vérification avant envoi du 3. Liste des fichiers joints : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}else {
-			System.err.println("Vérification avant envoi du 3. Liste des fichiers joints : KO - Les informations ne correspondent pas entre eux "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			System.err.println("Vérification avant envoi du 3. Liste des fichiers joints : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath).getText().trim()+" est différent de "+memoire+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		}
 		
 			//Pièces complémentaires
@@ -414,10 +428,7 @@ public class EnvoiDoc {
 		else {
 			System.err.println("Pas d'inventaire présent\r");
 		}
-		MyKeyWord.echappe (driver);
 		
-		//Repère horaire d'exécution
-		System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		return null;
 	}
 
