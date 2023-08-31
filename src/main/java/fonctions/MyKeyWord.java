@@ -68,7 +68,7 @@ public class MyKeyWord {
 		String onglet="";
 		for(int i=1 ; tr>=i; i++){
 		onglet = it.next();
-		System.out.println("tab:" + onglet);
+		System.out.println("Index tab:" + onglet);
 		
 	}
 		return onglet;

@@ -27,7 +27,7 @@ public class Auth {
 		//click button
 		myXpath = "//button[@id='login-submit']";
 		MyKeyWord.object(driver, myXpath).click();
-		System.out.println("Le login : "+login+" et le password : "+mdp+" ont été soumis");
+		System.out.println("Le login : "+login+" et le password : "+mdp+" ont été validés "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 
 		return null;
 		 

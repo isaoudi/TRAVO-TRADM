@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
@@ -50,7 +51,7 @@ public class mesFonctions {
 		String myXpath = "//td[@id='Entete1_MenuActeur1_im1_AD']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.object(driver, myXpath).click();
-		System.out.println("accès page TR");
+		System.out.println("accès page TR"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		
 		//Clic bouton de redirection vers de dépôt de documents depuis TRADM  
 		myXpath = "//a[@id='hlPadm']";
@@ -67,7 +68,7 @@ public class mesFonctions {
 		Thread.sleep(1000);
 		myXpath = "//a[@id='document-nav-btn']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		System.out.println("accès onglet \"Document\"");
+		System.out.println("accès onglet \"Document\"\r");
 			
 		return null;
 	}
@@ -104,7 +105,7 @@ public class mesFonctions {
 	    //vérification de la page
      	myXpath = "//div[@id='Entete1_EnteteTeleProcedure1_bandeau' and (contains (text(),\"Tribunal administratif de Paris\"))]";
      	MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-     	System.out.println(MyKeyWord.object(driver, myXpath).getText());
+     	System.out.println(MyKeyWord.object(driver, myXpath).getText()+"\r");
      	Thread.sleep(1000);
     
      return null;
@@ -120,7 +121,7 @@ public class mesFonctions {
      	//vérification de la page
  		myXpath = "//div[@id='Entete1_EnteteTeleProcedure1_bandeau' and (contains (text(),\"Cour administrative d'appel de Paris\"))]";
  		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
- 		System.out.println(MyKeyWord.object(driver, myXpath).getText());
+ 		System.out.println(MyKeyWord.object(driver, myXpath).getText()+"\r");
  		Thread.sleep(1000);
 
     return null;
@@ -205,7 +206,7 @@ public class mesFonctions {
 			System.err.println("Le nombre de jours restants n'est bas le bon");
 		}
 		
-		System.out.println("Vérification nombre de jours restant effectuée....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		System.out.println("Vérification nombre de jours restant effectuée....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		return null;
 	}
@@ -215,7 +216,7 @@ public class mesFonctions {
 		String myXpath = "//tradm-card//div[@class='body-s-semibold ng-star-inserted']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		String type = MyKeyWord.object(driver, myXpath).getText().trim();
-		System.out.println(type);
+		System.out.println("Le document choisi est : "+type);
 		
 		return type;
 	}
@@ -230,7 +231,7 @@ public class mesFonctions {
 		System.out.println("Choix du type de mémoire effectué");
 		
 		myXpath = "(//div[@class='ng-option ng-star-inserted'])["+choix+"]";
-		String myXpath2 ="//div[@class='ng-value ng-star-inserted']//span[2]";//String myXpath2 = "(//div[@class='ng-option ng-star-inserted'])["+choix+"]//span";
+		String myXpath2 ="//div[@class='ng-value ng-star-inserted']//span[2]";
 		MyKeyWord.object(driver, myXpath).click();
 		MyKeyWord.waiting(driver, myXpath2, Duration.ofSeconds(3));
 		String type = MyKeyWord.object(driver, myXpath2).getText().trim();
@@ -244,7 +245,7 @@ public class mesFonctions {
 		String myXpath = "//tradm-card//div[@class='document-type']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		String type = MyKeyWord.object(driver, myXpath).getText().trim();
-		System.out.println(MyKeyWord.object(driver, myXpath).getText().trim());
+		System.out.println("Le type de document choisi est : "+MyKeyWord.object(driver, myXpath).getText().trim());
 		
 		return type;
 	}
@@ -255,7 +256,7 @@ public class mesFonctions {
 		Thread.sleep(3500);
 		String myXpath = "//h1[@class='case-file-number']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		System.out.println("Retour dossier : "+MyKeyWord.object(driver, myXpath).getText().trim()+"....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		System.out.println("Retour dossier : "+MyKeyWord.object(driver, myXpath).getText().trim()+"....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		//verification de la dernière carte enregistrée
 		mesFonctions.NbrJrsRestants(driver, element);
@@ -369,9 +370,10 @@ public class mesFonctions {
 	
 	public static List<String> navbarEnvoiDoc(WebDriver driver, WebElement element){
 		//Vérification de la présence de la barre de navigation
+		System.out.println("\rEtat des étapes d'envoi");
 		String myXpath = "//tradm-breadcrumb-container";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-	
+		
 		myXpath = "//tradm-breadcrumb-container//li//span";	
 		List<WebElement> elt = driver.findElements(By.xpath(myXpath));
 		List<String> color = new ArrayList<>();
@@ -391,6 +393,9 @@ public class mesFonctions {
 							System.err.println(elt.get(i).getText()+" | color : "+colored+" | couleur KO");
 						}
 			}
+			System.out.println("\r");
+			
+			
 //			myXpath = "//tradm-breadcrumb-container";
 //			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 //		
@@ -424,9 +429,9 @@ public class mesFonctions {
 			String myXpath1 = "//span[text()=\"Veuillez importer un fichier\"]";
 			boolean verif = false;
 			if(MyKeyWord.isElementPresent(driver, myXpath1, verif)) {
-				System.out.println("Présence du message d'alerte : "+MyKeyWord.object(driver, myXpath1).getText());
+				System.out.println("Présence du message d'alerte : "+MyKeyWord.object(driver, myXpath1).getText()+"\r");
 			}else {
-				System.err.println("Pas de message d'alerte avertissant de l'absence de fichier");
+				System.err.println("Pas de message d'alerte avertissant de l'absence de fichier"+"\r");
 			}
 			
 			break;
@@ -437,7 +442,7 @@ public class mesFonctions {
 			((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", MyKeyWord.object(driver, myXpath));
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 			MyKeyWord.object(driver, myXpath).click();
-			System.out.println("Ajout de l'inventaire automatique....."+MyKeyWord.extractCurrentHeure());
+			System.out.println("Ajout de l'inventaire automatique....."+MyKeyWord.extractCurrentHeure()+"\r");
 			
 			break;
 			
@@ -462,7 +467,7 @@ public class mesFonctions {
 			String file = MyKeyWord.object(driver, myXpath).getText().trim();
 			System.out.println("le fichier : "+file+" à bien été ajouté....."+MyKeyWord.extractCurrentHeure());
 			
-			System.out.println("Ajout de l'inventaire manuel....."+MyKeyWord.extractCurrentHeure()); 
+			System.out.println("Ajout de l'inventaire manuel....."+MyKeyWord.extractCurrentHeure()+"\r"); 
 			
 			
 			
@@ -534,7 +539,7 @@ public class mesFonctions {
 		String myXpath = "//button[@aria-label='accéder à la vérification']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.object(driver, myXpath).click();
-		System.out.println("Clic \"Accéder à la vérification\"....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		System.out.println("Clic \"Accéder à la vérification\"....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		return null;
 	}
 	
@@ -592,14 +597,14 @@ public class mesFonctions {
 		Thread.sleep(1000);
 		MyKeyWord.object(driver, myXpath).click();
 		//ouverture d'une fenêtre de visualisation depuis le navigateur
-		System.out.println("le document peut être visualisé");
+		System.out.println("le document peut être visualisé"+"\r");
 		Thread.sleep(2000);
 		MyKeyWord.changementOnglet(driver, 2);
 		Thread.sleep(5000);
 		driver.close();
 		MyKeyWord.changementOnglet(driver, 1);
 		
-		System.out.println("Visualisation du mémoire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		System.out.println("Visualisation du mémoire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		return null;
 	}
@@ -613,14 +618,14 @@ public class mesFonctions {
 		Thread.sleep(2000);
 		MyKeyWord.object(driver, myXpath).click();
 		//ouverture d'une fenêtre de visualisation depuis le navigateur
-		System.out.println("le document peut être visualisé");
+		System.out.println("le document peut être visualisé"+"\r");
 		Thread.sleep(2000);
 		MyKeyWord.changementOnglet(driver, 2);
 		Thread.sleep(5000);
 		driver.close();
 		MyKeyWord.changementOnglet(driver, 1);
 		
-		System.out.println("Visualisation d'une pièce complémentaire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		System.out.println("Visualisation d'une pièce complémentaire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		return null;
 	}
@@ -633,14 +638,14 @@ public class mesFonctions {
 		Thread.sleep(1000);
 		MyKeyWord.object(driver, myXpath).click();
 		//ouverture d'une fenêtre de visualisation depuis le navigateur
-		System.out.println("le document peut être visualisé");
+		System.out.println("le document peut être visualisé"+"\r");
 		Thread.sleep(2000);
 		MyKeyWord.changementOnglet(driver, 2);
 		Thread.sleep(5000);
 		driver.close();
 		MyKeyWord.changementOnglet(driver, 1);
 		
-		System.out.println("Visualisation de l'inventaire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		System.out.println("\rVisualisation de l'inventaire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		return null;
 	}
@@ -653,14 +658,14 @@ public class mesFonctions {
 		Thread.sleep(1000);
 		MyKeyWord.object(driver, myXpath).click();
 		//ouverture d'une fenêtre de visualisation depuis le navigateur
-		System.out.println("le document peut être visualisé");
+		System.out.println("le document peut être visualisé\r");
 		Thread.sleep(2000);
 		MyKeyWord.changementOnglet(driver, 2);
 		Thread.sleep(5000);
 		driver.close();
 		MyKeyWord.changementOnglet(driver, 1);
 		
-		System.out.println("Visualisation de l'inventaire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		System.out.println("\rVisualisation de l'inventaire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		return null;
 	}
@@ -701,10 +706,10 @@ public class mesFonctions {
 			String myXpath1 = "//span[text()=\"Veuillez importer un fichier\"]"; 
 			MyKeyWord.isElementPresent(driver, myXpath1, verif);
 			System.out.println("Présence du message d'alerte : "+MyKeyWord.object(driver, myXpath1).getText());
-			System.out.println("Suppression du mémoire effectuée....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			System.out.println("Suppression du mémoire effectuée....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		}else {
 			System.err.println(MyKeyWord.object(driver, myXpath).getText()+" | color : "+colored+" | couleur KO");
-			System.err.println("La suppression du mémoire n'a pas bien fonctionnée");
+			System.err.println("La suppression du mémoire n'a pas bien fonctionnée"+"\r");
 		}
 		
 		return null;
@@ -731,14 +736,15 @@ public class mesFonctions {
 		elt = driver.findElements(By.xpath(myXpath));		
 		int list1 = elt.size();
 		
-		if(list>list1) {
-		
-		System.out.println("Suppression de pièces complémentaires effectuée....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
-		}else {
-			System.err.println("La suppression de pièces complémentaires n'a pas bien fonctionnée");
+			if(list>list1) {
+			
+			System.out.println("Suppression de pièces complémentaires effectuée....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			}else {
+				System.err.println("La suppression de pièces complémentaires n'a pas bien fonctionnée"+"\r");
+				}
 			}
-		}else {
-			System.out.println("Aucune pièce complémentaire à supprimer....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		else {
+			System.out.println("Aucune pièce complémentaire à supprimer....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		}
 		
 		return null;
@@ -763,7 +769,7 @@ public class mesFonctions {
 		return file;
 	}
 	
-	public static List<String> ajoutDocPiecesAdds(WebDriver driver, WebElement element) {
+	public static List<String> ajoutDocPiecesAdds(WebDriver driver, WebElement element) throws Throwable {
 		// Choisir un fichier depuis mon ordinateur _ pièces complémentaires
 		/*Partie à developper
 		 *En attente de balise "input"
@@ -771,24 +777,32 @@ public class mesFonctions {
 		 */
 		System.out.println("Ajoutez la pièce manuellement (partie non encore scriptée)...");
 		
-		
+		boolean verif = false;
+		List<String> files = new ArrayList<>();
 		String myXpath = "(//tradm-file-input-display)[2]//div[@class='files-display-file-name']";
-		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		
+		try{MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));}
+		catch(NoSuchElementException l) {}
+		if(MyKeyWord.isElementPresent(driver, myXpath, verif)) {
 		List<WebElement> elt = driver.findElements(By.xpath(myXpath));		
 		int list = elt.size();
-		List<String> files = new ArrayList<>();
+		
 			for(int i=0;i<list;i++) {
 				String file = elt.get(i).getText().trim();
 				files.add(file);
 				System.out.println("le fichier : "+file+" à bien été ajouté");
 				String coloredFile = Color.fromString(elt.get(i).getCssValue("color")).asHex();
 					if(!coloredFile.equals("#e96608")) {
-						System.out.println(file+" | color : "+coloredFile+" | libellé OK....."+MyKeyWord.extractCurrentHeure());
+						System.out.println(file+" | color : "+coloredFile+" | libellé OK....."+MyKeyWord.extractCurrentHeure()+"\r");
 					}
 						else {
-							System.err.println(file+" | color : "+coloredFile+" | libellé KO....."+MyKeyWord.extractCurrentHeure());
+							System.err.println(file+" | color : "+coloredFile+" | libellé KO....."+MyKeyWord.extractCurrentHeure()+"\r");
 						}
 				}
+		}
+		else {
+			System.out.println("Aucune pièce complémentaire chargée\r");
+		}
 		
 		
 		return files;
@@ -802,11 +816,12 @@ public class mesFonctions {
 			MyKeyWord.goToUp(driver, myXpath);
 			MyKeyWord.object(driver, myXpath).click();
 			String myXpath1 = "//span[contains(text(),\"Veuillez sélectionner un élément dans la liste\")]";
+			MyKeyWord.waiting(driver, myXpath1, Duration.ofSeconds(3));
 			System.out.println("Présence du message d'alerte : "+MyKeyWord.object(driver, myXpath1).getText());
 			System.out.println("le choix du type de mémoire a bien été supprimé....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 			
 		}else {
-			System.err.println("Aucun choix sélectionné");
+			System.err.println("Aucun choix sélectionné"+"\r");
 		}
 		
 		return null;

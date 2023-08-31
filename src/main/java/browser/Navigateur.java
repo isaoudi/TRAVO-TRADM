@@ -37,7 +37,7 @@ public class Navigateur {
       System.out.println("Initialisation réussie");
       System. out. println( "Navigateur.java driver :" + driver);
       
-      System.out.println("Début Testcase......"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+      System.out.println("Début Testcase......"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 
       break;
       
@@ -53,6 +53,10 @@ public class Navigateur {
 
       driver.manage().window().maximize();
       System.out.println("Initialisation réussie");
+      System. out. println( "Navigateur.java driver :" + driver);
+      
+      System.out.println("Début Testcase......"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+      
       break;
                   
   case "edge":
@@ -69,6 +73,9 @@ public class Navigateur {
       driver = new EdgeDriver (option);
       
       System.out.println("Initialisation réussie");
+      System. out. println( "Navigateur.java driver :" + driver);
+      
+      System.out.println("Début Testcase......"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
       break;
 
   default:
