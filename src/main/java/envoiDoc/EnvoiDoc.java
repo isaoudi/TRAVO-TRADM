@@ -2,6 +2,7 @@ package envoiDoc;
 
 import java.text.ParseException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -20,6 +21,7 @@ public class EnvoiDoc {
 	static String type;
 	static String ledoc;
 	static String memoire;
+	static String inventairePiece;
 	static String choix;
 	static List<String> color;
 	static List<String> pieces;
@@ -124,10 +126,10 @@ public class EnvoiDoc {
 			
 			//Ajout du fichier de l'inventaire manuel
 				inventaire = "manuelfile";
-			mesFonctions.inventaireDoc(driver, element, inventaire);
+			inventairePiece = mesFonctions.inventaireDoc(driver, element, inventaire);
 			
 			//visualiser inventaire manuel
-			mesFonctions.visualiserInventaireManuel(driver, element);
+			mesFonctions.visualiserInventaireManuel(driver);
 			
 				//Repère horaire d'exécution
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
@@ -165,6 +167,18 @@ public class EnvoiDoc {
 				//Repère horaire d'exécution
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 				
+			//Test des boutons de modification depuis la page de vérification avant envoi
+			mesFonctions.boutonAccesVerifAvantEnvoiDoc(driver, element);
+			
+			//clic bouton "Accéder à la vérification"
+			mesFonctions.boutonAccesVerifAvantEnvoiDoc(driver, element);
+			
+			//Test des boutons de modification depuis la page de vérification avant envoi
+			mesFonctions.boutonModifierTypeDocAvantEnvoi(driver, element);
+			
+			//clic bouton "Accéder à la vérification"
+			mesFonctions.boutonModifierInventaireAvantEnvoi(driver, element);
+				
 			//Coche checkbox
 			mesFonctions.checkboxValidationEnvoi(driver, element);
 			
@@ -172,22 +186,9 @@ public class EnvoiDoc {
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 				
 			//Valider l'envoi des documents
-			mesFonctions.boutonValiderEnvoiDoc(driver, element);
+//			mesFonctions.boutonValiderEnvoiDoc(driver, element);
 			
-			
-				
-			
-			
-			
-			
-//			EnvoiDoc.verifDoc_TypeDoc(driver, element);
-//			mesFonctions.ajoutBrouillonDoc(driver, element);
-//			mesFonctions.carteBoutonReprendreBrouillon(driver, element);
-//			EnvoiDoc.AccesVerificationAvantEnvoi(driver, element);
-//			mesFonctions.carteBoutonReprendreBrouillon(driver, element);
-//			EnvoiDoc.visualiserDocs(driver, element);
-//			EnvoiDoc.suppressionDoc(driver, element);
-//			EnvoiDoc.defautEtapeEnvoiDoc(driver, element);
+
 		    
 			break;
 			
@@ -296,7 +297,7 @@ public class EnvoiDoc {
 		boolean verif = false;
 		if(MyKeyWord.isElementPresent(driver, myXpath, verif)) {
 			System.out.println("l'inventaire est bien présent : "+MyKeyWord.object(driver, myXpath).getText().trim()+"\r");
-			mesFonctions.visualiserInventaireManuel(driver, element);
+			mesFonctions.visualiserInventaireManuel(driver);
 		}
 		else {
 			System.err.println("Pas d'inventaire présent\r");
@@ -325,47 +326,8 @@ public class EnvoiDoc {
 		return null;
 	}
 	
-	public static String visualiserDocs(WebDriver driver, WebElement element) throws Throwable {
-//		mesFonctions.visualiserDoc(driver, element);
-//		mesFonctions.visualiserPiecesAdd(driver, element);
-//		
-//		//Repère horaire d'exécution
-//		System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-		
-		return null;
-	}
 	
-	public static String suppressionDoc(WebDriver driver, WebElement element) throws Throwable {
-//		//supprimer les pièces complémentaires
-//		mesFonctions.supprimerPiecesAdd(driver, element);
-//		
-//		//Repère horaire d'exécution
-//		System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-		
-		return null;
-	}
-	
-	public static String defautEtapeEnvoiDoc(WebDriver driver, WebElement element) throws Throwable {
-//		//supprimer le type de choix de mémoire
-//		mesFonctions.clearChoixTypeMemoire(driver, element);
-//		
-//		//supprimer le mémoire
-////		mesFonctions.supprimerMémoire(driver, element);
-//		
-//		//supprimer l'inventaire automatique
-//		inventaire = "manuel";
-//		mesFonctions.inventaireDoc(driver, element, inventaire);
-//		
-//		//Etat de la barre d'envoi
-//		mesFonctions.navbarEnvoiDoc(driver, element);
-//		
-//		//Repère horaire d'exécution
-//		System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-		
-		return null;
-	}
-	
-	public static String AccesVerificationAvantEnvoi(WebDriver driver, WebElement element) throws Throwable {
+	public static List<String> AccesVerificationAvantEnvoi(WebDriver driver, WebElement element) throws Throwable {
 		//clic bouton "Accéder à la vérification"
 		mesFonctions.boutonAccesVerifAvantEnvoiDoc(driver, element);
 		
@@ -376,25 +338,33 @@ public class EnvoiDoc {
 		String myXpath1 ="//h2//following-sibling::span";
 		String myXpath2 ="(//h2//following-sibling::span)[2]";
 		
+		List<String> recap = new ArrayList<>();
+		
 			//1. Type de document 
 		if(MyKeyWord.object(driver, myXpath1).getText().trim().equals(ledoc)) {
 			System.out.println("Vérification avant envoi du 1. Type de document : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			recap.add(MyKeyWord.object(driver, myXpath1).getText().trim());
 		}else {
 			System.err.println("Vérification du 1. Type de document : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath1).getText().trim()+" est différent de "+ledoc+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			recap.add(MyKeyWord.object(driver, myXpath1).getText().trim());
 		}
 			//2. Type de mémoire
 		if(MyKeyWord.object(driver, myXpath2).getText().trim().equals(type)) {
 			System.out.println("Vérification avant envoi du 2. Type de mémoire : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			recap.add(MyKeyWord.object(driver, myXpath2).getText().trim());
 		}else {
 			System.err.println("Vérification avant envoi du 2. Type de mémoire : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath2).getText().trim()+" est différent de "+type+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			recap.add(MyKeyWord.object(driver, myXpath2).getText().trim());
 		}
 		
 			//3. Liste des fichiers joints
 		myXpath = "//div[@class='files-display-file-name']";
 		if(MyKeyWord.object(driver, myXpath).getText().trim().equals(memoire)) {
 			System.out.println("Vérification avant envoi du 3. Liste des fichiers joints : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			recap.add(MyKeyWord.object(driver, myXpath).getText().trim());
 		}else {
 			System.err.println("Vérification avant envoi du 3. Liste des fichiers joints : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath).getText().trim()+" est différent de "+memoire+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			recap.add(MyKeyWord.object(driver, myXpath).getText().trim());
 		}
 		
 			//Pièces complémentaires
@@ -406,8 +376,10 @@ public class EnvoiDoc {
 			String coloredFile = Color.fromString(myElts.get(i).getCssValue("color")).asHex();
 			if(pieces.contains(myElts.get(i).getText().trim())) {
 				System.out.println("Vérification avant envoi du 3. pièces complémmentaire "+myElts.get(i).getText().trim()+" : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+				recap.add(myElts.get(i).getText().trim());
 			}else {
 				System.err.println("la pièce "+myElts.get(i).getText().trim()+" est différente de "+pieces.get(i)+"....." +MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+				recap.add(myElts.get(i).getText().trim());
 			}
 			
 			if(!coloredFile.equals("#e96608")) {
@@ -421,15 +393,119 @@ public class EnvoiDoc {
 			//4. Inventaire
 		myXpath = "(//div[@class='files-display-file-name'])[last()]";
 		boolean verif = false;
-		if(MyKeyWord.isElementPresent(driver, myXpath, verif)) {
+		if(MyKeyWord.isElementPresent(driver, myXpath, verif) && MyKeyWord.object(driver, myXpath).getText().trim().equals("Inventaire automatique")) {
 			System.out.println("l'inventaire est bien présent : "+MyKeyWord.object(driver, myXpath).getText().trim()+"\r");
-			mesFonctions.visualiserInventaireManuel(driver, element);
+			recap.add(MyKeyWord.object(driver, myXpath).getText().trim());
+			mesFonctions.visualiserInventaireManuel(driver);//même xpath que pour l'inventaire manuel
+			}
+			else if(MyKeyWord.isElementPresent(driver, myXpath, verif)) {
+				System.out.println("l'inventaire est bien présent : "+MyKeyWord.object(driver, myXpath).getText().trim()+"\r");
+				recap.add(MyKeyWord.object(driver, myXpath).getText().trim());
+				mesFonctions.visualiserInventaireManuel(driver);
+				}
+				else {
+					System.err.println("Pas d'inventaire présent\r");
+				}
+		
+		return recap;
+		
+	}
+	
+	public static String verifDepotDoc(WebDriver driver, String dossier) throws Throwable {
+		//accès onglet @Document
+		mesFonctions.ongletDocument(driver);
+		
+		//Accès à l'onglet déposés
+		mesFonctions.tableauVosDocument_deposes(driver);
+		
+		//Clic sur le dossier déposé
+		String myXpath = "//tr//div[contains(text(),\""+dossier+"\")]//parent::td//following-sibling::td//span[contains(text(),\" Déposé \")]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		
+		
+		//Verification des informations du récap
+		myXpath = "//h1[text()=\"Contenu de l'envoi\"]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		
+		String myXpath1 ="//div[text()=\"1. Type de document :\"]//following-sibling::div";
+		String myXpath2 ="//div[text()=\"2. Type de Mémoire:\"]//following-sibling::div";
+		
+		List<String> recap = new ArrayList<>();
+		
+		//1. Type de document 
+		if(MyKeyWord.object(driver, myXpath1).getText().trim().equals(ledoc)) {
+			System.out.println("Vérification avant envoi du 1. Type de document : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			
+		}else {
+			System.err.println("Vérification du 1. Type de document : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath1).getText().trim()+" est différent de "+ledoc+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			
 		}
-		else {
-			System.err.println("Pas d'inventaire présent\r");
+		//2. Type de mémoire
+		if(MyKeyWord.object(driver, myXpath2).getText().trim().equals(type)) {
+			System.out.println("Vérification avant envoi du 2. Type de mémoire : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			
+		}else {
+			System.err.println("Vérification avant envoi du 2. Type de mémoire : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath2).getText().trim()+" est différent de "+type+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			
 		}
 		
+		//3. Liste des fichiers joints
+		myXpath = "//div[@class='files-display-file-name']";
+		if(MyKeyWord.object(driver, myXpath).getText().trim().equals(memoire)) {
+			System.out.println("Vérification avant envoi du 3. Liste des fichiers joints : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			
+		}else {
+			System.err.println("Vérification avant envoi du 3. Liste des fichiers joints : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath).getText().trim()+" est différent de "+memoire+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			
+		}
+		
+		//Pièces complémentaires
+		myXpath = "(//div[@class='files-display-file-name'])[position()>1]";
+		List<WebElement> myElts = driver.findElements(By.xpath(myXpath));
+		int myList = myElts.size()-1;
+		
+		for(int i=0; i<myList; i++) {
+			String coloredFile = Color.fromString(myElts.get(i).getCssValue("color")).asHex();
+			if(pieces.contains(myElts.get(i).getText().trim())) {
+				System.out.println("Vérification avant envoi du 3. pièces complémmentaire "+myElts.get(i).getText().trim()+" : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+				
+			}else {
+				System.err.println("la pièce "+myElts.get(i).getText().trim()+" est différente de "+pieces.get(i)+"....." +MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+				
+			}
+			
+			if(!coloredFile.equals("#e96608")) {
+				System.out.println("libellé OK....."+MyKeyWord.extractCurrentHeure()+"\r");
+			}
+				else {
+					System.err.println("libellé KO....."+MyKeyWord.extractCurrentHeure()+"\r");
+				}
+		}
+		
+		//4. Inventaire
+		myXpath = "(//div[@class='files-display-file-name'])[last()]";
+		boolean verif = false;
+		if(MyKeyWord.isElementPresent(driver, myXpath, verif) && MyKeyWord.object(driver, myXpath).getText().trim().equals("Inventaire automatique")) {
+			System.out.println("l'inventaire est bien présent : "+MyKeyWord.object(driver, myXpath).getText().trim()+"\r");
+			
+			mesFonctions.visualiserInventaireManuel(driver);//même xpath que pour l'inventaire manuel
+			}
+			else if(MyKeyWord.isElementPresent(driver, myXpath, verif)) {
+				System.out.println("l'inventaire est bien présent : "+MyKeyWord.object(driver, myXpath).getText().trim()+"\r");
+				
+				mesFonctions.visualiserInventaireManuel(driver);
+				}
+				else {
+					System.err.println("Pas d'inventaire présent\r");
+				}
+		
+		//Bouton fermer
+		myXpath = "//button[text()=\" Fermer \"]";
+		MyKeyWord.waiting(driver, myXpath2, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("Vérification du dépôt effectué "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+	
 		return null;
 	}
-
 }

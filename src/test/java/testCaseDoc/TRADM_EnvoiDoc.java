@@ -73,7 +73,7 @@ public class TRADM_EnvoiDoc {
 		}
 		
 		type = "Memoire";
-		mesFonctions.trAdmAccesOngletDossier(driver, element);
+		mesFonctions.trAdmAccesOngletDossier(driver);
 		mesFonctions.choixDossier(driver, element, dossier);
 		mesFonctions.buttonEnvoiDoc(driver, element);
 		EnvoiDoc.envoiToutTypeDoc(driver, element, type);

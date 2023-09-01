@@ -20,7 +20,17 @@ import fonctions.MyKeyWord;
 
 public class mesFonctions {
 	
-	public static String trAdmAccesOngletDossier(WebDriver driver, WebElement element) throws Throwable {
+	public static Object ongletDocument(WebDriver driver) throws Throwable {
+		//Accès onglet documents TRADM
+		Thread.sleep(1000);
+		String myXpath = "//a[@id='document-nav-btn']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		System.out.println("accès onglet \"Document\"\r");
+		
+		return null;
+	}
+	
+	public static String trAdmAccesOngletDossier(WebDriver driver) throws Throwable {
 		//Clic onglet requête page Legacy
 		String myXpath = "//td[@id='Entete1_MenuActeur1_im1_AD']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -65,11 +75,58 @@ public class mesFonctions {
 		MyKeyWord.changementOnglet(driver, 1);
 		
 		//Accès onglet documents TRADM
-		Thread.sleep(1000);
-		myXpath = "//a[@id='document-nav-btn']";
-		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		System.out.println("accès onglet \"Document\"\r");
+		mesFonctions.ongletDocument(driver);
 			
+		return null;
+	}
+	
+	public static String tableauVosDocument_tous(WebDriver driver) throws Throwable {
+		//accès onglet Tous
+		String myXpath = "//a[@routerlink='tous']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("Accès onglet \"Tous\" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		Thread.sleep(2000);
+		return null;
+	}
+	
+	public static String tableauVosDocument_preparation(WebDriver driver) throws Throwable {
+		//accès onglet En préparation 
+		String myXpath = "//a[@routerlink='preparation']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("Accès onglet \"En préparation\" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		Thread.sleep(2000);
+		return null;
+	}
+	
+	public static String tableauVosDocument_deposes(WebDriver driver) throws Throwable {
+		//accès onglet Déposés
+		String myXpath = "//a[@routerlink='deposes']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("Accès onglet \"Déposés\" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		Thread.sleep(2000);
+		return null;
+	}
+	
+	public static String tableauVosDocument_enregistres(WebDriver driver) throws Throwable {
+		//accès onglet Enregistrés
+		String myXpath = "//a[@routerlink='enregistres']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("Accès onglet \"Enregistrés\" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		Thread.sleep(2000);
+		return null;
+	}
+	
+	public static String tableauVosDocument_refuses(WebDriver driver) throws Throwable {
+		//accès onglet Refusés
+		String myXpath = "//a[@routerlink='refuses']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("Accès onglet \"Refusés\" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		Thread.sleep(2000);
 		return null;
 	}
 	
@@ -469,9 +526,9 @@ public class mesFonctions {
 			
 			System.out.println("Ajout de l'inventaire manuel....."+MyKeyWord.extractCurrentHeure()+"\r"); 
 			
+			return file;
 			
 			
-			break;
 
 		default: System.out.println("Type d'inventaire non reconnu");
 			break;
@@ -617,6 +674,7 @@ public class mesFonctions {
 		MyKeyWord.goToDown(driver, myXpath);
 		Thread.sleep(2000);
 		MyKeyWord.object(driver, myXpath).click();
+		
 		//ouverture d'une fenêtre de visualisation depuis le navigateur
 		System.out.println("le document peut être visualisé"+"\r");
 		Thread.sleep(2000);
@@ -650,7 +708,7 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String visualiserInventaireManuel(WebDriver driver, WebElement element)throws Throwable {
+	public static String visualiserInventaireManuel(WebDriver driver)throws Throwable {
 		//Visualiser la pièce du mémoire
 		String myXpath = "(//paju-icon[@icon='eye-show']//parent::button[contains(@aria-label,\"visualiser le fichier ayant comme nom\")])[last()]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -854,6 +912,66 @@ public class mesFonctions {
 		if(MyKeyWord.getAttibuteValue(driver, myXpath1, "class").trim().equals("ng-star-inserted success")) {
 			System.out.println("Le document a bien été envoyé : "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		}
+		
+		return null;
+	}
+	
+	public static Object boutonModifierTypeDocAvantEnvoi(WebDriver driver, WebElement element) throws Throwable {
+		String myXpath = "//button[@aria-label=\"modifier le type de document\"]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.scrollUp(driver);
+		MyKeyWord.object(driver, myXpath).click();
+		
+		myXpath = "//legend[text()=\"Choisir un type de document :\"]//parent::fieldset//div[contains(text(),\"Mémoire\")]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		
+		System.out.println("Le \"Type de document à envoyer\" peut être modifié "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		Thread.sleep(2000);
+		
+		return null;
+	}
+	
+	public static Object boutonModifierTypeMemoireAvantEnvoi(WebDriver driver, WebElement element) throws Throwable {
+		String myXpath = "//button[@aria-label=\"modifier le type de memoire\"]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.scrollUp(driver);
+		MyKeyWord.object(driver, myXpath).click();
+		
+		myXpath = "//label[text()=\"Choisir un type de mémoire :\"]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		
+		System.out.println("Le \"Type de mémoire\" peut être modifié "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		Thread.sleep(2000);
+		
+		return null;
+	}
+	
+	public static Object boutonModifierFichiersAvantEnvoi(WebDriver driver, WebElement element) throws InterruptedException {
+		String myXpath = "//button[@aria-label=\"modifier la liste des fichiers joints\"]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.goToDown(driver, myXpath);
+		MyKeyWord.object(driver, myXpath).click();
+		
+		myXpath = "//tradm-file-input-display//div[@class='files-display-file-name']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		
+		System.out.println("Les \"fichiers joints\" peuvent être modifiés "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		Thread.sleep(2000);
+		
+		return null;
+	}
+	
+	public static Object boutonModifierInventaireAvantEnvoi(WebDriver driver, WebElement element) throws InterruptedException {
+		String myXpath = "//button[@aria-label=\"modifier le type d'inventaire\"]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.goToDown(driver, myXpath);
+		MyKeyWord.object(driver, myXpath).click();
+		
+		myXpath = "//legend[text()=\"Choisir un type d'inventaire :\"]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		
+		System.out.println("Les \"fichiers joints\" peuvent être modifiés "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		Thread.sleep(2000);
 		
 		return null;
 	}
