@@ -22,7 +22,7 @@ public class Navigateur {
       switch (browserName) {
       case "chrome":
       caps = new DesiredCapabilities();
-      System.setProperty("webdriver.chrome.driver", "C:\\driver\\chromedriver-win64\\chromedriver.exe");
+      System.setProperty("webdriver.chrome.driver", "C:\\drivers\\chromedriver_win64\\chromedriver.exe");
 
       ChromeOptions options = new ChromeOptions();
       options.merge(caps);

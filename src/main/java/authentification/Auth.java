@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import fonctions.MyKeyWord;
+import lesFonctions.mesFonctions;
 
 public class Auth {
 	
@@ -33,5 +34,20 @@ public class Auth {
 		 
 	}
 
-
+	public static String AuthentificationTaCaaCeInt (WebDriver driver, WebElement element, String identifiant, String mdp ) {
+		
+		String myXpath1 = "//input[@id='txtIdentifiant']";
+		String myXpath2 = "//input[@id='txtPassword']";
+		String myXpath3 = "//a[@id='ibOk']/span[@class='button-text' and (text()='Valider')]";
+		mesFonctions.object(driver, myXpath1).sendKeys(identifiant);
+		mesFonctions.objet(driver, element, myXpath2).sendKeys(mdp);
+		mesFonctions.objet(driver, element, myXpath3).click();
+		System.out.println("Validation des identifiants...");
+		
+		//vérification de la page
+		String myXpath = "//div[@id='Entete1_EnteteTeleProcedure1_bandeau']";
+		mesFonctions.waiting2(driver, myXpath, Duration.ofSeconds(3));
+		System.out.println(mesFonctions.objet(driver, element, myXpath).getText().trim());
+		return null;
+}
 }

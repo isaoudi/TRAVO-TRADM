@@ -30,6 +30,17 @@ public class mesFonctions {
 		return null;
 	}
 	
+	public static Object informationActeurTRADM(WebDriver driver) {
+		String myXpath = "//button[@aria-label=\"Mon profil\"]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		
+		myXpath = "//tradm-connection-modal//div[@class='name']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		System.out.println("Acteur : "+MyKeyWord.object(driver, myXpath).getText().trim()+"\r");
+		return null;
+	}
+	
 	public static String trAdmAccesOngletDossier(WebDriver driver) throws Throwable {
 		//Clic onglet requête page Legacy
 		String myXpath = "//td[@id='Entete1_MenuActeur1_im1_AD']";
@@ -549,7 +560,7 @@ public class mesFonctions {
 		
 	}
 	
-	public static String popupEnregBrouillon(WebDriver driver, WebElement element, String choix) {
+	public static String popupEnregBrouillon(WebDriver driver, String choix) {
 		//Choix d'enregistrer son brouillon
 		switch (choix) {
 		case "enreg":
@@ -579,7 +590,7 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String SortirBrouillon(WebDriver driver, WebElement element, String choix) {
+	public static String SortirBrouillon(WebDriver driver, String choix) {
 		//Revenir au dossier le brouillon 
 		String myXpath = "//button[@aria-label='fermer le panneau latéral' and contains(text(),\" Revenir au dossier \")]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -587,7 +598,7 @@ public class mesFonctions {
 		System.out.println("Clic \"Revenir au dossier\"....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		
 		//Ouverture PopUp enregistrement en brouillon
-		mesFonctions.popupEnregBrouillon(driver, element, choix);
+		mesFonctions.popupEnregBrouillon(driver, choix);
 		
 		return null;
 	}
@@ -600,7 +611,7 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String carteBoutonReprendreBrouillon(WebDriver driver, WebElement element) {
+	public static String carteBoutonReprendreBrouillon(WebDriver driver) {
 		//Accès menu de la carte
 		String myXpath = "//button//paju-icon[@icon='ellipsis-vertical']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -616,7 +627,7 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String carteBoutonSupprimerBrouillon(WebDriver driver, WebElement element) throws Throwable {
+	public static String carteBoutonSupprimerBrouillon(WebDriver driver) throws Throwable {
 		//estimation du nombre de cartes
 		String myXpath = "//tradm-draft-card";
 		List<WebElement> elements = driver.findElements(By.xpath(myXpath));
@@ -646,7 +657,7 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String visualiserMemoire(WebDriver driver, WebElement element) throws Throwable {
+	public static String visualiserMemoire(WebDriver driver) throws Throwable {
 		//Visualiser la pièce du mémoire
 		String myXpath = "//paju-icon[@icon='eye-show']//parent::button";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -667,7 +678,7 @@ public class mesFonctions {
 	}
 	
 	
-	public static String visualiserPiecesAdd(WebDriver driver, WebElement element)throws Throwable {
+	public static String visualiserPiecesAdd(WebDriver driver)throws Throwable {
 		//Visualiser les pièces complémentaires
 		String myXpath = "(//paju-icon[@icon='eye-show'])[2]//parent::button";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -773,7 +784,7 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String supprimerPiecesAdd(WebDriver driver, WebElement element)throws Throwable {
+	public static String supprimerPiecesAdd(WebDriver driver)throws Throwable {
 		//nombre de pièce avant suppression
 		String myXpath = "(//tradm-file-input-display)[2]//div[@class='files-display-file-name']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -808,7 +819,7 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String ajoutMemoire(WebDriver driver, WebElement element) {
+	public static String ajoutMemoire(WebDriver driver) {
 		// Choisir un fichier depuis mon ordinateur _  
 		/*Partie à developper
 		 *En attente de balise "input"
@@ -827,7 +838,7 @@ public class mesFonctions {
 		return file;
 	}
 	
-	public static List<String> ajoutDocPiecesAdds(WebDriver driver, WebElement element) throws Throwable {
+	public static List<String> ajoutDocPiecesAdds(WebDriver driver) throws Throwable {
 		// Choisir un fichier depuis mon ordinateur _ pièces complémentaires
 		/*Partie à developper
 		 *En attente de balise "input"
@@ -916,7 +927,7 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static Object boutonModifierTypeDocAvantEnvoi(WebDriver driver, WebElement element) throws Throwable {
+	public static Object boutonModifierTypeDocAvantEnvoi(WebDriver driver) throws Throwable {
 		String myXpath = "//button[@aria-label=\"modifier le type de document\"]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.scrollUp(driver);
@@ -931,7 +942,7 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static Object boutonModifierTypeMemoireAvantEnvoi(WebDriver driver, WebElement element) throws Throwable {
+	public static Object boutonModifierTypeMemoireAvantEnvoi(WebDriver driver) throws Throwable {
 		String myXpath = "//button[@aria-label=\"modifier le type de memoire\"]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.scrollUp(driver);
@@ -975,4 +986,12 @@ public class mesFonctions {
 		
 		return null;
 	}
+	
+	public static String recupNcasefileNumber(WebDriver driver) {
+		String myXpath = "//td[contains(@class,\"cdk-cell case-file-number cdk-column-caseFileNumber ng-star-inserted\")]//div";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		String dossier = MyKeyWord.object(driver, myXpath).getText().trim();
+		return dossier;
+	}
+
 }

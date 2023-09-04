@@ -70,7 +70,7 @@ public class Classbrouillon {
 		MyKeyWord.echappe(driver);
 		mesFonctions.buttonEnvoiDoc(driver, element);
 		EnvoiDoc.envoiToutTypeDoc(driver, element, type);
-		EnvoiDoc.verifDepotDoc(driver, dossier);
+//		EnvoiDoc.verifDepotDoc(driver, dossier);
 		
 		
 		

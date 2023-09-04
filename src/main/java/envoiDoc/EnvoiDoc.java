@@ -10,6 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
 
+import Fonctionnalités.microfonctions;
+import deconnexion.DeconnexionTRADM;
 import fonctions.MyKeyWord;
 import microfonctions.mesFonctions;
 	
@@ -68,10 +70,10 @@ public class EnvoiDoc {
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 				
 			//Ajout du mémoire
-			memoire = mesFonctions.ajoutMemoire(driver, element);
+			mesFonctions.ajoutMemoire(driver);
 			
 			//visualisation du mémoire
-			mesFonctions.visualiserMemoire(driver, element);
+			mesFonctions.visualiserMemoire(driver);
 			
 			//Suppression mémoire
 			mesFonctions.supprimerMémoire(driver, element);
@@ -80,22 +82,22 @@ public class EnvoiDoc {
 			mesFonctions.navbarEnvoiDoc(driver, element);
 			
 			//Rajout du mémoire
-			memoire = mesFonctions.ajoutMemoire(driver, element);
+			memoire = mesFonctions.ajoutMemoire(driver);
 			
 				//Repère horaire d'exécution
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			
 			//Ajout de pièces complémentaires
-			pieces = mesFonctions.ajoutDocPiecesAdds(driver, element);
+			mesFonctions.ajoutDocPiecesAdds(driver);
 			
 			//Visualisation pièce complémentaire
-			mesFonctions.visualiserPiecesAdd(driver, element);
+			mesFonctions.visualiserPiecesAdd(driver);
 			
 			//suppression des pièces complémentaires
-			mesFonctions.supprimerPiecesAdd(driver, element);
+			mesFonctions.supprimerPiecesAdd(driver);
 			
 			//Rajout pièces complémentaires
-			pieces = mesFonctions.ajoutDocPiecesAdds(driver, element);
+			pieces = mesFonctions.ajoutDocPiecesAdds(driver);
 			
 				
 				//Repère horaire d'exécution
@@ -150,7 +152,7 @@ public class EnvoiDoc {
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			
 			//Retour au brouillon
-			mesFonctions.carteBoutonReprendreBrouillon(driver, element);
+			mesFonctions.carteBoutonReprendreBrouillon(driver);
 			
 				//Repère horaire d'exécution
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
@@ -167,20 +169,17 @@ public class EnvoiDoc {
 				//Repère horaire d'exécution
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 				
-			//Test des boutons de modification depuis la page de vérification avant envoi
-			mesFonctions.boutonAccesVerifAvantEnvoiDoc(driver, element);
+			//Test des boutons de modification depuis la page de vérification du document
+			mesFonctions.boutonModifierTypeDocAvantEnvoi(driver);
 			
 			//clic bouton "Accéder à la vérification"
 			mesFonctions.boutonAccesVerifAvantEnvoiDoc(driver, element);
 			
-			//Test des boutons de modification depuis la page de vérification avant envoi
-			mesFonctions.boutonModifierTypeDocAvantEnvoi(driver, element);
-			
-			//clic bouton "Accéder à la vérification"
+			//Test des boutons de modification depuis la page de vérification de l'inventaire
 			mesFonctions.boutonModifierInventaireAvantEnvoi(driver, element);
 				
 			//Coche checkbox
-			mesFonctions.checkboxValidationEnvoi(driver, element);
+//			mesFonctions.checkboxValidationEnvoi(driver, element);
 			
 				//Repère horaire d'exécution
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
@@ -431,7 +430,7 @@ public class EnvoiDoc {
 		String myXpath1 ="//div[text()=\"1. Type de document :\"]//following-sibling::div";
 		String myXpath2 ="//div[text()=\"2. Type de Mémoire:\"]//following-sibling::div";
 		
-		List<String> recap = new ArrayList<>();
+//		List<String> recap = new ArrayList<>();
 		
 		//1. Type de document 
 		if(MyKeyWord.object(driver, myXpath1).getText().trim().equals(ledoc)) {
@@ -506,6 +505,122 @@ public class EnvoiDoc {
 		MyKeyWord.object(driver, myXpath).click();
 		System.out.println("Vérification du dépôt effectué "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 	
+		return null;
+	}
+	
+	public static String EnrgDoc(WebDriver driver, String juridiction) {
+		switch (juridiction) {
+		case "TA":
+			// Récupération du num de reqête
+			mesFonctions.recupNcasefileNumber(driver);
+			
+			// déconnexion page TRADM
+			DeconnexionTRADM.deconnecteActeur(driver);
+			
+			//Connexion page TR lEGACY
+			String TrUrl = "https://www.telerecours.recette.juradm.fr/TA75";
+			String TrUrlInt = "https://www.telerecours.int1.juradm.fr/TA75"; 
+			String currentUrl = "int1";
+		   //Authentification TA
+					
+			boolean verif = driver.getCurrentUrl().contains(currentUrl);
+			if(verif) {
+				driver.get(TrUrlInt);
+				String identifiant = "sice";
+				String mdp = "sice";
+				String myXpath = "//input[@id='txtIdentifiant']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				microfonctions.AuthentificationTaCaaCeInt(driver, element, identifiant, mdp);
+				System.out.println("Connexion TA réussi");
+			}else {
+				driver.get(TrUrl);
+				identifiant = "lb";
+				mdp = "lb";
+				myXpath = "//input[@id='txtIdentifiant']";
+				mesFonctions.waiting2(driver, myXpath, Duration.ofSeconds(10));
+				microfonctions.AuthentificationTaCaaCeInt(driver, element, identifiant, mdp);
+				System.out.println("Connexion TA réussi");
+			}
+			
+			
+			identifiant = "lb";
+			mdp = "lb";
+			
+			// Authentification
+			driver.get("https://www.telerecours.recette.juradm.fr/TA75");
+			Thread.sleep(2000);
+			microfonctions.AuthentificationTaCaaCeInt(driver, element, identifiant, mdp);
+			
+			// Enregistrer le document
+			myXpath = "//div[@id='Entete1_EnteteTeleProcedure1_bandeau']";
+			mesFonctions.waiting2(driver, myXpath, Duration.ofSeconds(3));
+			mesFonctions.verifyPresenceOfElement(driver, myXpath, choixJur);
+			System.out.println(mesFonctions.objet(driver, element, myXpath).getText().trim());
+			
+			driver.findElement(By.xpath("//td[@id='Entete1_MenuActeur1_im1_AE']")).click();
+			Thread.sleep(2000);
+			driver.findElement(By.xpath("//a[@class='numDossier' and (text()='" + dossier + "')]")).click();
+			
+			myXpath = "//td[contains(text(),'Déposé sur Télérecours par')]//following-sibling::td";
+			caractSpec = " ";
+			String strg = mesFonctions.leNom(driver, myXpath, caractSpec);
+			int fin = strg.indexOf(strg.split(" ")[2]);
+			acteur = strg.substring(0, fin).trim();
+			System.out.println(acteur);
+			
+			// Rattachement
+			microfonctions.rattachement(driver, element, verif, acteur);
+			
+			//Vérification du texte
+			myXpath = "//textarea[@id='txtMessage']";
+			String verifText = driver.findElement(By.xpath(myXpath)).getText();
+			if(text.equals(verifText)) {
+				System.out.println("Les textes sont identiques");}
+				else {
+					System.err.println("Les textes sont différents : ");
+					throw new Exception(verifText+" Texte attendu : " +text);
+					}
+			
+			//Vérification fichiers 
+			myXpath = "//a[@id='fileLinkFichierDocument_hplFichier']";
+			caractSpec = "_";
+			String verifFile1 = mesFonctions.leNom(driver, myXpath, caractSpec);
+			str1.add(verifFile1);
+			
+			myXpath = "//a[contains(@id,'fileLinkPiecesDocument_hplFichier')]";
+			caractSpec = "_";
+			str1.addAll(mesFonctions.fichier(driver, elements, myXpath, caractSpec));
+			Thread.sleep(2000);
+			
+			myXpath = "//a[@id='fileLinkFichierInventaire_hplFichier']";
+			caractSpec = "_";
+			String verifFile2 = mesFonctions.leNom(driver, myXpath, caractSpec);
+			System.out.println(verifFile2);
+			str1.add(verifFile2);
+			
+		   if(str1.equals(str)) {
+			   System.out.println("Tous les fichiers sont présents");
+		   }
+		   else {
+			   System.err.println("Les tableaux sont différents");
+			   throw new Exception("tableau actuel : "+str1+" \rtableau attendu :"+str);
+		   }
+			   
+		   //Enregistrement du document 
+		   Thread.sleep(1000);
+		   microfonctions.enrgDoc(driver, element);
+		   
+		   Thread.sleep(2000);
+		   str1.clear();
+		   str.clear();
+		   
+		   System.out.println("Dépôt et enregistrement TRC TA terminés");
+		   break;
+
+		default:System.err.println("Aucune juridiction trouvée "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			break;
+		}
+		
 		return null;
 	}
 }
