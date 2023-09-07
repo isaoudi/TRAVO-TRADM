@@ -25,9 +25,12 @@ public class DeconnexionTRADM {
 		MyKeyWord.object(driver, myXpath).click();
 		System.out.println("Clic lien \" ici \" : "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
+		
 		myXpath = "//h1[text()='Se connecter']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		System.out.println("Accès page d'authentification : "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		
+		driver.quit();
 		
 		return null;
 	}

@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -37,13 +38,19 @@ public class MyKeyWord {
 		}
 
 	//Changement d'onglet
-	public static String changementOnglet(WebDriver driver, int tab) {
-		
-		String onglet = MyKeyWord.getNewTab(driver, tab);	
+	public static String changementOnglet(WebDriver driver, int tab) throws Throwable {
+		String onglet = MyKeyWord.getNewTab(driver, tab);
+		Thread.sleep(500);
 		driver.switchTo().window(onglet);
 		return null;
 	}
 	
+	//Ajouter un onglet
+	public static JavascriptExecutor addTab (WebDriver driver) {
+		((JavascriptExecutor)driver).executeScript("window.open();");
+		
+		return null;
+	}
 
 	//fonction d'attente de chargement 1
 	public static WebDriverWait waiting(WebDriver driver, String myXpath, Duration duree) {
@@ -61,8 +68,7 @@ public class MyKeyWord {
 			}
 	
 	//Fonction bascule à un autre onglet
-	public static String getNewTab(WebDriver driver, int tr) {
-		
+	public static String getNewTab(WebDriver driver, int tr){
 		Set<String> tab = driver.getWindowHandles();
 		Iterator<String> it = tab.iterator();
 		String onglet="";
@@ -179,4 +185,36 @@ public class MyKeyWord {
 		String attr = MyKeyWord.object(driver, xpath).getAttribute(value);
 		return attr;
 	}
+	
+	//fonction de création de nom
+	public static String leNom(WebDriver driver, String myXpath, String caractSpec) {
+		String nom = driver.findElement(By.xpath(myXpath)).getText();
+		int deb = nom.indexOf(nom.split(caractSpec)[1]);
+		String nomNew = nom.substring(deb , nom.length()).trim();
+		return nomNew;
+	}
+	
+	//renommer les pièces
+	public static String piece(WebDriver driver, String myXpath) {
+		String n = MyKeyWord.object(driver, myXpath).getText().trim();
+		String h = n.substring(10, n.length()).replaceAll("_", " ").trim();
+		System.out.println(h);
+		return h;
+	}
+	
+
+	//fonction de recherche d'éléments
+	public static List<String> fichier (WebDriver driver, List<WebElement> elements, String myXpath) {
+	elements = driver.findElements(By.xpath(myXpath));
+	int nbr = elements.size();
+	List<String> files = new ArrayList<>();
+	for(int i=0; i<nbr; i++) {
+		String lesFiles = elements.get(i).getText();
+		String h = lesFiles.substring(10, lesFiles.length()).replaceAll("_", " ").trim();
+		files.add(h);
+		//System.out.println(files);
+		}
+	return files;
+	}
+
 }
