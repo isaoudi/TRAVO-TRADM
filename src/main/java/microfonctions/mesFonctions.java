@@ -335,12 +335,13 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String boutonAccesBrouillon(WebDriver driver, WebElement element, String dossier) {
+	public static String boutonAccesBrouillon(WebDriver driver, WebElement element, String dossier) throws Throwable {
 		//Vérifier les brouillons depuis la liste des documents en cliquant sur le bouton stylo "pen"
 		String myXpath = "//tr//div[contains(text(),\""+dossier+"\")]//following-sibling::a[@icon='pen']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.object(driver, myXpath).click();
 		System.out.println("Clic bouton \"pen\" du dossier : "+dossier);
+		Thread.sleep(1500);
 		return null;
 	}
 
@@ -659,7 +660,7 @@ public class mesFonctions {
 	
 	public static String visualiserMemoire(WebDriver driver) throws Throwable {
 		//Visualiser la pièce du mémoire
-		String myXpath = "//paju-icon[@icon='eye-show']//parent::button";
+		String myXpath = "//button[@icon='eye-show' and text()=\" Visualiser \"]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.goToDown(driver, myXpath);
 		Thread.sleep(1000);
@@ -680,7 +681,7 @@ public class mesFonctions {
 	
 	public static String visualiserPiecesAdd(WebDriver driver)throws Throwable {
 		//Visualiser les pièces complémentaires
-		String myXpath = "(//paju-icon[@icon='eye-show'])[2]//parent::button";
+		String myXpath = "(//button[@icon='eye-show' and text()=\" Visualiser \"])[2]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.goToDown(driver, myXpath);
 		Thread.sleep(2000);
@@ -701,7 +702,7 @@ public class mesFonctions {
 	
 	public static String visualiserInventaireAutomatique(WebDriver driver, WebElement element)throws Throwable {
 		//Visualiser la pièce du mémoire
-		String myXpath = "//paju-icon[@icon='eye-show']//parent::button[contains(@aria-label,\"visualiser l'inventaire\")]";
+		String myXpath = "//button[contains(@aria-label,\"visualiser l'inventaire\")]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.goToDown(driver, myXpath);
 		Thread.sleep(1000);
@@ -721,7 +722,7 @@ public class mesFonctions {
 	
 	public static String visualiserInventaireManuel(WebDriver driver)throws Throwable {
 		//Visualiser la pièce du mémoire
-		String myXpath = "(//paju-icon[@icon='eye-show']//parent::button[contains(@aria-label,\"visualiser le fichier ayant comme nom\")])[last()]";
+		String myXpath = "(//button[contains(@aria-label,\"visualiser le fichier ayant comme nom\")])[last()]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.goToDown(driver, myXpath);
 		Thread.sleep(1000);
@@ -930,7 +931,7 @@ public class mesFonctions {
 	public static Object boutonModifierTypeDocAvantEnvoi(WebDriver driver) throws Throwable {
 		String myXpath = "//button[@aria-label=\"modifier le type de document\"]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		MyKeyWord.scrollUp(driver);
+		MyKeyWord.goToUp(driver, myXpath);
 		MyKeyWord.object(driver, myXpath).click();
 		
 		myXpath = "//legend[text()=\"Choisir un type de document :\"]//parent::fieldset//div[contains(text(),\"Mémoire\")]";
@@ -945,7 +946,7 @@ public class mesFonctions {
 	public static Object boutonModifierTypeMemoireAvantEnvoi(WebDriver driver) throws Throwable {
 		String myXpath = "//button[@aria-label=\"modifier le type de memoire\"]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		MyKeyWord.scrollUp(driver);
+		MyKeyWord.goToUp(driver, myXpath);
 		MyKeyWord.object(driver, myXpath).click();
 		
 		myXpath = "//label[text()=\"Choisir un type de mémoire :\"]";
@@ -987,11 +988,122 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String recupNcasefileNumber(WebDriver driver) {
-		String myXpath = "//td[contains(@class,\"cdk-cell case-file-number cdk-column-caseFileNumber ng-star-inserted\")]//div";
-		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		String dossier = MyKeyWord.object(driver, myXpath).getText().trim();
-		return dossier;
+	public static String recupNcasefileNumber(WebDriver driver) throws Throwable {
+		//Accéder à l'onglet @document
+		mesFonctions.ongletDocument(driver);
+		
+		//Récupération du numéro de requête
+		
+		String myXpath = "//td[contains(@class,\"cdk-cell case-file-number cdk-column-caseFileNumber\")]//div";
+		boolean verif = false;
+		String dossier = "";
+			while(MyKeyWord.isElementPresent(driver, myXpath, verif)==false) {
+				driver.navigate().refresh();
+				Thread.sleep(2000);
+				System.out.println("Page refrehed "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			}
+			
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+//			String monDoc = MyKeyWord.object(driver, myXpath).getText().trim();
+//			String dossier = monDoc.substring(0, monDoc.indexOf(monDoc.split("/")[1]));
+			dossier = MyKeyWord.object(driver, myXpath).getText().trim();
+			return dossier;
+			
 	}
+	
+	//Fonction d'entrée d'annuaire SKIPPER
+		public static  boolean rattachement (WebDriver driver, String acteur) throws Throwable {
+			String myXpath = "//a[@id='btnCreerRattachement']/span[2]";
+			
+			boolean verif = false;
+		if (MyKeyWord.isElementPresent(driver, myXpath, verif) == false) {
+			Thread.sleep(1000);
+			return verif;
+		}else {
+			driver.findElement(By.xpath("//a[@id='btnCreerRattachement']/span[2]")).click();
+			Thread.sleep(1000);
+			String childWindow = MyKeyWord.changementOnglet(driver, 1);
+			Thread.sleep(1000);
+			driver.switchTo().window(childWindow);
+			System.out.println("Accès à la fenêtre de rattachement "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			
+			driver.findElement(By.xpath("//input[@id='searchNom']")).sendKeys(acteur);
+			System.out.println("Input "+acteur);
+			Thread.sleep(1000);
+			driver.findElement(By.xpath("//input[@value='Rechercher']")).click();
+			Thread.sleep(1000);
+			System.out.println("Recherche "+acteur +" en cours "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			
+			
+			verif = false ;
+			
+			if (verif == true) {
+				try {
+					driver.findElement(By.xpath("//td[text()='Aucun résultat trouvé pour cette recherche.']"))
+							.isDisplayed();
+					System.out.println(verif);
+				} catch (NoSuchElementException s) {
+					driver.findElement(By.xpath("//input[@name='cbxSel']")).click();
+					driver.findElement(By.xpath("//input[@id='btRattacher']")).click();
+					MyKeyWord.changementOnglet(driver, 1);
+				}
+			}else {
+				driver.findElement(By.xpath("//input[@id='btCreerEntreeSkipper']")).click();
+// 				Alert alert = driver.switchTo().alert();
+// 				alert.accept();
+				Thread.sleep(1000);
+				MyKeyWord.changementOnglet(driver, 1);
+				Thread.sleep(1000);
+				}
+		return verif;
+			}
+		}
+		
+		public static String enrgDoc (WebDriver driver) throws Throwable {
+	 		
+	 		String myXpath = "//input[@id='btEnregistrer']"; 
+	 		MyKeyWord.object(driver, myXpath);		
+			MyKeyWord.goToDown(driver, myXpath);	
+			Thread.sleep(1000);
 
+			MyKeyWord.object(driver, myXpath).click();
+			Thread.sleep(1000);
+			
+				//Première alerte
+				myXpath = "//span[@class='ui-button-text' and text()='OK']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				MyKeyWord.object(driver, myXpath).click();					
+				Thread.sleep(2000);
+							
+				//alerte 2
+				myXpath = "//div[@id='ui-id-2']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				String mess = MyKeyWord.object(driver, myXpath).getText();
+				Thread.sleep(1000);
+				System.out.println(mess);
+				myXpath = "//span[@class='ui-button-text' and text()='OK']";
+				MyKeyWord.object(driver, myXpath).click();
+				Thread.sleep(2000);
+				
+				String mess1 = "Le document a été enregistré avec succès.";
+
+				if (mess.equals(mess1)) {
+					Thread.sleep(1000);
+
+				} else {
+					throw new Exception("ERREUR LORS DE L\'ENREGISTREMENT : " + mess +"......"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+				}
+					
+	 		return null;
+	 	}
+
+		
+		//déconnexion de TR legacy
+		public static String deconnexionTRLeg(WebDriver driver) throws Throwable {
+			driver.findElement(By.xpath("//a[@id='lnkdeconnecter']")).click();
+			System.out.println("Déconnexion réussie");
+			driver.manage().deleteAllCookies();
+			Thread.sleep(2000);
+			return null;	
+		}
 }

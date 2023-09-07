@@ -11,6 +11,7 @@ import java.util.Date;
 
 import javax.swing.JFileChooser;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,6 +20,7 @@ import analyseDocTableau.NbrDoc;
 import authentification.Auth;
 import browser.Navigateur;
 import choix_juridiction.Juridiction;
+import deconnexion.DeconnexionTRADM;
 import envoiDoc.EnvoiDoc;
 import fonctions.MyKeyWord;
 import microfonctions.mesFonctions;
@@ -53,9 +55,9 @@ public class Classbrouillon {
 		URL ="admin_rec";
 		browser = "chrome";
 		jur = "CAA";
-		ID = "chaNC4d";
-		mdp = "ConseilEtat123456*";
-		dossier = "2300074";
+		ID = "alfKT04";//"chaNC4d";
+		mdp = "Lhommeest2019*";//"ConseilEtat123456*";
+		dossier = "2200004";
 		type = "Memoire";
 		
 		driver = Navigateur.choixBrowser(browser);
@@ -70,8 +72,27 @@ public class Classbrouillon {
 		MyKeyWord.echappe(driver);
 		mesFonctions.buttonEnvoiDoc(driver, element);
 		EnvoiDoc.envoiToutTypeDoc(driver, element, type);
-//		EnvoiDoc.verifDepotDoc(driver, dossier);
+		EnvoiDoc.verifDepotDoc(driver, dossier);
+		EnvoiDoc.EnrgDoc(driver, jur);
 		
+		mesFonctions.deconnexionTRLeg(driver);
+		
+		driver.get(mesFonctions.choixUrl(URL));
+		
+		Auth.authAvocat(driver, ID, mdp);
+		
+		Juridiction.choixJur(driver, jur);
+		
+		mesFonctions.trAdmAccesOngletDocument(driver, element);
+		EnvoiDoc.verifEnregDoc(driver, dossier);
+
+		
+		
+//		String n = "1200125851_2_Memoire_1.pdf";
+//		int deb = n.indexOf(n.split("_")[2-1]);
+//		System.out.println(deb);
+//		String h = n.substring(10, n.length()).replaceAll("_", " ").trim();
+//		System.out.println(h);
 		
 		
 		
