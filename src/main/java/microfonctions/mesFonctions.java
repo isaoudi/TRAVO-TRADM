@@ -25,7 +25,19 @@ public class mesFonctions {
 		Thread.sleep(1000);
 		String myXpath = "//a[@id='document-nav-btn']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
 		System.out.println("accès onglet \"Document\"\r");
+		
+		return null;
+	}
+	
+	public static Object ongletDossier(WebDriver driver) throws Throwable {
+		//Accès onglet dossier TRADM
+		Thread.sleep(1000);
+		String myXpath = "//a[@href='/dossiers']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("accès onglet \"Dossier\"\r");
 		
 		return null;
 	}
@@ -67,15 +79,50 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String trAdmAccesOngletDocument(WebDriver driver, WebElement element) throws Throwable {
+	public static String accesOngletDocumentsTRLEGExt(WebDriver driver) {
 		//Clic onglet requête page Legacy
 		String myXpath = "//td[@id='Entete1_MenuActeur1_im1_AD']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.object(driver, myXpath).click();
-		System.out.println("accès page TR "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 		
+		//Accès onglet tableau de requêtes
+		myXpath = "//span[@class='titre' and contains(text(),\"Documents\")]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		System.out.println("accès au tableau de documents TR "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		
+		return null;
+	}
+	
+	public static String accesOngletDocumentsTRLEGInt(WebDriver driver) {
+		//Clic onglet requête page Legacy
+		String myXpath = "//td[@id='Entete1_MenuActeur1_im1_AE']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		
+		//Accès onglet tableau de requêtes
+		myXpath = "//span[@class='titre' and contains(text(),\"Documents\")]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		System.out.println("accès au tableau de documents TR "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		
+		return null;
+	}
+	
+	public static String accesOngletEnregReqTRLEG(WebDriver driver) throws Throwable {
+		//Onglet requête 
+		String myXpath = "//td[@id='Entete1_MenuActeur1_im1_AC']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		
+		//Accès onglet tableau de requêtes
+		myXpath = "//span[@class='titre' and contains(text(),\"Requêtes\")]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		System.out.println("accès au tableau de requêtes TR "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		return null;
+		}
+	
+	public static String redirectionTRADMdepuisTRLEG(WebDriver driver) throws Throwable {
 		//Clic bouton de redirection vers de dépôt de documents depuis TRADM  
-		myXpath = "//a[@id='hlPadm']";
+		String myXpath = "//a[@id='hlPadm']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.object(driver, myXpath).click();
 		System.out.println("clic bouton \"Documents\"");
@@ -85,10 +132,21 @@ public class mesFonctions {
 		driver.close();
 		MyKeyWord.changementOnglet(driver, 1);
 		
-		//Accès onglet documents TRADM
-		mesFonctions.ongletDocument(driver);
-			
 		return null;
+	}
+	
+	public static String AccesOngletDocumentTRADMdepuisTRLEG(WebDriver driver) throws Throwable {
+		//Accès onglet TR Legacy
+		mesFonctions.accesOngletDocumentsTRLEGExt(driver);
+		
+		//redirection vers TRADM
+		mesFonctions.redirectionTRADMdepuisTRLEG(driver);
+		
+		//clic onglet document TRADM
+		mesFonctions.ongletDocument(driver);
+		
+		return null;
+		
 	}
 	
 	public static String tableauVosDocument_tous(WebDriver driver) throws Throwable {
@@ -988,12 +1046,14 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String recupCaseFileNumber(WebDriver driver) throws Throwable {
+	public static String recupCaseFileNumberDeposes(WebDriver driver) throws Throwable {
 		//Accéder à l'onglet @document
 		mesFonctions.ongletDocument(driver);
 		
-		//Récupération du numéro de requête
+		//Accèder à l'onglet deposés
+		mesFonctions.tableauVosDocument_deposes(driver);
 		
+		//Récupération du numéro de requête
 		String myXpath = "//td[contains(@class,\"cdk-cell case-file-number cdk-column-caseFileNumber\")]//div";
 		boolean verif = false;
 		String dossier = "";
@@ -1004,12 +1064,56 @@ public class mesFonctions {
 			}
 			
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-//			String monDoc = MyKeyWord.object(driver, myXpath).getText().trim();
-//			String dossier = monDoc.substring(0, monDoc.indexOf(monDoc.split("/")[1]));
 			dossier = MyKeyWord.object(driver, myXpath).getText().trim();
 			return dossier;
 			
 	}
+	
+	public static String recupCaseFileNumberEnregistres(WebDriver driver) throws Throwable {
+		//Accéder à l'onglet @document
+		mesFonctions.ongletDocument(driver);
+		
+		//Accèder à l'onglet deposés
+		mesFonctions.tableauVosDocument_deposes(driver);
+		
+		//Récupération du numéro de requête
+		String myXpath = "//td[contains(@class,\"cdk-cell case-file-number cdk-column-caseFileNumber\")]//div";
+		boolean verif = false;
+		String dossier = "";
+			while(MyKeyWord.isElementPresent(driver, myXpath, verif)==false) {
+				driver.navigate().refresh();
+				Thread.sleep(2000);
+				System.out.println("Page refrehed "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			}
+			
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			dossier = MyKeyWord.object(driver, myXpath).getText().trim();
+			return dossier;
+			
+	}
+	
+	public static String recupCaseFileNumberRefuses(WebDriver driver) throws Throwable {
+		//Accéder à l'onglet @document
+		mesFonctions.ongletDocument(driver);
+		
+		//Accèder à l'onglet deposés
+		mesFonctions.tableauVosDocument_deposes(driver);
+		
+		//Récupération du numéro de requête
+		String myXpath = "//td[contains(@class,\"cdk-cell case-file-number cdk-column-caseFileNumber\")]//div";
+		boolean verif = false;
+		String dossier = "";
+			while(MyKeyWord.isElementPresent(driver, myXpath, verif)==false) {
+				driver.navigate().refresh();
+				Thread.sleep(2000);
+				System.out.println("Page refrehed "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			}
+			
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			dossier = MyKeyWord.object(driver, myXpath).getText().trim();
+			return dossier;
+	}
+	
 	
 	public static Integer recupIdDocTraite(WebDriver driver) throws Throwable {
 		//Récupération du numéro de requête		
@@ -1129,8 +1233,63 @@ public class mesFonctions {
 		//déconnexion de TR legacy
 		public static String deconnexionTRLeg(WebDriver driver) throws Throwable {
 			driver.findElement(By.xpath("//a[@id='lnkdeconnecter']")).click();
-			System.out.println("Déconnexion réussie");
+			System.out.println("Déconnexion réussie "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			Thread.sleep(2000);
 			return null;	
 		}
+		
+		public static String refusDocTRLEG(WebDriver driver) throws Throwable {
+	 		String myXpath = "//input[@id='btEnregistrer']"; 
+	 		MyKeyWord.object(driver, myXpath);		
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", MyKeyWord.object(driver, myXpath));
+			Thread.sleep(1000);
+			
+			//Clic sur le bouton Refuser
+			myXpath = "//input[@id='btRefuser']";
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			MyKeyWord.object(driver, myXpath).click();
+			System.out.println("Clic sur le bouton REFUSER "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			
+			//Accepter l'alerte
+			myXpath = "//span[@class='ui-button-text' and text()='OK']";
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			MyKeyWord.object(driver, myXpath).click();
+			
+			//Changer de fenêtre et vérification
+			Thread.sleep(2000);
+			MyKeyWord.changementOnglet(driver, 2);
+			myXpath = "//th[@style and text()=\"Motif du refus\"] ";
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			driver.manage().window().maximize();
+			Thread.sleep(2000);
+			System.out.println("Fenêtre de Refus "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			
+			//Texte du motif
+			String texteRefus = "Le Lorem Ipsum\n"
+					+ "est simplement du faux texte employé dans la composition et la mise en page avant impression.\n Le Lorem"
+					+ "Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assemble"
+					+ "ensemble des morceaux de texte";
+			
+			myXpath = "//textarea[@id='txtMotifRefus']";
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			MyKeyWord.object(driver, myXpath).sendKeys(texteRefus);
+			System.out.println("Motif de refus renseigné "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			
+			//Clic sur le bouton de refus
+			myXpath = "//input[@id='btRefuser']";
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			MyKeyWord.object(driver, myXpath).click();
+			System.out.println("Refus validé "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			
+			//Retour sur la fenêtre principale
+			MyKeyWord.changementOnglet(driver, 1);
+			
+			//Acceptation de la PopUp 
+			myXpath = "//span[@class='ui-button-text' and text()='OK']";
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			MyKeyWord.object(driver, myXpath).click();
+			System.out.println("Refus confirmé "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			
+	 		return null;
+	 	}
 }

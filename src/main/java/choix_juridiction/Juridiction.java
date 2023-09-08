@@ -47,7 +47,7 @@ public class Juridiction {
 				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 				MyKeyWord.object(driver, myXpath).click();
 			}
-			mesFonctions.choixJuridictionTA(driver, element);
+			mesFonctions.choixJuridictionTA(driver);
 			
 			break;
 			
@@ -65,7 +65,7 @@ public class Juridiction {
 				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 				MyKeyWord.object(driver, myXpath).click();
 			}
-			mesFonctions.choixJuridictionCAA(driver, element);
+			mesFonctions.choixJuridictionCAA(driver);
 			
 			
 			break;

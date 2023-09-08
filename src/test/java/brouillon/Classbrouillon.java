@@ -67,24 +67,24 @@ public class Classbrouillon {
 		
 		Juridiction.choixJur(driver, jur);
 		
-		mesFonctions.trAdmAccesOngletDocument(driver, element);
+		mesFonctions.AccesOngletDocumentTRADMdepuisTRLEG(driver);
 		mesFonctions.boutonAccesBrouillon(driver, element, dossier);
 		MyKeyWord.echappe(driver);
 		mesFonctions.buttonEnvoiDoc(driver, element);
 		EnvoiDoc.envoiToutTypeDoc(driver, element, type);
 		EnvoiDoc.verifDepotDoc(driver, dossier);
-		EnvoiDoc.EnrgDoc(driver, jur);
+		EnvoiDoc.refusDocTRLEG(driver, jur);
 		
 		mesFonctions.deconnexionTRLeg(driver);
 		
-		driver.get(mesFonctions.choixUrl(URL));
+//		driver.get(mesFonctions.choixUrl(URL));
 		
-		Auth.authAvocat(driver, ID, mdp);
+//		Auth.authAvocat(driver, ID, mdp);
 		
 //		Juridiction.choixJur(driver, jur);//problème session Id
 		
-		mesFonctions.trAdmAccesOngletDocument(driver, element);
-		EnvoiDoc.verifEnregDoc(driver, dossier);
+//		mesFonctions.ongletDocument(driver);
+//		EnvoiDoc.verifEnregDoc(driver, dossier);
 
 		
 		

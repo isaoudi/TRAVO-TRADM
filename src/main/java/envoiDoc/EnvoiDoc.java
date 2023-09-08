@@ -14,7 +14,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.Color;
 
 import authentification.Auth;
-import browser.Navigateur;
 import deconnexion.DeconnexionTRADM;
 import fonctions.MyKeyWord;
 import microfonctions.mesFonctions;
@@ -420,289 +419,6 @@ public class EnvoiDoc {
 		
 	}
 	
-	public static String verifEnregDoc(WebDriver driver, String dossier) throws Throwable {
-		//accès onglet @Document
-		mesFonctions.ongletDocument(driver);
-		
-		//Accès à l'onglet déposés
-		mesFonctions.tableauVosDocument_enregistres(driver);
-		
-		//Clic sur le dossier déposé
-		String myXpath = "//td//div[contains(text(),\""+dossier+"\")]//following-sibling::button[@icon='eye-show']";
-		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		MyKeyWord.object(driver, myXpath).click();
-		System.out.println("Accès au document déposé "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
-		
-		
-		//Verification des informations du récap
-		myXpath = "//h1[text()=\"Contenu de l'envoi\"]";
-		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		
-		String myXpath1 ="//div[text()=\"1. Type de document :\"]//following-sibling::div";
-		String myXpath2 ="//div[text()=\"2. Type de Mémoire:\"]//following-sibling::div";
-		
-//		List<String> recap = new ArrayList<>();
-		
-		//1. Type de document 
-		if(MyKeyWord.object(driver, myXpath1).getText().trim().equals(ledoc)) {
-			System.out.println("Vérification avant enregistrement du 1. Type de document : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
-			
-		}else {
-			System.err.println("Vérification du 1. Type de document : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath1).getText().trim()+" est différent de "+ledoc+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
-			
-		}
-		//2. Type de mémoire
-		if(MyKeyWord.object(driver, myXpath2).getText().trim().equals(type)) {
-			System.out.println("Vérification avant enregistrement du 2. Type de mémoire : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
-			
-		}else {
-			System.err.println("Vérification avant enregistrement du 2. Type de mémoire : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath2).getText().trim()+" est différent de "+type+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
-			
-		}
-		
-		//3. Liste des fichiers joints
-		myXpath = "//div[@class='files-display-file-name']";
-		if(MyKeyWord.object(driver, myXpath).getText().trim().equals(memoire)) {
-			System.out.println("Vérification avant enregistrement du 3. Liste des fichiers joints : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
-			
-		}else {
-			System.err.println("Vérification avant enregistrement du 3. Liste des fichiers joints : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath).getText().trim()+" est différent de "+memoire+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
-			
-		}
-		
-		//Pièces complémentaires
-		myXpath = "(//div[@class='files-display-file-name'])[position()>1]";
-		List<WebElement> myElts = driver.findElements(By.xpath(myXpath));
-		int myList = myElts.size()-1;
-		
-		for(int i=0; i<myList; i++) {
-			String coloredFile = Color.fromString(myElts.get(i).getCssValue("color")).asHex();
-			if(pieces.contains(myElts.get(i).getText().trim())) {
-				System.out.println("Vérification avant envoi du 3. pièces complémmentaire "+myElts.get(i).getText().trim()+" : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-				
-			}else {
-				System.err.println("la pièce "+myElts.get(i).getText().trim()+" est différente de "+pieces.get(i)+"....." +MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-				
-			}
-			
-			if(!coloredFile.equals("#e96608")) {
-				System.out.println("libellé OK....."+MyKeyWord.extractCurrentHeure()+"\r");
-			}
-				else {
-					System.err.println("libellé KO....."+MyKeyWord.extractCurrentHeure()+"\r");
-				}
-		}
-		
-		//4. Inventaire
-		myXpath = "(//div[@class='files-display-file-name'])[last()]";
-		boolean verif = false;
-		if(MyKeyWord.isElementPresent(driver, myXpath, verif) && MyKeyWord.object(driver, myXpath).getText().trim().equals("Inventaire automatique")) {
-			System.out.println("l'inventaire est bien présent : "+MyKeyWord.object(driver, myXpath).getText().trim()+"\r");
-			
-			mesFonctions.visualiserInventaireManuel(driver);//même xpath que pour l'inventaire manuel
-			}
-			else if(MyKeyWord.isElementPresent(driver, myXpath, verif)) {
-				System.out.println("l'inventaire est bien présent : "+MyKeyWord.object(driver, myXpath).getText().trim()+"\r");
-				
-				mesFonctions.visualiserInventaireManuel(driver);
-				}
-				else {
-					System.err.println("Pas d'inventaire présent\r");
-				}
-		
-		//Bouton fermer
-		myXpath = "//button[text()=\" Fermer \"]";
-		MyKeyWord.waiting(driver, myXpath2, Duration.ofSeconds(3));
-		MyKeyWord.object(driver, myXpath).click();
-		System.out.println("Vérification du dépôt effectué "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-	
-		return null;
-	}
-	
-	public static String EnrgDoc(WebDriver driver, String juridiction) throws Throwable {
-		switch (juridiction) {
-		case "TA":
-			// Récupération du num de reqête
-			String dossier = mesFonctions.recupCaseFileNumber(driver);
-			
-			// déconnexion page TRADM
-//			DeconnexionTRADM.deconnecteActeur(driver);
-//			Thread.sleep(2000);
-//			driver = Navigateur.choixBrowser("chrome");
-			mesFonctions.choixJuridictionCAA(driver);
-			mesFonctions.deconnexionTRLeg(driver);
-			
-			//Connexion page TR lEGACY
-			String TrUrl = "https://www.telerecours.recette.juradm.fr/TA75";
-			String TrUrlInt = "https://www.telerecours.int1.juradm.fr/TA75"; 
-			String currentUrl = "int1";
-		    //Authentification TA		
-			boolean verif = driver.getCurrentUrl().contains(currentUrl);
-			if(verif) {
-				driver.get(TrUrlInt);
-				String identifiant = "sice";
-				String mdp = "sice";
-				String myXpath = "//input[@id='txtIdentifiant']";
-				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
-				System.out.println("Connexion TA réussi");
-			}else {
-				driver.get(TrUrl);
-				String identifiant = "lb";
-				String mdp = "lb";
-				String myXpath = "//input[@id='txtIdentifiant']";
-				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
-				System.out.println("Connexion TA réussi");
-			}
-			
-			// Enregistrer le document
-			driver.findElement(By.xpath("//td[@id='Entete1_MenuActeur1_im1_AE']")).click();
-			Thread.sleep(2000);
-			driver.findElement(By.xpath("//a[@class='numDossier' and contains(text(),\"" + dossier + "\")]")).click();
-			
-			String  myXpath = "//td[contains(text(),'Déposé sur Télérecours par')]//following-sibling::td";
-			String caractSpec = " ";
-			String strg = MyKeyWord.leNom(driver, myXpath, caractSpec);
-			int fin = strg.indexOf(strg.split(" ")[2]);
-			String acteur = strg.substring(0, fin).trim();
-			System.out.println(acteur);
-			
-			// Rattachement
-			mesFonctions.rattachement(driver, acteur);
-			
-			//Vérification fichiers 
-//			List<String> str1 = new ArrayList<>();
-			
-			myXpath = "//a[@id='fileLinkFichierDocument_hplFichier']";
-			caractSpec = "_";
-			String verifFile1 = MyKeyWord.piece(driver, myXpath);
-			str1.add(verifFile1);
-			
-			
-			myXpath = "//a[contains(@id,'fileLinkPiecesDocument_hplFichier')]";
-			str1.addAll(MyKeyWord.fichier(driver, elements, myXpath));
-			Thread.sleep(2000);
-			
-			myXpath = "//a[@id='fileLinkFichierInventaire_hplFichier']";
-			String verifFile2 = MyKeyWord.piece(driver, myXpath);
-			System.out.println(verifFile2);
-			str1.add(verifFile2);
-			
-			List<String> mem = Arrays.asList(memoire);
-			List<String> str = Stream.concat(pieces.stream(), mem.stream())
-					.collect(Collectors.toList());
-			
-		   if(str1.contains(str)) {
-			   System.out.println(str);
-			   System.out.println("Tous les fichiers sont présents "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-		   }
-		   else {
-			   System.err.println("Les tableaux sont différents. Le tableau actuel : "+str1+" tableau attendu : "+str+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-		   }
-			   
-		   //Enregistrement du document 
-		   Thread.sleep(1000);
-		   mesFonctions.enrgDoc(driver);
-		   
-		   
-		   System.out.println("Dépôt et enregistrement TA terminés");
-		   break;
-		   
-		case "CAA":
-			// Récupération du num de reqête
-			dossier = mesFonctions.recupCaseFileNumber(driver);
-			
-			// déconnexion page TRADM
-//			DeconnexionTRADM.deconnecteActeur(driver);
-//			Thread.sleep(2000);
-//			driver = Navigateur.choixBrowser("chrome");
-			
-			//Connexion page TR lEGACY
-			TrUrl = "https://www.telerecours.recette.juradm.fr/CA75";
-			TrUrlInt = "https://www.telerecours.int1.juradm.fr/CA75"; 
-			currentUrl = "int1";
-		    //Authentification CAA		
-			verif = driver.getCurrentUrl().contains(currentUrl);
-			if(verif) {
-				driver.get(TrUrlInt);
-				String identifiant = "sice";
-				String mdp = "sice";
-				myXpath = "//input[@id='txtIdentifiant']";
-				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
-				System.out.println("Connexion TA réussi");
-			}else {
-				driver.get(TrUrl);
-				String identifiant = "lb";
-				String mdp = "lb";
-				myXpath = "//input[@id='txtIdentifiant']";
-				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
-				System.out.println("Connexion CAA réussi "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-			}
-			
-			// Enregistrer le document
-			driver.findElement(By.xpath("//td[@id='Entete1_MenuActeur1_im1_AE']")).click();
-			Thread.sleep(2000);
-			driver.findElement(By.xpath("//a[@class='numDossier' and (text()='" + dossier + "')]")).click();
-			System.out.println("Dossier : "+dossier);
-			
-			myXpath = "//td[contains(text(),'Déposé sur Télérecours par')]//following-sibling::td";
-			caractSpec = " ";
-			strg = MyKeyWord.leNom(driver, myXpath, caractSpec);
-			fin = strg.indexOf(strg.split(" ")[2]);
-			acteur = strg.substring(0, fin).trim();
-			System.out.println(acteur);
-			
-			// Rattachement
-			mesFonctions.rattachement(driver, acteur);
-			
-			//Vérification fichiers 
-//			str1 = new ArrayList<>();
-			
-			myXpath = "//a[@id='fileLinkFichierDocument_hplFichier']";
-			verifFile1 = MyKeyWord.piece(driver, myXpath);
-			str1.add(verifFile1);
-//			System.out.println(str1);
-			
-			myXpath = "//a[contains(@id,'fileLinkPiecesDocument_hplFichier')]";
-			str1 = MyKeyWord.fichier(driver, elements, myXpath);
-			Thread.sleep(2000);
-//			System.out.println(str1);
-			
-			myXpath = "//a[@id='fileLinkFichierInventaire_hplFichier']";
-			verifFile2 = MyKeyWord.piece(driver, myXpath);
-			str1.add(verifFile2);
-//			System.out.println(str1);
-			
-			mem = Arrays.asList(memoire);
-			str = Stream.concat(pieces.stream(), mem.stream())
-					.collect(Collectors.toList());
-			
-		   if(str1.contains(str)) {
-			   System.out.println(str);
-			   System.out.println("Tous les fichiers sont présents "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-		   }
-		   else {
-			   System.err.println("Les tableaux sont différents. Le tableau actuel : "+str1+" tableau attendu : "+str+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-		   }
-			   
-		   //Enregistrement du document 
-		   Thread.sleep(1000);
-		   mesFonctions.enrgDoc(driver);
-		   
-		   
-		   System.out.println("Dépôt et enregistrement CAA terminés "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-		   break;
-
-		default:System.err.println("Aucune juridiction trouvée "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-			break;
-		}
-		
-		return null;
-	}
-	
 	public static String verifDepotDoc(WebDriver driver, String dossier) throws Throwable {
 		//accès onglet @Document
 		mesFonctions.ongletDocument(driver);
@@ -805,4 +521,442 @@ public class EnvoiDoc {
 	
 		return null;
 	}
+	
+	
+	public static String verifEnregDoc(WebDriver driver, String dossier) throws Throwable {
+		//accès onglet @Document
+		mesFonctions.ongletDocument(driver);
+		
+		//Accès à l'onglet déposés
+		mesFonctions.tableauVosDocument_enregistres(driver);
+		
+		//Clic sur le dossier déposé
+		String myXpath = "//td//div[contains(text(),\""+dossier+"\")]//following-sibling::button[@icon='eye-show']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("Accès au document déposé "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		
+		
+		//Verification des informations du récap
+		myXpath = "//h1[text()=\"Contenu de l'envoi\"]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		
+		String myXpath1 ="//div[text()=\"1. Type de document :\"]//following-sibling::div";
+		String myXpath2 ="//div[text()=\"2. Type de Mémoire:\"]//following-sibling::div";
+		
+//		List<String> recap = new ArrayList<>();
+		
+		//1. Type de document 
+		if(MyKeyWord.object(driver, myXpath1).getText().trim().equals(ledoc)) {
+			System.out.println("Vérification avant enregistrement du 1. Type de document : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			
+		}else {
+			System.err.println("Vérification du 1. Type de document : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath1).getText().trim()+" est différent de "+ledoc+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			
+		}
+		//2. Type de mémoire
+		if(MyKeyWord.object(driver, myXpath2).getText().trim().equals(type)) {
+			System.out.println("Vérification avant enregistrement du 2. Type de mémoire : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			
+		}else {
+			System.err.println("Vérification avant enregistrement du 2. Type de mémoire : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath2).getText().trim()+" est différent de "+type+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			
+		}
+		
+		//3. Liste des fichiers joints
+		myXpath = "//div[@class='files-display-file-name']";
+		if(MyKeyWord.object(driver, myXpath).getText().trim().equals(memoire)) {
+			System.out.println("Vérification avant enregistrement du 3. Liste des fichiers joints : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			
+		}else {
+			System.err.println("Vérification avant enregistrement du 3. Liste des fichiers joints : KO - Les informations ne correspondent pas entre elles : "+MyKeyWord.object(driver, myXpath).getText().trim()+" est différent de "+memoire+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			
+		}
+		
+		//Pièces complémentaires
+		myXpath = "(//div[@class='files-display-file-name'])[position()>1]";
+		List<WebElement> myElts = driver.findElements(By.xpath(myXpath));
+		int myList = myElts.size()-1;
+		
+		for(int i=0; i<myList; i++) {
+			String coloredFile = Color.fromString(myElts.get(i).getCssValue("color")).asHex();
+			if(pieces.contains(myElts.get(i).getText().trim())) {
+				System.out.println("Vérification avant envoi du 3. pièces complémmentaire "+myElts.get(i).getText().trim()+" : OK "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+				
+			}else {
+				System.err.println("la pièce "+myElts.get(i).getText().trim()+" est différente de "+pieces.get(i)+"....." +MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+				
+			}
+			
+			if(!coloredFile.equals("#e96608")) {
+				System.out.println("libellé OK....."+MyKeyWord.extractCurrentHeure()+"\r");
+			}
+				else {
+					System.err.println("libellé KO....."+MyKeyWord.extractCurrentHeure()+"\r");
+				}
+		}
+		
+		//4. Inventaire
+		myXpath = "(//div[@class='files-display-file-name'])[last()]";
+		boolean verif = false;
+		if(MyKeyWord.isElementPresent(driver, myXpath, verif) && MyKeyWord.object(driver, myXpath).getText().trim().equals("Inventaire automatique")) {
+			System.out.println("l'inventaire est bien présent : "+MyKeyWord.object(driver, myXpath).getText().trim()+"\r");
+			
+			mesFonctions.visualiserInventaireManuel(driver);//même xpath que pour l'inventaire manuel
+			}
+			else if(MyKeyWord.isElementPresent(driver, myXpath, verif)) {
+				System.out.println("l'inventaire est bien présent : "+MyKeyWord.object(driver, myXpath).getText().trim()+"\r");
+				
+				mesFonctions.visualiserInventaireManuel(driver);
+				}
+				else {
+					System.err.println("Pas d'inventaire présent\r");
+				}
+		
+		//Bouton fermer
+		myXpath = "//button[text()=\" Fermer \"]";
+		MyKeyWord.waiting(driver, myXpath2, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("Vérification du dépôt effectué "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+	
+		return null;
+	}
+	
+	public static String EnrgDocTRLEG(WebDriver driver, String juridiction) throws Throwable {
+		switch (juridiction) {
+		case "TA":
+			// Récupération du num de reqête
+			String dossier = mesFonctions.recupCaseFileNumberDeposes(driver);
+			
+			// déconnexion page TRADM
+//			DeconnexionTRADM.deconnecteActeur(driver);
+//			Thread.sleep(2000);
+//			driver = Navigateur.choixBrowser("chrome");
+//			mesFonctions.choixJuridictionTA(driver);
+//			mesFonctions.deconnexionTRLeg(driver);
+			
+			//Connexion page TR lEGACY
+			String TrUrl = "https://www.telerecours.recette.juradm.fr/TA75";
+			String TrUrlInt = "https://www.telerecours.int1.juradm.fr/TA75"; 
+			String currentUrl = "int1";
+		    //Authentification TA		
+			boolean verif = driver.getCurrentUrl().contains(currentUrl);
+			if(verif) {
+				driver.get(TrUrlInt);
+				String identifiant = "sice";
+				String mdp = "sice";
+				String myXpath = "//input[@id='txtIdentifiant']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
+				System.out.println("Connexion TA réussi");
+			}else {
+				driver.get(TrUrl);
+				String identifiant = "lb";
+				String mdp = "lb";
+				String myXpath = "//input[@id='txtIdentifiant']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
+				System.out.println("Connexion TA réussi");
+			}
+			
+			// Enregistrer le document
+			
+				//accès onglet Documents
+			mesFonctions.accesOngletDocumentsTRLEGInt(driver);
+			Thread.sleep(2000);
+				//Clic sur le dossier
+			driver.findElement(By.xpath("//a[@class='numDossier' and contains(text(),\"" + dossier + "\")]")).click();
+			
+			//Récupération du nom de l'acteur en vue du rattachement
+			String  myXpath = "//td[contains(text(),'Déposé sur Télérecours par')]//following-sibling::td";
+			String caractSpec = " ";
+			String strg = MyKeyWord.leNom(driver, myXpath, caractSpec);
+			int fin = strg.indexOf(strg.split(" ")[2]);
+			String acteur = strg.substring(0, fin).trim();
+			System.out.println(acteur);
+			
+			// Rattachement
+			mesFonctions.rattachement(driver, acteur);
+			
+			//Vérification fichiers 
+			myXpath = "//a[@id='fileLinkFichierDocument_hplFichier']";
+			caractSpec = "_";
+			String verifFile1 = MyKeyWord.piece(driver, myXpath);
+			str1.add(verifFile1);
+			
+			
+			myXpath = "//a[contains(@id,'fileLinkPiecesDocument_hplFichier')]";
+			str1.addAll(MyKeyWord.fichier(driver, elements, myXpath));
+			Thread.sleep(2000);
+			
+			myXpath = "//a[@id='fileLinkFichierInventaire_hplFichier']";
+			String verifFile2 = MyKeyWord.piece(driver, myXpath);
+			System.out.println(verifFile2);
+			str1.add(verifFile2);
+			
+			List<String> mem = Arrays.asList(memoire);
+			List<String> str = Stream.concat(pieces.stream(), mem.stream())
+					.collect(Collectors.toList());
+			
+		   if(str1.contains(str)) {
+			   System.out.println(str);
+			   System.out.println("Tous les fichiers sont présents "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		   }
+		   else {
+			   System.err.println("Les tableaux sont différents. Le tableau actuel : "+str1+" tableau attendu : "+str+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		   }
+			   
+		   //Enregistrement du document 
+		   Thread.sleep(1000);
+		   mesFonctions.enrgDoc(driver);
+		   
+		   
+		   System.out.println("Dépôt et enregistrement TA terminés");
+		   break;
+		   
+		case "CAA":
+			// Récupération du num de reqête
+			dossier = mesFonctions.recupCaseFileNumberDeposes(driver);
+			
+			// déconnexion page TRADM
+//			DeconnexionTRADM.deconnecteActeur(driver);
+//			Thread.sleep(2000);
+//			driver = Navigateur.choixBrowser("chrome");
+//			mesFonctions.choixJuridictionCAA(driver);
+//			mesFonctions.deconnexionTRLeg(driver);
+			
+			//Connexion page TR lEGACY
+			TrUrl = "https://www.telerecours.recette.juradm.fr/CA75";
+			TrUrlInt = "https://www.telerecours.int1.juradm.fr/CA75"; 
+			currentUrl = "int1";
+		    //Authentification CAA		
+			verif = driver.getCurrentUrl().contains(currentUrl);
+			if(verif) {
+				driver.get(TrUrlInt);
+				String identifiant = "sice";
+				String mdp = "sice";
+				myXpath = "//input[@id='txtIdentifiant']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
+				System.out.println("Connexion TA réussi");
+			}else {
+				driver.get(TrUrl);
+				String identifiant = "lb";
+				String mdp = "lb";
+				myXpath = "//input[@id='txtIdentifiant']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
+				System.out.println("Connexion CAA réussi "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			}
+			
+			// Enregistrer le document
+			
+				//accès onglet Documents
+			mesFonctions.accesOngletDocumentsTRLEGInt(driver);
+			Thread.sleep(2000);
+				//Clic sur le dossier
+			driver.findElement(By.xpath("//a[@class='numDossier' and contains(text(),\"" + dossier + "\")]")).click();
+			
+				//Clic sur le dossier
+			driver.findElement(By.xpath("//a[@class='numDossier' and contains(text(),\"" + dossier + "\")]")).click();
+			
+			myXpath = "//td[contains(text(),'Déposé sur Télérecours par')]//following-sibling::td";
+			caractSpec = " ";
+			strg = MyKeyWord.leNom(driver, myXpath, caractSpec);
+			fin = strg.indexOf(strg.split(" ")[2]);
+			acteur = strg.substring(0, fin).trim();
+			System.out.println(acteur);
+			
+			// Rattachement
+			mesFonctions.rattachement(driver, acteur);
+			
+			//Vérification fichiers 
+			myXpath = "//a[@id='fileLinkFichierDocument_hplFichier']";
+			verifFile1 = MyKeyWord.piece(driver, myXpath);
+			str1.add(verifFile1);
+			
+			myXpath = "//a[contains(@id,'fileLinkPiecesDocument_hplFichier')]";
+			str1 = MyKeyWord.fichier(driver, elements, myXpath);
+			Thread.sleep(2000);
+			
+			myXpath = "//a[@id='fileLinkFichierInventaire_hplFichier']";
+			verifFile2 = MyKeyWord.piece(driver, myXpath);
+			str1.add(verifFile2);
+			
+			mem = Arrays.asList(memoire);
+			str = Stream.concat(pieces.stream(), mem.stream())
+					.collect(Collectors.toList());
+			
+		   if(str1.contains(str)) {
+			   System.out.println(str);
+			   System.out.println("Tous les fichiers sont présents "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		   }
+		   else {
+			   System.err.println("Les tableaux sont différents. Le tableau actuel : "+str1+" tableau attendu : "+str+" "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		   }
+			   
+		   //Enregistrement du document 
+		   Thread.sleep(1000);
+		   mesFonctions.enrgDoc(driver);
+		   
+		   
+		   System.out.println("Dépôt et enregistrement CAA terminés "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		   break;
+
+		default:System.err.println("Aucune juridiction trouvée "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			break;
+		}
+		
+		return null;
+	}
+	
+	public static String refusDocTRLEG(WebDriver driver, String jur) throws Throwable {
+		switch (jur) {
+		case "TA":
+			//Récupération du num de reqête
+			String dossier = mesFonctions.recupCaseFileNumberDeposes(driver);
+			Thread.sleep(2000);
+			
+			// déconnexion page TRADM
+//			DeconnexionTRADM.deconnecteActeur(driver);
+//			Auth.authAvocat(driver, ID, mdp);problème à régler
+//			mesFonctions.choixJuridictionTA(driver);
+//			mesFonctions.deconnexionTRLeg(driver);
+//			
+			//Connexion page TR lEGACY
+			String TrUrl = "https://www.telerecours.recette.juradm.fr/CA75";
+			String TrUrlInt = "https://www.telerecours.int1.juradm.fr/CA75"; 
+			String currentUrl = "int1";
+		    //Authentification CAA		
+			boolean verif = driver.getCurrentUrl().contains(currentUrl);
+			if(verif) {
+				driver.get(TrUrlInt);
+				String identifiant = "sice";
+				String mdp = "sice";
+				String myXpath = "//input[@id='txtIdentifiant']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
+				System.out.println("Connexion TA réussi");
+			}else {
+				driver.get(TrUrl);
+				String identifiant = "lb";
+				String mdp = "lb";
+				String myXpath = "//input[@id='txtIdentifiant']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
+				System.out.println("Connexion CAA réussi "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			}
+			
+			// Refuser le document
+			
+				//accès onglet Documents
+			mesFonctions.accesOngletDocumentsTRLEGInt(driver);
+			Thread.sleep(2000);
+				//Clic sur le dossier
+			driver.findElement(By.xpath("//a[@class='numDossier' and contains(text(),\"" + dossier + "\")]")).click();
+			
+			//Refuser la Requête 
+			mesFonctions.refusDocTRLEG(driver);
+			
+			break;
+			
+		case "CAA":
+			//Récupération du num de reqête
+			dossier = mesFonctions.recupCaseFileNumberDeposes(driver);
+			Thread.sleep(2000);
+			
+			// déconnexion page TRADM
+			DeconnexionTRADM.deconnecteActeurTRLEG(driver, jur);	
+			
+			
+			//Connexion page TR lEGACY
+			TrUrl = "https://www.telerecours.recette.juradm.fr/CA75";
+			TrUrlInt = "https://www.telerecours.int1.juradm.fr/CA75"; 
+			currentUrl = "int1";
+		    //Authentification CAA		
+			verif = driver.getCurrentUrl().contains(currentUrl);
+			if(verif) {
+				driver.get(TrUrlInt);
+				String identifiant = "sice";
+				String mdp = "sice";
+				String myXpath = "//input[@id='txtIdentifiant']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
+				System.out.println("Connexion TA réussi");
+			}else {
+				driver.get(TrUrl);
+				String identifiant = "lb";
+				String mdp = "lb";
+				String myXpath = "//input[@id='txtIdentifiant']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				
+				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
+				System.out.println("Connexion CAA réussi "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			}
+			
+			// Refuser le document
+			
+				//accès onglet Documents
+			mesFonctions.accesOngletDocumentsTRLEGInt(driver);
+			Thread.sleep(2000);
+				//Clic sur le dossier
+			driver.findElement(By.xpath("//a[@class='numDossier' and contains(text(),\"" + dossier + "\")]")).click();
+			
+			//Refuser la Requête 
+			mesFonctions.refusDocTRLEG(driver);
+			
+		case "CE":
+			//Récupération du num de reqête
+			dossier = mesFonctions.recupCaseFileNumberDeposes(driver);
+			Thread.sleep(2000);
+			
+			// déconnexion page TRADM
+//			DeconnexionTRADM.deconnecteActeur(driver);
+//			Auth.authAvocat(driver, ID, mdp);problème à régler			
+//			mesFonctions.choixJuridictionCAA(driver);
+//			mesFonctions.deconnexionTRLeg(driver);
+			
+			//Connexion page TR lEGACY
+			TrUrl = "https://www.telerecours.recette.juradm.fr/CA75";
+			TrUrlInt = "https://www.telerecours.int1.juradm.fr/CA75"; 
+			currentUrl = "int1";
+		    //Authentification CAA		
+			verif = driver.getCurrentUrl().contains(currentUrl);
+			if(verif) {
+				driver.get(TrUrlInt);
+				String identifiant = "sice";
+				String mdp = "sice";
+				String myXpath = "//input[@id='txtIdentifiant']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
+				System.out.println("Connexion TA réussi");
+			}else {
+				driver.get(TrUrl);
+				String identifiant = "lb";
+				String mdp = "lb";
+				String myXpath = "//input[@id='txtIdentifiant']";
+				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
+				System.out.println("Connexion CAA réussi "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			}
+			
+			// Refuser le document
+			
+				//accès onglet Documents
+			mesFonctions.accesOngletDocumentsTRLEGInt(driver);
+			Thread.sleep(2000);
+				//Clic sur le dossier
+			driver.findElement(By.xpath("//a[@class='numDossier' and contains(text(),\"" + dossier + "\")]")).click();
+			
+			//Refuser la Requête 
+			mesFonctions.refusDocTRLEG(driver);
+			break;
+			
+		default: System.err.println("Aucune juridiction trouvée avec ce paramètre");
+		break;
+		}
+	return null;
+	}
+	
+
 }
