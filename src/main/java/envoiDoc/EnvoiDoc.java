@@ -33,6 +33,7 @@ public class EnvoiDoc {
 	static List<String> color;
 	static List<String> pieces;
 	static List<String> str1 = new ArrayList<>();
+	static Integer idDoc;
 
 	public static String envoiToutTypeDoc(WebDriver driver, WebElement element, String doc) throws Throwable {
 		switch (doc) {
@@ -51,7 +52,7 @@ public class EnvoiDoc {
 				//Repère horaire d'exécution
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 				
-			// choisir depuis une liste box	
+			// choisir depuis une liste box le type de mémoire	
 				choix = "2";//liste déroulante de 14 éléments; choix[0-13] ex : choix = "0" - Décision de rétention ou d'assignation à résidence 
 			type = mesFonctions.typeDocSelect(driver, element, choix);
 			
@@ -156,7 +157,7 @@ public class EnvoiDoc {
 			
 				//Repère horaire d'exécution
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
-			
+				
 			//Retour au brouillon
 			mesFonctions.carteBoutonReprendreBrouillon(driver);
 			
@@ -522,17 +523,14 @@ public class EnvoiDoc {
 		switch (juridiction) {
 		case "TA":
 			// Récupération du num de reqête
-			String dossier = mesFonctions.recupNcasefileNumber(driver);
+			String dossier = mesFonctions.recupCaseFileNumber(driver);
 			
 			// déconnexion page TRADM
 //			DeconnexionTRADM.deconnecteActeur(driver);
 //			Thread.sleep(2000);
-//			MyKeyWord.addTab(driver);
-//			driver.close();
-//			System.out.println("je suis là");
-//			MyKeyWord.changementOnglet(driver, 1);
-//			Thread.sleep(500);
-//			System.out.println("je suis là 2");
+//			driver = Navigateur.choixBrowser("chrome");
+			mesFonctions.choixJuridictionCAA(driver);
+			mesFonctions.deconnexionTRLeg(driver);
 			
 			//Connexion page TR lEGACY
 			String TrUrl = "https://www.telerecours.recette.juradm.fr/TA75";
@@ -608,23 +606,23 @@ public class EnvoiDoc {
 		   mesFonctions.enrgDoc(driver);
 		   
 		   
-		   System.out.println("Dépôt et enregistrement TRC TA terminés");
+		   System.out.println("Dépôt et enregistrement TA terminés");
 		   break;
 		   
 		case "CAA":
 			// Récupération du num de reqête
-			dossier = mesFonctions.recupNcasefileNumber(driver);
+			dossier = mesFonctions.recupCaseFileNumber(driver);
 			
 			// déconnexion page TRADM
-			DeconnexionTRADM.deconnecteActeur(driver);
-			Thread.sleep(2000);
-			driver = Navigateur.choixBrowser("chrome");
+//			DeconnexionTRADM.deconnecteActeur(driver);
+//			Thread.sleep(2000);
+//			driver = Navigateur.choixBrowser("chrome");
 			
 			//Connexion page TR lEGACY
 			TrUrl = "https://www.telerecours.recette.juradm.fr/CA75";
 			TrUrlInt = "https://www.telerecours.int1.juradm.fr/CA75"; 
 			currentUrl = "int1";
-		    //Authentification TA		
+		    //Authentification CAA		
 			verif = driver.getCurrentUrl().contains(currentUrl);
 			if(verif) {
 				driver.get(TrUrlInt);
@@ -695,7 +693,7 @@ public class EnvoiDoc {
 		   mesFonctions.enrgDoc(driver);
 		   
 		   
-		   System.out.println("Dépôt et enregistrement TRC CAA terminés "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		   System.out.println("Dépôt et enregistrement CAA terminés "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		   break;
 
 		default:System.err.println("Aucune juridiction trouvée "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
@@ -712,7 +710,11 @@ public class EnvoiDoc {
 		//Accès à l'onglet déposés
 		mesFonctions.tableauVosDocument_deposes(driver);
 		
-		//Clic sur le dossier déposé
+		//Vérification Ajout ligne document depose
+		mesFonctions.recupIdDocTraite(driver);
+		mesFonctions.recupDernierIdDocAjoute(driver);
+		
+		//Clic sur le document déposé
 		String myXpath = "//td//div[contains(text(),\""+dossier+"\")]//following-sibling::button[@icon='eye-show']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.object(driver, myXpath).click();

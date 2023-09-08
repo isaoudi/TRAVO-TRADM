@@ -163,7 +163,7 @@ public class mesFonctions {
 		return null;
 	}
 
-	public static String choixJuridictionTA (WebDriver driver, WebElement element) throws Throwable {
+	public static String choixJuridictionTA (WebDriver driver) throws Throwable {
 	    //Choix de la juridiction
 	    String myXpath = "//a[text()='TA Paris']";
 	    MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -179,7 +179,7 @@ public class mesFonctions {
      return null;
 	}
 
-	public static String choixJuridictionCAA (WebDriver driver, WebElement element) throws Throwable {
+	public static String choixJuridictionCAA (WebDriver driver) throws Throwable {
 		//Choix de la juridiction
 		String myXpath = "//a[text()='CAA Paris']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -321,7 +321,7 @@ public class mesFonctions {
 	public static String verifInfoCarteBrouillonApresEnreg(WebDriver driver, WebElement element) throws Throwable {
 		//vérification de l'enregistrement du brouillon. Celui-ci doit suivre impérativement un cas d'enregistrement du brouillon !!!
 		MyKeyWord.echappe(driver);
-		Thread.sleep(3500);
+		Thread.sleep(1000);
 		String myXpath = "//h1[@class='case-file-number']";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		System.out.println("Retour dossier : "+MyKeyWord.object(driver, myXpath).getText().trim()+"....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
@@ -988,7 +988,7 @@ public class mesFonctions {
 		return null;
 	}
 	
-	public static String recupNcasefileNumber(WebDriver driver) throws Throwable {
+	public static String recupCaseFileNumber(WebDriver driver) throws Throwable {
 		//Accéder à l'onglet @document
 		mesFonctions.ongletDocument(driver);
 		
@@ -1009,6 +1009,34 @@ public class mesFonctions {
 			dossier = MyKeyWord.object(driver, myXpath).getText().trim();
 			return dossier;
 			
+	}
+	
+	public static Integer recupIdDocTraite(WebDriver driver) throws Throwable {
+		//Récupération du numéro de requête		
+		String myXpath = "//td[contains(@class,\"cdk-cell case-file-number cdk-column-caseFileNumber\")]//div";
+		String dossier = "";						
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			dossier = MyKeyWord.object(driver, myXpath).getText().trim();
+			String str = dossier.substring(dossier.indexOf(dossier.split("/")[1])).trim();
+			int IDDoc = MyKeyWord.convertStringToInt(str);
+			System.out.println(IDDoc);
+			
+			return IDDoc;	
+	}
+	
+	public static Integer recupDernierIdDocAjoute(WebDriver driver) throws Throwable {
+		//Récupération du numéro de requête		
+		int IDDoc = mesFonctions.recupIdDocTraite(driver);
+		int IdNewStatusDoc = mesFonctions.recupIdDocTraite(driver);
+		while(IdNewStatusDoc == IDDoc) {
+			Thread.sleep(3000);
+			driver.navigate().refresh();
+			System.out.println("Page refrehed "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+			IdNewStatusDoc = mesFonctions.recupIdDocTraite(driver);
+			System.out.println(IdNewStatusDoc +" VS "+IDDoc);	
+			
+		}
+			return null;	
 	}
 	
 	//Fonction d'entrée d'annuaire SKIPPER
@@ -1102,7 +1130,6 @@ public class mesFonctions {
 		public static String deconnexionTRLeg(WebDriver driver) throws Throwable {
 			driver.findElement(By.xpath("//a[@id='lnkdeconnecter']")).click();
 			System.out.println("Déconnexion réussie");
-			driver.manage().deleteAllCookies();
 			Thread.sleep(2000);
 			return null;	
 		}

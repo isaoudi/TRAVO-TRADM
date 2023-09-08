@@ -81,7 +81,7 @@ public class Classbrouillon {
 		
 		Auth.authAvocat(driver, ID, mdp);
 		
-		Juridiction.choixJur(driver, jur);
+//		Juridiction.choixJur(driver, jur);//problème session Id
 		
 		mesFonctions.trAdmAccesOngletDocument(driver, element);
 		EnvoiDoc.verifEnregDoc(driver, dossier);

@@ -216,5 +216,12 @@ public class MyKeyWord {
 		}
 	return files;
 	}
+	
+	//Converting String into int
+	public static int convertStringToInt(String nbr) {
+	int i = Integer.parseInt(nbr);
+	return i;  
+	}
+	
 
 }

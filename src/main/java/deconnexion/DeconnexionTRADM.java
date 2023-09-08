@@ -30,7 +30,7 @@ public class DeconnexionTRADM {
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		System.out.println("Accès page d'authentification : "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
-		driver.quit();
+//		driver.close();
 		
 		return null;
 	}
