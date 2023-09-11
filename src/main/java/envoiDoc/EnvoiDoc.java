@@ -818,11 +818,8 @@ public class EnvoiDoc {
 			Thread.sleep(2000);
 			
 			// déconnexion page TRADM
-//			DeconnexionTRADM.deconnecteActeur(driver);
-//			Auth.authAvocat(driver, ID, mdp);problème à régler
-//			mesFonctions.choixJuridictionTA(driver);
-//			mesFonctions.deconnexionTRLeg(driver);
-//			
+			DeconnexionTRADM.deconnecteActeurTRLEG(driver, jur);
+			
 			//Connexion page TR lEGACY
 			String TrUrl = "https://www.telerecours.recette.juradm.fr/CA75";
 			String TrUrlInt = "https://www.telerecours.int1.juradm.fr/CA75"; 
@@ -836,7 +833,7 @@ public class EnvoiDoc {
 				String myXpath = "//input[@id='txtIdentifiant']";
 				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
-				System.out.println("Connexion TA réussi");
+				System.out.println("Connexion TA réussi....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			}else {
 				driver.get(TrUrl);
 				String identifiant = "lb";
@@ -844,7 +841,7 @@ public class EnvoiDoc {
 				String myXpath = "//input[@id='txtIdentifiant']";
 				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
-				System.out.println("Connexion CAA réussi "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+				System.out.println("Connexion TA réussi....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			}
 			
 			// Refuser le document
@@ -882,7 +879,7 @@ public class EnvoiDoc {
 				String myXpath = "//input[@id='txtIdentifiant']";
 				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
-				System.out.println("Connexion TA réussi");
+				System.out.println("Connexion CAA réussi....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			}else {
 				driver.get(TrUrl);
 				String identifiant = "lb";
@@ -891,7 +888,7 @@ public class EnvoiDoc {
 				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 				
 				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
-				System.out.println("Connexion CAA réussi "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+				System.out.println("Connexion CAA réussi....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			}
 			
 			// Refuser le document
@@ -904,6 +901,8 @@ public class EnvoiDoc {
 			
 			//Refuser la Requête 
 			mesFonctions.refusDocTRLEG(driver);
+			
+			break;
 			
 		case "CE":
 			//Récupération du num de reqête
@@ -929,7 +928,7 @@ public class EnvoiDoc {
 				String myXpath = "//input[@id='txtIdentifiant']";
 				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
-				System.out.println("Connexion TA réussi");
+				System.out.println("Connexion CE réussi....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			}else {
 				driver.get(TrUrl);
 				String identifiant = "lb";
@@ -937,7 +936,7 @@ public class EnvoiDoc {
 				String myXpath = "//input[@id='txtIdentifiant']";
 				MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 				Auth.AuthentificationTaCaaCeInt(driver, mdp, identifiant);
-				System.out.println("Connexion CAA réussi "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+				System.out.println("Connexion CE réussi....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			}
 			
 			// Refuser le document

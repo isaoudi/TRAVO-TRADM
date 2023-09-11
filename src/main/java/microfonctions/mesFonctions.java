@@ -88,7 +88,7 @@ public class mesFonctions {
 		//Accès onglet tableau de requêtes
 		myXpath = "//span[@class='titre' and contains(text(),\"Documents\")]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		System.out.println("accès au tableau de documents TR "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		System.out.println("accès au tableau de documents TR....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		return null;
 	}
@@ -102,7 +102,7 @@ public class mesFonctions {
 		//Accès onglet tableau de requêtes
 		myXpath = "//span[@class='titre' and contains(text(),\"Documents\")]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		System.out.println("accès au tableau de documents TR "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		System.out.println("Accès au tableau de documents TR....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		return null;
 	}
@@ -116,7 +116,7 @@ public class mesFonctions {
 		//Accès onglet tableau de requêtes
 		myXpath = "//span[@class='titre' and contains(text(),\"Requêtes\")]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
-		System.out.println("accès au tableau de requêtes TR "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		System.out.println("accès au tableau de requêtes TR....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		return null;
 		}
 	
@@ -1232,8 +1232,10 @@ public class mesFonctions {
 		
 		//déconnexion de TR legacy
 		public static String deconnexionTRLeg(WebDriver driver) throws Throwable {
-			driver.findElement(By.xpath("//a[@id='lnkdeconnecter']")).click();
-			System.out.println("Déconnexion réussie "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			String myXpath = "//a[@id='lnkdeconnecter']";
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			MyKeyWord.object(driver, myXpath).click();
+			System.out.println("Déconnexion réussie....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			Thread.sleep(2000);
 			return null;	
 		}
@@ -1248,7 +1250,7 @@ public class mesFonctions {
 			myXpath = "//input[@id='btRefuser']";
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 			MyKeyWord.object(driver, myXpath).click();
-			System.out.println("Clic sur le bouton REFUSER "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			System.out.println("Clic sur le bouton REFUSER......"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			
 			//Accepter l'alerte
 			myXpath = "//span[@class='ui-button-text' and text()='OK']";
@@ -1262,7 +1264,7 @@ public class mesFonctions {
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 			driver.manage().window().maximize();
 			Thread.sleep(2000);
-			System.out.println("Fenêtre de Refus "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			System.out.println("Ouverture de la fenêtre de Refus....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			
 			//Texte du motif
 			String texteRefus = "Le Lorem Ipsum\n"
@@ -1273,13 +1275,13 @@ public class mesFonctions {
 			myXpath = "//textarea[@id='txtMotifRefus']";
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 			MyKeyWord.object(driver, myXpath).sendKeys(texteRefus);
-			System.out.println("Motif de refus renseigné "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			System.out.println("Motif de refus renseigné....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			
 			//Clic sur le bouton de refus
 			myXpath = "//input[@id='btRefuser']";
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 			MyKeyWord.object(driver, myXpath).click();
-			System.out.println("Refus validé "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+			System.out.println("Refus validé....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			
 			//Retour sur la fenêtre principale
 			MyKeyWord.changementOnglet(driver, 1);
