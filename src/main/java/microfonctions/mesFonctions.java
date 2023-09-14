@@ -495,7 +495,7 @@ public class mesFonctions {
 		
 	}
 	
-	public static List<String> navbarEnvoiDoc(WebDriver driver, WebElement element){
+	public static List<String> navbarEnvoiDoc(WebDriver driver, WebElement element) throws Throwable{
 		//Vérification de la présence de la barre de navigation
 		System.out.println("\rEtat des étapes d'envoi");
 		String myXpath = "//tradm-breadcrumb-container";
@@ -515,6 +515,7 @@ public class mesFonctions {
 				
 					}else if(colored.equals("#166393") && i!=0) {
 						System.out.println(elt.get(i).getText()+" | color : "+colored+" | couleur OK");
+						Thread.sleep(200);
 						
 						}else {
 							System.err.println(elt.get(i).getText()+" | color : "+colored+" | couleur KO");
@@ -1115,8 +1116,49 @@ public class mesFonctions {
 	}
 	
 	
+	public static String recupIdDocProvisoire(WebDriver driver, String doss) throws Throwable {
+		//Récupération du numéro dossier/documeent
+		String myXpath = "//span[contains(text(),\" En préparation \") or contains(text(),\" Envoyé \")]//ancestor::td//preceding-sibling::td[contains(@class,\"cdk-cell case-file-number cdk-column-caseFileNumber\")]//div[contains(text(),\""+ doss +"\")]";
+		String numdoc = "";						
+			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+			numdoc = MyKeyWord.object(driver, myXpath).getText().trim();
+			System.out.println(numdoc);			
+			return numdoc;	
+	}
+	
+	public static String balayageIdDocProvisoire(WebDriver driver, String numdoc) throws Throwable {
+		//évaluation du nombre de pages du tableau de documents
+		String myXpath = "//nav[@aria-label='Pagination']//li[@class='ng-star-inserted']";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		List<WebElement> elements = driver.findElements(By.xpath(myXpath));
+		int tr = elements.size();
+		
+		//vérifictaion de la disparition du numéro de dossier/ID brouillon de la liste des document
+		String myXpath1 = "//span[contains(text(),\" En préparation \") or contains(text(),\" Envoyé \")]//ancestor::td//preceding-sibling::td[contains(@class,\"cdk-cell case-file-number cdk-column-caseFileNumber\")]//div";
+		MyKeyWord.waiting(driver, myXpath1, Duration.ofSeconds(3));
+		List<WebElement> elements2 = driver.findElements(By.xpath(myXpath1));
+		List<String> docligne = new ArrayList<String>();
+		int listelt = elements2.size();
+		
+		for (int i=0; i<tr ; i++) {
+			for(int j=0; j<listelt; j++) {
+				docligne.add(elements2.get(j).getText().trim());
+				System.out.println(docligne);
+			}
+			int page = i+1;
+			if(!docligne.contains(numdoc)) {
+				System.out.println("Le document cherché n'existe pas sur la page : "+page+"......."+MyKeyWord.extractCurrentHeure());
+			}else {
+				throw new Exception("L'ID provisoire persiste après le dépot !!! ");
+			}
+		}
+		
+		
+		return null;
+	}
+	
 	public static Integer recupIdDocTraite(WebDriver driver) throws Throwable {
-		//Récupération du numéro de requête		
+		//Récupération ID de Document		
 		String myXpath = "//td[contains(@class,\"cdk-cell case-file-number cdk-column-caseFileNumber\")]//div";
 		String dossier = "";						
 			MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
@@ -1129,19 +1171,27 @@ public class mesFonctions {
 	}
 	
 	public static Integer recupDernierIdDocAjoute(WebDriver driver) throws Throwable {
-		//Récupération du numéro de requête		
+		//Récupération ID de Document	
 		int IDDoc = mesFonctions.recupIdDocTraite(driver);
 		int IdNewStatusDoc = mesFonctions.recupIdDocTraite(driver);
-		while(IdNewStatusDoc == IDDoc) {
+		//Duree d'envoi d'un document 5min max
+		long startTime = System.currentTimeMillis();
+		long delay = 300000 + startTime;
+		System.out.println("Temps bloqué en ms : ***** " + startTime + " ***** temps bloqué + 90000 = " + delay + " ****** temps actuel en ms :" + System.currentTimeMillis());
+		
+		while(IdNewStatusDoc == IDDoc && System.currentTimeMillis() < delay ) {
 			Thread.sleep(3000);
 			driver.navigate().refresh();
 			System.out.println("Page refrehed "+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
 			IdNewStatusDoc = mesFonctions.recupIdDocTraite(driver);
-			System.out.println(IdNewStatusDoc +" VS "+IDDoc);	
+			System.out.println(IdNewStatusDoc +" VS "+IDDoc);
+			long timeRemaining = delay - System.currentTimeMillis();
+			System.out.println("Temps restant en millisecondes : "+timeRemaining);
 			
 		}
 			return null;	
 	}
+	
 	
 	//Fonction d'entrée d'annuaire SKIPPER
 		public static  boolean rattachement (WebDriver driver, String acteur) throws Throwable {

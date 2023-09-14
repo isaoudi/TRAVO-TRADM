@@ -63,11 +63,11 @@ public class EnvoiDoc {
 				
 			//Modification du type de mémoire
 			//supprimer le type de choix de mémoire
-			mesFonctions.clearChoixTypeMemoire(driver, element);
+//	**		mesFonctions.clearChoixTypeMemoire(driver, element);
 			
 			// choisir depuis une liste box	
 				choix = "4";
-			type = mesFonctions.typeDocSelect(driver, element, choix);
+//	**		type = mesFonctions.typeDocSelect(driver, element, choix);
 				
 			//Etat de la barre d'envoi
 			mesFonctions.navbarEnvoiDoc(driver, element);
@@ -76,16 +76,16 @@ public class EnvoiDoc {
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 				
 			//Ajout du mémoire
-			mesFonctions.ajoutMemoire(driver);
+//	**		mesFonctions.ajoutMemoire(driver);
 			
 			//visualisation du mémoire
-			mesFonctions.visualiserMemoire(driver);
+//	**		mesFonctions.visualiserMemoire(driver);
 			
 			//Suppression mémoire
-			mesFonctions.supprimerMémoire(driver, element);
+//	**		mesFonctions.supprimerMémoire(driver, element);
 			
 			//Etat de la barre d'envoi
-			mesFonctions.navbarEnvoiDoc(driver, element);
+//	**		mesFonctions.navbarEnvoiDoc(driver, element);
 			
 			//Rajout du mémoire
 			memoire = mesFonctions.ajoutMemoire(driver);
@@ -94,13 +94,13 @@ public class EnvoiDoc {
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 			
 			//Ajout de pièces complémentaires
-			mesFonctions.ajoutDocPiecesAdds(driver);
+//	**		mesFonctions.ajoutDocPiecesAdds(driver);
 			
 			//Visualisation pièce complémentaire
-			mesFonctions.visualiserPiecesAdd(driver);
+//	**		mesFonctions.visualiserPiecesAdd(driver);
 			
 			//suppression des pièces complémentaires
-			mesFonctions.supprimerPiecesAdd(driver);
+//	**		mesFonctions.supprimerPiecesAdd(driver);
 			
 			//Rajout pièces complémentaires
 			pieces = mesFonctions.ajoutDocPiecesAdds(driver);
@@ -120,24 +120,24 @@ public class EnvoiDoc {
 			mesFonctions.inventaireDoc(driver, element, inventaire);
 			
 			//visualiser inventaire automatique
-			mesFonctions.visualiserInventaireAutomatique(driver, element);
+//	**		mesFonctions.visualiserInventaireAutomatique(driver, element);
 			
 			//Etat de la barre d'envoi
-			mesFonctions.navbarEnvoiDoc(driver, element);
+//	**		mesFonctions.navbarEnvoiDoc(driver, element);
 			
 			//Modifier type d'inventaire
 				inventaire = "manuel";
 			mesFonctions.inventaireDoc(driver, element, inventaire);
 			
 			//Etat de la barre d'envoi
-			mesFonctions.navbarEnvoiDoc(driver, element);
+//	**		mesFonctions.navbarEnvoiDoc(driver, element);
 			
 			//Ajout du fichier de l'inventaire manuel
 				inventaire = "manuelfile";
 			inventairePiece = mesFonctions.inventaireDoc(driver, element, inventaire);
 			
 			//visualiser inventaire manuel
-			mesFonctions.visualiserInventaireManuel(driver);
+//	**		mesFonctions.visualiserInventaireManuel(driver);
 			
 				//Repère horaire d'exécution
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
@@ -152,13 +152,13 @@ public class EnvoiDoc {
 			mesFonctions.EnregBrouillon(driver, element);
 				
 			//Vérification de la carte 	
-			mesFonctions.verifInfoCarteBrouillonApresEnreg(driver, element);
+//	**		mesFonctions.verifInfoCarteBrouillonApresEnreg(driver, element);
 			
 				//Repère horaire d'exécution
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 				
 			//Retour au brouillon
-			mesFonctions.carteBoutonReprendreBrouillon(driver);
+//	**		mesFonctions.carteBoutonReprendreBrouillon(driver);
 			
 				//Repère horaire d'exécution
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
@@ -176,16 +176,16 @@ public class EnvoiDoc {
 				System.out.println("\rEnvoiDoc.envoiToutTypeDoc()"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 				
 			//Test des boutons de modification depuis la page de vérification du document
-			mesFonctions.boutonModifierTypeDocAvantEnvoi(driver);
+//	**		mesFonctions.boutonModifierTypeDocAvantEnvoi(driver);
 			
 			//clic bouton "Accéder à la vérification"
-			mesFonctions.boutonAccesVerifAvantEnvoiDoc(driver, element);
+//	**		mesFonctions.boutonAccesVerifAvantEnvoiDoc(driver, element);
 			
 			//Test des boutons de modification depuis la page de vérification de l'inventaire
-			mesFonctions.boutonModifierInventaireAvantEnvoi(driver, element);
+//	**		mesFonctions.boutonModifierInventaireAvantEnvoi(driver, element);
 			
 			//clic bouton "Accéder à la vérification"
-			mesFonctions.boutonAccesVerifAvantEnvoiDoc(driver, element);
+//	**		mesFonctions.boutonAccesVerifAvantEnvoiDoc(driver, element);
 				
 			//Coche checkbox
 			mesFonctions.checkboxValidationEnvoi(driver, element);
@@ -423,12 +423,19 @@ public class EnvoiDoc {
 		//accès onglet @Document
 		mesFonctions.ongletDocument(driver);
 		
+		
+		//Vérification disparition ID provisoir lors du dépot
+	    String numdoc =	mesFonctions.recupIdDocProvisoire(driver, dossier);
+	 
 		//Accès à l'onglet déposés
 		mesFonctions.tableauVosDocument_deposes(driver);
-		
-		//Vérification Ajout ligne document depose
+			
+		//Vérification Ajout ligne document depose + disparition ID provisoire
 		mesFonctions.recupIdDocTraite(driver);
 		mesFonctions.recupDernierIdDocAjoute(driver);
+		
+		mesFonctions.ongletDocument(driver);
+		mesFonctions.balayageIdDocProvisoire(driver, numdoc);
 		
 		//Clic sur le document déposé
 		String myXpath = "//td//div[contains(text(),\""+dossier+"\")]//following-sibling::button[@icon='eye-show']";
@@ -622,18 +629,15 @@ public class EnvoiDoc {
 		return null;
 	}
 	
-	public static String EnrgDocTRLEG(WebDriver driver, String juridiction) throws Throwable {
-		switch (juridiction) {
+	public static String EnrgDocTRLEG(WebDriver driver, String jur) throws Throwable {
+		switch (jur) {
 		case "TA":
 			// Récupération du num de reqête
 			String dossier = mesFonctions.recupCaseFileNumberDeposes(driver);
 			
-			// déconnexion page TRADM
-//			DeconnexionTRADM.deconnecteActeur(driver);
-//			Thread.sleep(2000);
-//			driver = Navigateur.choixBrowser("chrome");
-//			mesFonctions.choixJuridictionTA(driver);
-//			mesFonctions.deconnexionTRLeg(driver);
+
+//			// déconnexion page TRADM
+			DeconnexionTRADM.deconnecteActeurTRLEG(driver, jur);
 			
 			//Connexion page TR lEGACY
 			String TrUrl = "https://www.telerecours.recette.juradm.fr/TA75";
@@ -719,11 +723,7 @@ public class EnvoiDoc {
 			dossier = mesFonctions.recupCaseFileNumberDeposes(driver);
 			
 			// déconnexion page TRADM
-//			DeconnexionTRADM.deconnecteActeur(driver);
-//			Thread.sleep(2000);
-//			driver = Navigateur.choixBrowser("chrome");
-//			mesFonctions.choixJuridictionCAA(driver);
-//			mesFonctions.deconnexionTRLeg(driver);
+			DeconnexionTRADM.deconnecteActeurTRLEG(driver, jur);
 			
 			//Connexion page TR lEGACY
 			TrUrl = "https://www.telerecours.recette.juradm.fr/CA75";
@@ -815,14 +815,15 @@ public class EnvoiDoc {
 		case "TA":
 			//Récupération du num de reqête
 			String dossier = mesFonctions.recupCaseFileNumberDeposes(driver);
+//			String dossier = "2300261 / 561977";
 			Thread.sleep(2000);
 			
 			// déconnexion page TRADM
-			DeconnexionTRADM.deconnecteActeurTRLEG(driver, jur);
+//			DeconnexionTRADM.deconnecteActeurTRLEG(driver, jur);
 			
 			//Connexion page TR lEGACY
-			String TrUrl = "https://www.telerecours.recette.juradm.fr/CA75";
-			String TrUrlInt = "https://www.telerecours.int1.juradm.fr/CA75"; 
+			String TrUrl = "https://www.telerecours.recette.juradm.fr/TA75";
+			String TrUrlInt = "https://www.telerecours.int1.juradm.fr/TA75"; 
 			String currentUrl = "int1";
 		    //Authentification CAA		
 			boolean verif = driver.getCurrentUrl().contains(currentUrl);
@@ -916,8 +917,8 @@ public class EnvoiDoc {
 //			mesFonctions.deconnexionTRLeg(driver);
 			
 			//Connexion page TR lEGACY
-			TrUrl = "https://www.telerecours.recette.juradm.fr/CA75";
-			TrUrlInt = "https://www.telerecours.int1.juradm.fr/CA75"; 
+			TrUrl = "https://www.telerecours.recette.conseil-etat.fr/conseil";
+			TrUrlInt = "https://www.telerecours.int1.conseil-etat.fr/conseil"; 
 			currentUrl = "int1";
 		    //Authentification CAA		
 			verif = driver.getCurrentUrl().contains(currentUrl);

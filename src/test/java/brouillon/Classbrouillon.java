@@ -54,10 +54,10 @@ public class Classbrouillon {
 		
 		URL ="admin_rec";
 		browser = "chrome";
-		jur = "CAA";
+		jur = "TA";
 		ID = "alfKT04";//"chaNC4d";
 		mdp = "Lhommeest2019*";//"ConseilEtat123456*";
-		dossier = "2200004";
+		dossier = "2300261";
 		type = "Memoire";
 		
 		driver = Navigateur.choixBrowser(browser);
@@ -73,7 +73,8 @@ public class Classbrouillon {
 		mesFonctions.buttonEnvoiDoc(driver, element);
 		EnvoiDoc.envoiToutTypeDoc(driver, element, type);
 		EnvoiDoc.verifDepotDoc(driver, dossier);
-		EnvoiDoc.refusDocTRLEG(driver, jur);
+		EnvoiDoc.EnrgDocTRLEG(driver, jur);
+//		EnvoiDoc.refusDocTRLEG(driver, jur);
 		
 		mesFonctions.deconnexionTRLeg(driver);
 		
