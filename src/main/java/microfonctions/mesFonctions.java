@@ -682,21 +682,22 @@ public class mesFonctions {
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.object(driver, myXpath).click();
 		
-		System.out.println("Brouillon repris....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		System.out.println("Brouillon repris....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		return null;
 	}
 	
 	public static String carteBoutonSupprimerBrouillon(WebDriver driver) throws Throwable {
 		//estimation du nombre de cartes
-		String myXpath = "//tradm-draft-card";
+		String myXpath = "//tradm-draft-card[@class]";
 		List<WebElement> elements = driver.findElements(By.xpath(myXpath));
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 				
-		int nbrCard = MyKeyWord.objets(driver, elements, myXpath).size();
+		int nbrCard = elements.size();
+		System.out.println("Nombre de brouillons trouvés : "+nbrCard);
 		
 		//Accès menu de la carte
-		myXpath = "//button//paju-icon[@icon='ellipsis-vertical']";
+		myXpath = "//paju-icon[@icon='ellipsis-vertical']//parent::button";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.object(driver, myXpath).click();
 
@@ -705,10 +706,22 @@ public class mesFonctions {
 		myXpath = "//button/span[contains(text(),\"Supprimer\")]";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.object(driver, myXpath).click();
-		Thread.sleep(3000);
+		Thread.sleep(1000);
 		
-		if(nbrCard==nbrCard-1) {
-			System.out.println("Brouillon bien supprimé....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure());
+		myXpath = "//button[contains(text(),\"Supprimer\")]";
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+		MyKeyWord.object(driver, myXpath).click();
+		System.out.println("PopUp de confirmation de suppression de brouillon validée....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		
+		//estimation du nombre de cartes
+		myXpath = "//tradm-draft-card[@class]";
+		elements = driver.findElements(By.xpath(myXpath));
+		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
+				
+		int nbrMinus1 = elements.size();
+		
+		if(nbrCard!=nbrMinus1) {
+			System.out.println("Brouillon bien supprimé......"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		}
 		else {
 			System.err.println("La suppression s'est mal passée !!");
@@ -732,7 +745,7 @@ public class mesFonctions {
 		driver.close();
 		MyKeyWord.changementOnglet(driver, 1);
 		
-		System.out.println("Visualisation du mémoire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		System.out.println("Visualisation du mémoire effectuée....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		return null;
 	}
@@ -754,7 +767,7 @@ public class mesFonctions {
 		driver.close();
 		MyKeyWord.changementOnglet(driver, 1);
 		
-		System.out.println("Visualisation d'une pièce complémentaire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		System.out.println("Visualisation d'une pièce complémentaire effectuée....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		return null;
 	}
@@ -774,7 +787,7 @@ public class mesFonctions {
 		driver.close();
 		MyKeyWord.changementOnglet(driver, 1);
 		
-		System.out.println("\rVisualisation de l'inventaire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		System.out.println("\rVisualisation de l'inventaire effectuée....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		return null;
 	}
@@ -794,7 +807,7 @@ public class mesFonctions {
 		driver.close();
 		MyKeyWord.changementOnglet(driver, 1);
 		
-		System.out.println("\rVisualisation de l'inventaire effectué....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+		System.out.println("\rVisualisation de l'inventaire effectuée....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
 		
 		return null;
 	}
@@ -817,8 +830,8 @@ public class mesFonctions {
 		myXpath = "//paju-icon[@icon='trash']//parent::button";
 		MyKeyWord.waiting(driver, myXpath, Duration.ofSeconds(3));
 		MyKeyWord.goToDown(driver, myXpath);
-		MyKeyWord.moveToObject(driver, myXpath);
-		Thread.sleep(3000);
+//		MyKeyWord.moveToObject(driver, myXpath);
+//		Thread.sleep(1000);
 		MyKeyWord.object(driver, myXpath).click();
 		System.out.println("le document a été supprimé");
 		
@@ -904,7 +917,7 @@ public class mesFonctions {
 		 *En attente de balise "input"
 		 *Attention l'ajout de pièce se fera de mainière manuelle					
 		 */
-		System.out.println("Ajoutez la pièce manuellement (partie non encore scriptée)...");
+		System.out.println("Ajoutez les pièces manuellement (partie non encore scriptée)...");
 		
 		boolean verif = false;
 		List<String> files = new ArrayList<>();
@@ -1174,6 +1187,7 @@ public class mesFonctions {
 		//Récupération ID de Document	
 		int IDDoc = mesFonctions.recupIdDocTraite(driver);
 		int IdNewStatusDoc = mesFonctions.recupIdDocTraite(driver);
+		
 		//Duree d'envoi d'un document 5min max
 		long startTime = System.currentTimeMillis();
 		long delay = 300000 + startTime;
