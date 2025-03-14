@@ -1,0 +1,115 @@
+2024-09-20 11:47:53,760 INFO o.a.j.u.JMeterUtils: Setting Locale to en_EN
+2024-09-20 11:47:53,793 INFO o.a.j.JMeter: Loading user properties from: user.properties
+2024-09-20 11:47:53,801 INFO o.a.j.JMeter: Loading system properties from: system.properties
+2024-09-20 11:47:53,807 INFO o.a.j.JMeter: Copyright (c) 1998-2019 The Apache Software Foundation
+2024-09-20 11:47:53,807 INFO o.a.j.JMeter: Version 5.1 r1853635
+2024-09-20 11:47:53,807 INFO o.a.j.JMeter: java.version=11.0.5
+2024-09-20 11:47:53,807 INFO o.a.j.JMeter: java.vm.name=OpenJDK 64-Bit Server VM
+2024-09-20 11:47:53,807 INFO o.a.j.JMeter: os.name=Windows 10
+2024-09-20 11:47:53,807 INFO o.a.j.JMeter: os.arch=amd64
+2024-09-20 11:47:53,807 INFO o.a.j.JMeter: os.version=10.0
+2024-09-20 11:47:53,807 INFO o.a.j.JMeter: file.encoding=Cp1252
+2024-09-20 11:47:53,807 INFO o.a.j.JMeter: java.awt.headless=null
+2024-09-20 11:47:53,807 INFO o.a.j.JMeter: Max memory     =1073741824
+2024-09-20 11:47:53,808 INFO o.a.j.JMeter: Available Processors =8
+2024-09-20 11:47:53,817 INFO o.a.j.JMeter: Default Locale=English (EN)
+2024-09-20 11:47:53,817 INFO o.a.j.JMeter: JMeter  Locale=English (EN)
+2024-09-20 11:47:53,817 INFO o.a.j.JMeter: JMeterHome=C:\APPLIS\apache-jmeter-5.1
+2024-09-20 11:47:53,817 INFO o.a.j.JMeter: user.dir  =C:\APPLIS\apache-jmeter-5.1\bin
+2024-09-20 11:47:53,818 INFO o.a.j.JMeter: PWD       =C:\APPLIS\apache-jmeter-5.1\bin
+2024-09-20 11:47:53,819 INFO o.a.j.JMeter: IP: 10.75.73.56 Name: CE75U19135 FullName: CE75U19135.conseil-etat.local
+2024-09-20 11:47:54,818 INFO o.a.j.g.a.LookAndFeelCommand: Installing Darcula LAF
+2024-09-20 11:47:54,828 INFO o.a.j.g.a.LookAndFeelCommand: Using look and feel: com.bulenkov.darcula.DarculaLaf [Darcula]
+2024-09-20 11:47:54,828 INFO o.a.j.JMeter: Setting LAF to: com.bulenkov.darcula.DarculaLaf
+2024-09-20 11:47:54,905 INFO o.a.j.JMeter: Loaded icon properties from org/apache/jmeter/images/icon.properties
+2024-09-20 11:47:55,592 INFO o.a.j.e.u.CompoundVariable: Note: Function class names must contain the string: '.functions.'
+2024-09-20 11:47:55,593 INFO o.a.j.e.u.CompoundVariable: Note: Function class names must not contain the string: '.gui.'
+2024-09-20 11:47:56,732 WARN o.j.r.PluginManager: Found JAR conflict: C:\APPLIS\apache-jmeter-5.1\lib\jmeter-plugins-cmn-jmeter-0.6.jar and C:\APPLIS\apache-jmeter-5.1\lib\jmeter-plugins-cmn-jmeter-0.4.jar
+2024-09-20 11:47:56,733 WARN o.j.r.PluginManager: Found JAR conflict: C:\APPLIS\apache-jmeter-5.1\lib\ext\jmeter-plugins-manager-1.3.jar and C:\APPLIS\apache-jmeter-5.1\lib\ext\jmeter-plugins-manager-0.20.jar
+2024-09-20 11:47:56,733 WARN o.j.r.PluginManager: Found JAR conflict: C:\APPLIS\apache-jmeter-5.1\lib\ext\jmeter-plugins-manager-1.4.jar and C:\APPLIS\apache-jmeter-5.1\lib\ext\jmeter-plugins-manager-1.3.jar
+2024-09-20 11:47:58,058 WARN o.a.j.g.u.MenuFactory: Could not instantiate class: kg.apc.jmeter.reporters.LoadosophiaUploaderGui
+java.lang.reflect.InvocationTargetException: null
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:490) ~[?:?]
+	at org.apache.jmeter.gui.util.MenuFactory.getGUIComponent(MenuFactory.java:174) [ApacheJMeter_core.jar:5.1 r1853635]
+	at org.apache.jmeter.gui.util.MenuFactory.initializeMenus(MenuFactory.java:141) [ApacheJMeter_core.jar:5.1 r1853635]
+	at org.apache.jmeter.gui.util.MenuFactory.<clinit>(MenuFactory.java:106) [ApacheJMeter_core.jar:5.1 r1853635]
+	at org.apache.jmeter.control.gui.TestPlanGui.createPopupMenu(TestPlanGui.java:92) [ApacheJMeter_core.jar:5.1 r1853635]
+	at org.apache.jmeter.gui.tree.JMeterTreeNode.createPopupMenu(JMeterTreeNode.java:185) [ApacheJMeter_core.jar:5.1 r1853635]
+	at org.apache.jmeter.gui.action.EditCommand.doAction(EditCommand.java:46) [ApacheJMeter_core.jar:5.1 r1853635]
+	at org.apache.jmeter.gui.action.ActionRouter.performAction(ActionRouter.java:88) [ApacheJMeter_core.jar:5.1 r1853635]
+	at org.apache.jmeter.gui.action.ActionRouter.lambda$actionPerformed$0(ActionRouter.java:70) [ApacheJMeter_core.jar:5.1 r1853635]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:313) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:770) [?:?]
+	at java.awt.EventQueue$4.run(EventQueue.java:721) [?:?]
+	at java.awt.EventQueue$4.run(EventQueue.java:715) [?:?]
+	at java.security.AccessController.doPrivileged(Native Method) [?:?]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:85) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:740) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.lang.NoClassDefFoundError: org/apache/commons/httpclient/methods/RequestEntity
+	at kg.apc.jmeter.reporters.LoadosophiaUploaderGui.init(LoadosophiaUploaderGui.java:114) ~[JMeterPlugins-Standard.jar:?]
+	at kg.apc.jmeter.reporters.LoadosophiaUploaderGui.<init>(LoadosophiaUploaderGui.java:28) ~[JMeterPlugins-Standard.jar:?]
+	... 25 more
+Caused by: java.lang.ClassNotFoundException: org.apache.commons.httpclient.methods.RequestEntity
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:471) ~[?:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:588) ~[?:?]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:521) ~[?:?]
+	at kg.apc.jmeter.reporters.LoadosophiaUploaderGui.init(LoadosophiaUploaderGui.java:114) ~[JMeterPlugins-Standard.jar:?]
+	at kg.apc.jmeter.reporters.LoadosophiaUploaderGui.<init>(LoadosophiaUploaderGui.java:28) ~[JMeterPlugins-Standard.jar:?]
+	... 25 more
+2024-09-20 11:47:58,757 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/html is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2024-09-20 11:47:58,757 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xhtml+xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2024-09-20 11:47:58,757 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for application/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2024-09-20 11:47:58,757 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser
+2024-09-20 11:47:58,757 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser
+2024-09-20 11:47:58,757 INFO o.a.j.p.h.s.HTTPSamplerBase: Parser for text/css is org.apache.jmeter.protocol.http.parser.CssParser
+2024-09-20 11:47:59,233 INFO o.a.j.e.KeyToolUtils: keytool found at 'keytool'
+2024-09-20 11:47:59,234 INFO o.a.j.p.h.p.ProxyControl: HTTP(S) Test Script Recorder SSL Proxy will use keys that support embedded 3rd party resources in file C:\APPLIS\apache-jmeter-5.1\bin\proxyserver.jks
+2024-09-20 11:47:59,396 INFO o.a.j.s.FileServer: Default base='C:\APPLIS\apache-jmeter-5.1\bin'
+2024-09-20 11:48:00,176 INFO o.a.j.s.SampleResult: Note: Sample TimeStamps are START times
+2024-09-20 11:48:00,177 INFO o.a.j.s.SampleResult: sampleresult.default.encoding is set to ISO-8859-1
+2024-09-20 11:48:00,177 INFO o.a.j.s.SampleResult: sampleresult.useNanoTime=true
+2024-09-20 11:48:00,177 INFO o.a.j.s.SampleResult: sampleresult.nanoThreadSleep=5000
+2024-09-20 11:48:00,202 INFO o.a.j.v.ViewResultsFullVisualizer: Add JavaFX to your Java installation if you want to use renderer: org.apache.jmeter.visualizers.RenderInBrowser
+2024-09-20 11:48:18,299 WARN o.j.r.PluginManagerMenuItem: Failed to load plugin updates info
+java.net.ConnectException: Connection timed out: connect
+	at java.net.PlainSocketImpl.waitForConnect(Native Method) ~[?:?]
+	at java.net.PlainSocketImpl.socketConnect(PlainSocketImpl.java:107) ~[?:?]
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399) ~[?:?]
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242) ~[?:?]
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224) ~[?:?]
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:403) ~[?:?]
+	at java.net.Socket.connect(Socket.java:609) ~[?:?]
+	at org.apache.http.conn.ssl.SSLSocketFactory.connectSocket(SSLSocketFactory.java:543) ~[httpclient-4.5.7.jar:4.5.7]
+	at org.apache.http.conn.ssl.SSLSocketFactory.connectSocket(SSLSocketFactory.java:415) ~[httpclient-4.5.7.jar:4.5.7]
+	at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:180) ~[httpclient-4.5.7.jar:4.5.7]
+	at org.apache.http.impl.conn.ManagedClientConnectionImpl.open(ManagedClientConnectionImpl.java:326) ~[httpclient-4.5.7.jar:4.5.7]
+	at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:605) ~[httpclient-4.5.7.jar:4.5.7]
+	at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:440) ~[httpclient-4.5.7.jar:4.5.7]
+	at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:835) ~[httpclient-4.5.7.jar:4.5.7]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83) ~[httpclient-4.5.7.jar:4.5.7]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56) ~[httpclient-4.5.7.jar:4.5.7]
+	at org.jmeterplugins.repository.JARSourceHTTP.execute(JARSourceHTTP.java:378) ~[jmeter-plugins-manager-0.20.jar:?]
+	at org.jmeterplugins.repository.JARSourceHTTP.execute(JARSourceHTTP.java:373) ~[jmeter-plugins-manager-0.20.jar:?]
+	at org.jmeterplugins.repository.JARSourceHTTP.getJSON(JARSourceHTTP.java:121) ~[jmeter-plugins-manager-0.20.jar:?]
+	at org.jmeterplugins.repository.JARSourceHTTP.getRepositories(JARSourceHTTP.java:172) ~[jmeter-plugins-manager-0.20.jar:?]
+	at org.jmeterplugins.repository.JARSourceHTTP.getRepo(JARSourceHTTP.java:199) ~[jmeter-plugins-manager-0.20.jar:?]
+	at org.jmeterplugins.repository.PluginManager.load(PluginManager.java:69) ~[jmeter-plugins-manager-0.20.jar:?]
+	at org.jmeterplugins.repository.PluginManagerMenuItem$1.run(PluginManagerMenuItem.java:41) [jmeter-plugins-manager-0.20.jar:?]
+2024-09-20 11:48:33,219 INFO o.a.j.g.a.Load: Loading file: C:\Users\jagathine\Desktop\Jmeter\trc\trc\script\TRC.jmx
+2024-09-20 11:48:33,219 INFO o.a.j.s.FileServer: Set new base='C:\Users\jagathine\Desktop\Jmeter\trc\trc\script'
+2024-09-20 11:48:33,354 INFO o.a.j.s.SaveService: Testplan (JMX) version: 2.2. Testlog (JTL) version: 2.2
+2024-09-20 11:48:33,367 INFO o.a.j.s.SaveService: Using SaveService properties version 5.0
+2024-09-20 11:48:33,369 INFO o.a.j.s.SaveService: Using SaveService properties file encoding UTF-8
+2024-09-20 11:48:33,371 INFO o.a.j.s.SaveService: Loading file: C:\Users\jagathine\Desktop\Jmeter\trc\trc\script\TRC.jmx
+2024-09-20 11:48:33,903 INFO o.a.j.v.ViewResultsFullVisualizer: Add JavaFX to your Java installation if you want to use renderer: org.apache.jmeter.visualizers.RenderInBrowser
+2024-09-20 11:48:33,943 INFO o.a.j.v.ViewResultsFullVisualizer: Add JavaFX to your Java installation if you want to use renderer: org.apache.jmeter.visualizers.RenderInBrowser
+2024-09-20 11:48:33,977 INFO o.a.j.s.FileServer: Set new base='C:\Users\jagathine\Desktop\Jmeter\trc\trc\script'

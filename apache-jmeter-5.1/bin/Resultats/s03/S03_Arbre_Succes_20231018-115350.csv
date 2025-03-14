@@ -1,0 +1,60 @@
+1697622831134,23,JSR223 TACAA,200,OK,Groupe d'unités 1-1,text,true,0,1,1,0,1,0,CE75U19135
+1697622831259,12027,SSO_Login  10392,200,"Number of samples in transaction : 6, number of failing samples : 0",Groupe d'unités 1-1,,true,310146,1,1,0,1,0,CE75U19135
+1697622834314,201,01 juradm login page,200,OK,Groupe d'unités 1-1,text,true,39231,1,1,159,1,0,CE75U19135
+1697622834520,12,02 GET /Account/Login,200,OK,Groupe d'unités 1-1,text,true,10213,1,1,11,1,0,CE75U19135
+1697622837593,1816,03 POST /Account/Login,200,OK,Groupe d'unités 1-1,text,true,5034,1,1,1745,1,0,CE75U19135
+1697622842424,576,04 juradm login form  (js redirect),200,OK,Groupe d'unités 1-1,text,true,26118,1,1,523,1,0,CE75U19135
+1697622846018,414,Juradm check home page,200,OK,Groupe d'unités 1-1,text,true,30729,1,1,39,1,0,CE75U19135
+1697622846433,9008,Home,200,"Number of samples in transaction : 2, number of failing samples : 0",Groupe d'unités 1-1,,true,198821,1,1,0,1,0,CE75U19135
+1697622861518,1079,Préparer envoi requête - 10392 Cour administrative,200,"Number of samples in transaction : 4, number of failing samples : 0",Groupe d'unités 1-1,,true,354150,1,1,0,1,0,CE75U19135
+1697622864524,670,/GestionRequete/ListeRequetes.aspx,200,OK,Groupe d'unités 1-1,text,true,67033,1,1,664,1,0,CE75U19135
+1697622865198,8,/status/dashboardStats,200,OK,Groupe d'unités 1-1,text,true,1012,1,1,8,1,0,CE75U19135
+1697622868212,354,/GestionRequete/ListeRequetes.aspx,200,OK,Groupe d'unités 1-1,text,true,176693,1,1,85,1,0,CE75U19135
+1697622871573,47,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,109412,1,1,40,1,0,CE75U19135
+1697622871626,231,Ajouter le requérant,200,"Number of samples in transaction : 2, number of failing samples : 0",Groupe d'unités 1-1,,true,59593,1,1,0,1,0,CE75U19135
+1697622874640,48,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,27561,1,1,48,1,0,CE75U19135
+1697622877694,183,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,32032,1,1,182,1,0,CE75U19135
+1697622877918,74,Décision Attaquée,200,"Number of samples in transaction : 1, number of failing samples : 0",Groupe d'unités 1-1,,true,98577,1,1,0,1,0,CE75U19135
+1697622880919,74,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,98577,1,1,69,1,0,CE75U19135
+1697622880996,592,Ajouter fichier Requête,200,"Number of samples in transaction : 1, number of failing samples : 0",Groupe d'unités 1-1,,true,104044,1,1,0,1,0,CE75U19135
+1697622884004,592,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,104044,1,1,586,1,0,CE75U19135
+1697622884600,4264,Ajouter une pièce,200,"Number of samples in transaction : 2, number of failing samples : 0",Groupe d'unités 1-1,,true,106082,1,1,0,1,0,CE75U19135
+1697622887610,4208,/Fichiers/AjaxObjetMetierFileHandler.ashx,200,OK,Groupe d'unités 1-1,,true,224,1,1,4208,1,0,CE75U19135
+1697622894833,56,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,105858,1,1,51,1,0,CE75U19135
+1697622894893,108,Inventaire auto,200,"Number of samples in transaction : 2, number of failing samples : 0",Groupe d'unités 1-1,,true,210182,1,1,0,1,0,CE75U19135
+1697622897898,51,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,103567,1,1,46,1,0,CE75U19135
+1697622900955,57,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,106615,1,1,52,1,0,CE75U19135
+1697622901015,4311,Convertir en PDF,200,"Number of samples in transaction : 1, number of failing samples : 0",Groupe d'unités 1-1,,true,106115,1,1,0,1,0,CE75U19135
+1697622904023,4311,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,106115,1,1,4306,1,0,CE75U19135
+1697622908338,15595,Envoyer 10392 Cour administrative,200,"Number of samples in transaction : 4, number of failing samples : 0",Groupe d'unités 1-1,,true,168117,1,1,0,1,0,CE75U19135
+1697622914347,5548,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,50307,1,1,5409,1,0,CE75U19135
+1697622922899,9967,/GestionRequete/RecapDeposerRequete2.aspx?reqObjId=,200,OK,Groupe d'unités 1-1,text,true,49765,1,1,9966,1,0,CE75U19135
+1697622935878,53,/GestionRequete/ListeRequetes.aspx,200,OK,Groupe d'unités 1-1,text,true,67033,1,1,51,1,0,CE75U19135
+1697622938936,27,/status/dashboardStats,200,OK,Groupe d'unités 1-1,text,true,1012,1,1,26,1,0,CE75U19135
+1697622938978,50,Deconnexion,200,"Number of samples in transaction : 2, number of failing samples : 0",Groupe d'unités 1-1,,true,25607,1,1,0,1,0,CE75U19135
+1697622941987,35,DECO1 /AuthentifierUtilisateur/deconnecter.aspx,302,Found,Groupe d'unités 1-1,text,true,2675,1,1,35,1,0,CE75U19135
+1697622942024,15,DECO2 /AuthentifierUtilisateur/AuthentifierUtilisateur.aspx,302,Found,Groupe d'unités 1-1,text,true,22932,1,1,14,1,0,CE75U19135
+1697622942056,1,JSR223 TACAA,200,OK,Groupe d'unités 1-1,text,true,0,1,1,0,1,0,CE75U19135
+1697622942070,10599,SSO_Login  32940,200,"Number of samples in transaction : 6, number of failing samples : 0",Groupe d'unités 1-1,,true,318178,1,1,0,1,0,CE75U19135
+1697622945075,68,01 juradm login page,200,OK,Groupe d'unités 1-1,text,true,39231,1,1,34,1,0,CE75U19135
+1697622945144,8,02 GET /Account/Login,200,OK,Groupe d'unités 1-1,text,true,10213,1,1,8,1,0,CE75U19135
+1697622948163,58,03 POST /Account/Login,200,OK,Groupe d'unités 1-1,text,true,5012,1,1,45,1,0,CE75U19135
+1697622951226,333,04 juradm login form  (js redirect),200,OK,Groupe d'unités 1-1,text,true,26120,1,1,302,1,0,CE75U19135
+1697622954575,238,Juradm check home page,200,OK,Groupe d'unités 1-1,text,true,30729,1,1,30,1,0,CE75U19135
+1697622954814,9894,Home,200,"Number of samples in transaction : 2, number of failing samples : 0",Groupe d'unités 1-1,,true,206873,1,1,0,1,0,CE75U19135
+1697622970764,1181,Préparer envoi requête - 32940 Tribunal administratif de Paris,200,"Number of samples in transaction : 4, number of failing samples : 0",Groupe d'unités 1-1,,true,347162,1,1,0,1,0,CE75U19135
+1697622973775,811,/GestionRequete/ListeRequetes.aspx,200,OK,Groupe d'unités 1-1,text,true,68073,1,1,808,1,0,CE75U19135
+1697622974589,7,/status/dashboardStats,200,OK,Groupe d'unités 1-1,text,true,1034,1,1,7,1,0,CE75U19135
+1697622977603,317,/GestionRequete/ListeRequetes.aspx,200,OK,Groupe d'unités 1-1,text,true,173188,1,1,86,1,0,CE75U19135
+1697622980938,46,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,104867,1,1,41,1,0,CE75U19135
+1697622980989,214,Ajouter le requérant,200,"Number of samples in transaction : 2, number of failing samples : 0",Groupe d'unités 1-1,,true,58849,1,1,0,1,0,CE75U19135
+1697622983990,60,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,27189,1,1,59,1,0,CE75U19135
+1697622987062,154,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,31660,1,1,153,1,0,CE75U19135
+1697622987231,558,Ajouter fichier Requête,200,"Number of samples in transaction : 1, number of failing samples : 0",Groupe d'unités 1-1,,true,110513,1,1,0,1,0,CE75U19135
+1697622990242,558,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,110513,1,1,553,1,0,CE75U19135
+1697622990805,3667,Ajouter une pièce,200,"Number of samples in transaction : 2, number of failing samples : 0",Groupe d'unités 1-1,,true,112551,1,1,0,1,0,CE75U19135
+1697622993811,3616,/Fichiers/AjaxObjetMetierFileHandler.ashx,200,OK,Groupe d'unités 1-1,,true,224,1,1,3616,1,0,CE75U19135
+1697622997428,51,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,112327,1,1,46,1,0,CE75U19135
+1697622997484,117,Ajouter l'inventaire,200,"Number of samples in transaction : 1, number of failing samples : 0",Groupe d'unités 1-1,,true,113358,1,1,0,1,0,CE75U19135
+1697622997485,117,/GestionRequete/DeposerRequete2.aspx,200,OK,Groupe d'unités 1-1,text,true,113358,1,1,111,1,0,CE75U19135
+1697622997607,0,Convertir en PDF,,,Groupe d'unités 1-1,,true,0,1,1,0,1,0,CE75U19135
