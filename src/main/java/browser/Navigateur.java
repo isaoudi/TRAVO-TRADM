@@ -8,6 +8,7 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import capturetool.My_SreenShot;
 import fonctions.MyKeyWord;
 
 public class Navigateur {
@@ -17,27 +18,33 @@ public class Navigateur {
    static WebDriver driver;
    
    
-   public static WebDriver choixBrowser(String browserName) {
+   public static WebDriver choixBrowser(String browserName) throws Throwable {
 
       switch (browserName) {
       case "chrome":
+    	  try {
       caps = new DesiredCapabilities();
-      System.setProperty("webdriver.chrome.driver", "C:\\drivers\\chromedriver_win64\\chromedriver.exe");
+      System.setProperty("webdriver.chrome.driver", "C:\\APPLIS\\drivers\\chromedriver-win64\\chromedriver.exe");
 
       ChromeOptions options = new ChromeOptions();
-      options.merge(caps);
-      options.addArguments("--start-maximized");
-      options.addArguments("--disable-popup-blocking");
-      options.addArguments("--remote-allow-origins=*");
-      options.addArguments("Zoom 67%");
-//      chromePrefs.get("C:\\Users\\isaoudi\\Desktop\\Testing doc et outils\\passant_avec_alerte");
-
-
-      driver = new ChromeDriver(options);
-      System.out.println("Initialisation réussie");
-      System. out. println( "Navigateur java driver :" + driver);
-      
-      System.out.println("Début Testcase......"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+	   options.merge(caps);
+//	   options.addArguments("--headless");
+	   options.addArguments("--start-maximized");
+	   options.addArguments("--disable-popup-blocking");
+	   options.addArguments("--remote-allow-origins=*");
+	   options.addArguments("--incognito");//navigation privée
+	   options.addArguments("--disable-search-engine-choice-screen");
+//     options.addArguments("Zoom 67%");
+	   System.out.println(options);
+	   
+	   driver = new ChromeDriver(options);
+	   System.out.println("Initialisation réussie....."+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+	   
+	   System.out.println("Début Testcase......"+MyKeyWord.extractCurrentDate()+" à "+MyKeyWord.extractCurrentHeure()+"\r");
+      } catch (Exception e) {
+	My_SreenShot.screenshot();
+	e.printStackTrace();
+}
 
       break;
       

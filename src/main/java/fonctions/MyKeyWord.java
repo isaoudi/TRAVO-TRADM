@@ -3,13 +3,17 @@ package fonctions;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,7 +29,7 @@ public class MyKeyWord {
 	
 
 	//Fonction objet
-	public static WebElement object(WebDriver driver, String xpath ) {
+	public static WebElement object(WebDriver driver, String xpath) {
 		WebElement element = driver.findElement(By.xpath(xpath));
 				
 		return element;
@@ -61,9 +65,9 @@ public class MyKeyWord {
 	} 
 	
 	//fonction d'attente de chargement 2
-	public static WebDriverWait waiting2 (WebDriver driver, String tag, Duration duree) {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(190));
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName(tag)));
+	public static WebDriverWait waiting2 (WebDriver driver, String myXpath, Duration duree) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(myXpath)));
 	return null;
 			}
 	
@@ -136,15 +140,23 @@ public class MyKeyWord {
 	}
 	
 	//Rendre visible un élément en bas de page
-	public static Object goToDown(WebDriver driver, String myXpath) {
-		((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", MyKeyWord.object(driver, myXpath));
-		return null;
+	public static void goToDown(WebDriver driver, String myXpath) {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", MyKeyWord.object(driver, myXpath));	
 		} 
 	
 	//Rendre visible un élément en haut de page
-	public static Object scrollUp(WebDriver driver) {
-		((JavascriptExecutor)driver).executeScript("window.scrollBy(0,-950);");
-		return null;
+	public static void scrollUp(WebDriver driver, String myXpath) {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(false);", MyKeyWord.object(driver, myXpath));
 	}
 		
 	//Rendre visible un élément en haut de page
@@ -182,7 +194,7 @@ public class MyKeyWord {
 	}
 	
 	public static String getAttibuteValue(WebDriver driver, String xpath, String value) {
-		String attr = MyKeyWord.object(driver, xpath).getAttribute(value);
+		String attr = MyKeyWord.object(driver, xpath).getDomAttribute(value);
 		return attr;
 	}
 	
@@ -223,6 +235,129 @@ public class MyKeyWord {
 	return i;  
 	}
 	
+	public static void souriOver (WebDriver driver, String myXpath) {
+		Actions action = new Actions(driver);
+		WebElement element  = MyKeyWord.object(driver, myXpath);
+		action.moveToElement(element).build().perform();
+	}
 	
+	public static Actions souris_mvt(WebDriver driver, String myXpath) {
+		Actions action = new Actions(driver);
+		WebElement element  = MyKeyWord.object(driver, myXpath);
+		return action.moveToElement(element);
+	}
+	
+	
+	public static String time (String str, String pattern) throws ParseException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		Date date = simpleDateFormat.parse(str);
+		String dt = simpleDateFormat.format(date);
+		return dt;
+	}
+	
+	public static String currentTime () throws ParseException {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YYYY HH:mm");
+		Date date = new Date(System.currentTimeMillis());
+		return formatter.format(date);
+	}
 
+	
+	public static String loadingTime(WebDriver driver, String myXpath) throws Throwable {
+		//Estimation du temps de chargement d'un élément ou objet
+		String pattern = "ss.SSS";
+	    String pattern1 = "mm:ss.SSS";
+	    SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+	    SimpleDateFormat sdf1 = new SimpleDateFormat(pattern1);
+		
+		long starttime = System.currentTimeMillis();
+		MyKeyWord.waiting2(driver, myXpath, Duration.ofSeconds(3));
+		long stoptime = System.currentTimeMillis();
+		long logintime = stoptime -  starttime;
+		Date loadingPage = new Date(logintime);
+		   
+		   
+		   if(logintime>999){
+			   System.out.println("Temps de chargement de la page " + sdf1.format(loadingPage)+"ms");
+			   return sdf1.format(loadingPage); 
+		   }else {
+			   System.out.println("Temps de chargement de la page  " + sdf.format(loadingPage)+"ms");
+			   return sdf.format(loadingPage);
+		   }
+
+	}
+	
+	public static String ajouter_jour_date(Integer nbr) {
+		
+		Date date2 = new Date(System.currentTimeMillis());
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date2);
+		calendar.add(Calendar.DATE, nbr);
+		date2 = calendar.getTime();
+		
+		String pattern = "dd/MM/yyyy";
+		DateFormat sdf = new SimpleDateFormat(pattern);
+		String myDate = sdf.format(date2);
+		
+		return myDate;
+	}
+	
+	public static String recuperation_Majuscule_String(String str) {
+		//Récupérer les majuscules dans une string 
+		String pat = "\\p{Upper}\\p{Lower}";
+		Pattern pattern = Pattern.compile(pat);
+		Matcher matcher = pattern.matcher(str);
+		while(matcher.find()) {
+			str = str.replace(matcher.group(), "");
+		}
+		
+			String txt = "";
+			for(int i=0;i<str.length();i++) {
+				if(Character.isUpperCase(str.charAt(i)) || (str.charAt(i)==' ' || str.charAt(i)=='-' && str.length()!=0 )) {
+					txt += String.valueOf(str.charAt(i));
+				}	
+			}
+			txt = txt.trim();
+			
+		System.out.println(txt);
+		return txt;
+	}
+	
+	//récupère les n chiffres d'une string
+		public static Object regex_num_req(String str, int digit_num_req) {
+			String pat = "\\d{"+digit_num_req+"}";
+			Pattern pattern = Pattern.compile(pat);
+			Matcher matcher = pattern.matcher(str);
+			
+			String code = "";
+
+		    	if(matcher.find()) { 
+					  code = matcher.group();
+					  System.out.println(code);
+					    }
+		    	else {
+		    		System.err.println("Aucune occurence");
+		    		}
+		    
+		    return code;
+		}
+		
+	//compte nombre de caractère d'une string		
+	public static int count_caractere(String s, char c){
+		int count = 0;
+		for (char a : s.toCharArray()){
+		count = (a == c ? count + 1 : count);
+		}
+		System.out.println("Nombre de caractère(s) trouvé(s) : " +count);
+		return count;
+		} 
+	
+	public static String rewriteDigits(int number, int nbDigits){
+	    String res = "";
+	    res += number;
+	    while(res.length() < nbDigits){
+	       res = "0".concat(res);
+	    }
+	    return res;
+	}
+	
 }

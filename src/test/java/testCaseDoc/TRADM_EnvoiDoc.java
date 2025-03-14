@@ -28,7 +28,7 @@ public class TRADM_EnvoiDoc {
 	 
 	
 	@BeforeSuite
-	public void navig() {
+	public void navig() throws Throwable {
 		nav = "chrome";
 		// choit d'environnement RE7 ou INT
 		env = "recette" ;
